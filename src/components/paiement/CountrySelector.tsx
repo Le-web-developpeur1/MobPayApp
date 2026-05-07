@@ -94,7 +94,11 @@ export default function CountrySelector({ type }: CountrySelectorProps) {
 
   const handleCountrySelect = (country: string) => {
     if (type === 'esim') {
-      navigation.navigate(ROUTES.ESIM_SERVICE, { country });
+      navigation.navigate(ROUTES.DETAIL_ESIM as any, { 
+        country,
+        name: `e-Sim ${country}`,
+        logo: require("@/assets/images/national/PNG.png")
+      });
     } else {
       navigation.navigate(ROUTES.GIFTCARD_SERVICE, { country });
     }

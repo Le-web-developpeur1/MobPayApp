@@ -1,3 +1,4 @@
+import { COLORS } from '@/src/constants';
 import { FontAwesome6 } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -80,7 +81,7 @@ export default function Notification() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#ccc",
+        backgroundColor: COLORS.background,
         paddingHorizontal: scale(15),
         paddingVertical: verticalScale(10)
     },
@@ -92,6 +93,8 @@ const styles = StyleSheet.create({
         height: verticalScale(80),
         borderBottomWidth: scale(1),
         borderColor: "#ccc",
+        borderBottomRightRadius: moderateScale(8),
+        borderBottomLeftRadius: moderateScale(8),
     },
     tilte: {
         fontSize: moderateScale(20),

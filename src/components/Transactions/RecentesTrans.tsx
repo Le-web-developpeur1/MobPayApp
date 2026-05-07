@@ -1,9 +1,14 @@
-import { COLORS } from "@/src/constants";
+import { COLORS, ROUTES } from "@/src/constants";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import DetailTransaction from "../modals/DetailTransactionModal";
+import { RootStackParamList } from "@/src/navigation/types";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const transactionsReussies = [
     {
@@ -43,6 +48,16 @@ export default function RecentesTransaction() {
     const [activTab, setActivTab] = useState<"reussies" | "encours">("reussies");
     const data = activTab === "reussies" ? transactionsReussies : transactionsEncours;
     const [showModal, setShowModal] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] = useState<any>();
+    const navigation = useNavigation<NavigationProp>();
+
+    const navigationTrans = () => {
+        if (activTab === "reussies") {
+            navigation.navigate(ROUTES.HISTORIQUE);
+        } else {
+            navigation.navigate(ROUTES.TRANSACTIONS_ENCOURS);
+        }
+    };
    
 
     return (
@@ -73,6 +88,7 @@ export default function RecentesTransaction() {
                 </View>
                 <TouchableOpacity
                     style={styles.voirPlus}
+                    onPress={navigationTrans}
                 >
                     <Text style={styles.link}>Voir plus</Text>
                     <Ionicons name="chevron-forward" size={scale(15)} color={COLORS.primary}/>
@@ -83,7 +99,10 @@ export default function RecentesTransaction() {
                 <TouchableOpacity
                     key={index}
                     style={styles.info}
-                    onPress={() => setShowModal(true)}
+                    onPress={() => {
+                        setSelectedTransaction(item);
+                        setShowModal(true);
+                    }}
                 >
                     <View style={styles.card}>
                         <View style={{ flexDirection: "row", gap: scale(15), justifyContent: "center", alignItems: "center"}}>
@@ -124,13 +143,13 @@ export default function RecentesTransaction() {
             <DetailTransaction
               visible={showModal}
               onClose={() => setShowModal(false)}
-              amount=""
-              status=""
-              name=""
-              date=""
-              transactionId=""
+              amount={selectedTransaction?.amount}
+              status={selectedTransaction?.status}
+              name={selectedTransaction?.name}
+              date={selectedTransaction?.date}
+              transactionId={selectedTransaction?.amount}
               fees=""
-              number=""
+              number={selectedTransaction?.phone}
               note=""
             />
         </View>

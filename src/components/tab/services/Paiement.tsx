@@ -5,7 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
-import HeaderScreen from '../../components/ui/HeaderScreen';
+import HeaderScreen from '../../ui/HeaderScreen';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -22,46 +22,42 @@ const paiementService = [
     type: "giftcard" as const,
     description: "Payez en ligne sans carte bancaire sur vos plateformes préférées"
   },
+  { 
+    label: "EDG", 
+    img: require("@/assets/images/paiement/edg.jpeg"), 
+    description: "Payez en ligne sans carte bancaire sur vos plateformes préférées"
+  },
 ];
 
-export default function PaiementProduitScreen() {
+export default function Paiement() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <HeaderScreen title="Produits digitaux" />
-      <View style={styles.container}>
-        <ScrollView 
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContent}
-        >
-          <Text style={styles.title}>Veuillez choisir un service</Text>
-          
-          <View style={styles.grid}>
+    <View style={styles.container}>
+        <View style={styles.grid}>
             {paiementService.map((service, index) => (
-              <TouchableOpacity
-                key={index}
-                style={styles.serviceCard}
-                activeOpacity={0.7}
-                onPress={() => {
-                  if (service.type === "esim") {
-                    navigation.navigate(ROUTES.ESIM, { type: service.type })
-                  } else {
-                    navigation.navigate(ROUTES.COUNTRY_SELECTOR, {type: service.type})
-                  }
-                }}
-              >
-                <View style={styles.imageContainer}>
-                  <Image source={service.img} style={styles.image} />
-                </View>
-                <Text style={styles.serviceLabel}>{service.label}</Text>
-                <Text style={styles.serviceDescription}>{service.description}</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                    key={index}
+                    style={styles.serviceCard}
+                    activeOpacity={0.7}
+                    onPress={() => {
+                        if (service.type === "esim") {
+                            navigation.navigate(ROUTES.ESIM, { type: service.type })
+                        } else if (service.type === "giftcard") {
+                            navigation.navigate(ROUTES.COUNTRY_SELECTOR, {type: service.type})
+                        } else {
+                            navigation.navigate(ROUTES.PAIEMENTS_FACTURES)
+                        }
+                    }}
+                >
+                    <View style={styles.imageContainer}>
+                        <Image source={service.img} style={styles.image} />
+                    </View>
+                    <Text style={styles.serviceLabel}>{service.label}</Text>
+                </TouchableOpacity>
             ))}
-          </View>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+        </View>
+    </View>
   );
 }
 
@@ -73,12 +69,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    paddingHorizontal: scale(20),
+    paddingHorizontal: scale(10),
     paddingTop: verticalScale(20),
   },
-  scrollContent: {
-    paddingBottom: verticalScale(20),
-  },
+ 
   title: {
     fontWeight: '700',
     textAlign: 'center',
@@ -88,12 +82,11 @@ const styles = StyleSheet.create({
   },
   grid: {
     flexDirection: "row",
-    flexWrap: "wrap",
     justifyContent: "space-between",
-    gap: scale(12),
+    gap: scale(10),
   },
   serviceCard: {
-    width: '48%',
+    width: '30%',
     backgroundColor: COLORS.white,
     borderRadius: moderateScale(14),
     padding: scale(15),
@@ -105,8 +98,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   imageContainer: {
-    width: scale(90),
-    height: scale(90),
+    width: scale(55),
+    height: scale(55),
     borderRadius: moderateScale(12),
     backgroundColor: COLORS.background,
     alignItems: 'center',

@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
+        width: scale(120)
     },
     itemText: {
         paddingTop: verticalScale(8),
@@ -116,12 +117,14 @@ const styles = StyleSheet.create({
         fontWeight: "600",
     },
     image: {
-        width: scale(120),
+        width: scale(100),
         height: verticalScale(70),
         borderRadius: moderateScale(10),
     },
     grid: {
-        flexDirection: "column",
+        flexDirection: "row",
         marginTop: verticalScale(10),
+        paddingHorizontal: scale(10),
+        justifyContent: 'space-between',
     },
 });

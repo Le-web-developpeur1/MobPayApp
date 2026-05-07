@@ -125,7 +125,9 @@ export default function DetailFacture() {
                                     )}
                                 </View>
                             )}
-
+                                <View style={styles.infoBox}>
+                                    <Text style={styles.infoText}>Vous êtes sur le point d'effectuer un paiement de {headerTitle}.</Text>
+                                </View>
                             {inputShow ? (
                                 <TouchableOpacity 
                                     style={styles.button}
@@ -239,5 +241,18 @@ const styles = StyleSheet.create({
     dropdownItemText: {
         fontSize: moderateScale(15),
         color: COLORS.textPrimary,
+    },
+    infoBox: {
+        backgroundColor: COLORS.primaryLight,
+        padding: scale(12),
+        borderRadius: moderateScale(8),
+        marginTop: verticalScale(15),
+        borderLeftWidth: scale(5),
+        borderLeftColor: COLORS.primary,
+    },
+    infoText: {
+        color: COLORS.textPrimary,
+        fontSize: moderateScale(14),
+        lineHeight: moderateScale(20),
     },
 });

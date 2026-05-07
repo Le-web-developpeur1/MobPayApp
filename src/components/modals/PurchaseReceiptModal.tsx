@@ -1,15 +1,18 @@
 import { COLORS } from '@/src/constants';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import * as Sharing from "expo-sharing";
+import React, { useRef } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { captureRef } from "react-native-view-shot";
 
 interface PurchaseReceiptModalProps {
   visible: boolean;
   onClose: () => void;
   productType: 'esim' | 'giftcard';
   productName: string;
-  country: string;
+  country?: string;
+  typeEsim?: string;
   beneficiary: {
     name: string;
     email: string;
@@ -36,6 +39,7 @@ export default function PurchaseReceiptModal({
   productType,
   productName,
   country,
+  typeEsim,
   beneficiary,
   purchase,
 }: PurchaseReceiptModalProps) {
@@ -46,6 +50,32 @@ export default function PurchaseReceiptModal({
     year: 'numeric',
   });
   const transactionId = `PUR${Date.now().toString().slice(-8)}`;
+  
+  // Déterminer le texte à afficher pour le pays/zone
+  const getLocationText = () => {
+    if (typeEsim === 'Global') return 'Monde entier';
+    if (typeEsim === 'Europe') return 'Europe';
+    return country || '';
+  };
+  
+  const locationText = getLocationText();
+  const showLocation = !!locationText;
+
+  const viewShotRef = useRef(null);
+
+  const captureAndShare = async () => {
+    try {
+      const uri = await captureRef(viewShotRef, {
+        format: 'png',
+        quality: 1,
+      });
+      if (uri) {
+        await Sharing.shareAsync(uri);
+      }
+    } catch (error) {
+      console.log('Erreur partage :', error);
+    }
+  };
 
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
@@ -62,59 +92,61 @@ export default function PurchaseReceiptModal({
             </TouchableOpacity>
           </View>
 
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {/* Status Icon */}
-            <View style={styles.statusContainer}>
-              <View style={styles.statusIcon}>
-                <Ionicons name="checkmark-circle" size={scale(60)} color={COLORS.success} />
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
+            <View ref={viewShotRef} collapsable={false} style={{ backgroundColor: 'white' }}>
+              {/* Status Icon */}
+              <View style={styles.statusContainer}>
+                <View style={styles.statusIcon}>
+                  <Ionicons name="checkmark-circle" size={scale(60)} color={COLORS.success} />
+                </View>
+                <Text style={styles.statusText}>Achat réussi</Text>
               </View>
-              <Text style={styles.statusText}>Achat réussi</Text>
-            </View>
 
-            {/* Amount */}
-            <View style={styles.amountContainer}>
-              <Text style={styles.amount}>{purchase.amountGnf} GNF</Text>
-              <Text style={styles.amountEuro}>{purchase.amount}</Text>
-            </View>
+              {/* Amount */}
+              <View style={styles.amountContainer}>
+                <Text style={styles.amount}>{purchase.amountGnf} GNF</Text>
+                <Text style={styles.amountEuro}>{purchase.amount}</Text>
+              </View>
 
-            {/* Product Details Card */}
-            <View style={styles.detailsCard}>
-              <Text style={styles.sectionTitle}>Détails du produit</Text>
+              {/* Product Details Card */}
+              <View style={styles.detailsCard}>
+                <Text style={styles.sectionTitle}>Détails du produit</Text>
 
-              <RowItem label="Type" value={productLabel} icon="card-outline" />
-              <RowItem label="Service" value={productName} icon="pricetag-outline" />
-              <RowItem label="Pays" value={country} icon="globe-outline" />
-            </View>
+                <RowItem label="Type" value={productLabel} icon="card-outline" />
+                <RowItem label="Service" value={productName} icon="pricetag-outline" />
+                {showLocation && <RowItem label="Zone" value={locationText} icon="globe-outline" />}
+              </View>
 
-            {/* Beneficiary Details Card */}
-            <View style={styles.detailsCard}>
-              <Text style={styles.sectionTitle}>Bénéficiaire</Text>
+              {/* Beneficiary Details Card */}
+              <View style={styles.detailsCard}>
+                <Text style={styles.sectionTitle}>Bénéficiaire</Text>
 
-              <RowItem label="Nom" value={beneficiary.name} icon="person-outline" />
-              <RowItem label="Email" value={beneficiary.email} icon="mail-outline" />
-            </View>
+                <RowItem label="Nom" value={beneficiary.name} icon="person-outline" />
+                <RowItem label="Email" value={beneficiary.email} icon="mail-outline" />
+              </View>
 
-            {/* Transaction Details Card */}
-            <View style={styles.detailsCard}>
-              <Text style={styles.sectionTitle}>Transaction</Text>
+              {/* Transaction Details Card */}
+              <View style={styles.detailsCard}>
+                <Text style={styles.sectionTitle}>Transaction</Text>
 
-              <RowItem label="Date" value={date} icon="calendar-outline" />
-              <RowItem label="ID Transaction" value={transactionId} icon="receipt-outline" />
-            </View>
-
-            {/* Actions */}
-            <View style={styles.actions}>
-              <TouchableOpacity style={styles.buttonOutline}>
-                <Feather name="copy" size={scale(20)} color={COLORS.primary} />
-                <Text style={styles.buttonOutlineText}>Copier l'ID</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.buttonPrimary}>
-                <Feather name="share-2" size={scale(20)} color={COLORS.primary} />
-                <Text style={styles.buttonPrimaryText}>Partager</Text>
-              </TouchableOpacity>
+                <RowItem label="Date" value={date} icon="calendar-outline" />
+                <RowItem label="ID Transaction" value={transactionId} icon="receipt-outline" />
+              </View>
             </View>
           </ScrollView>
+
+          {/* Actions EN DEHORS de la capture */}
+          <View style={styles.actions}>
+            <TouchableOpacity style={styles.buttonOutline}>
+              <Feather name="copy" size={scale(20)} color={COLORS.primary} />
+              <Text style={styles.buttonOutlineText}>Copier l'ID</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buttonPrimary} onPress={captureAndShare}>
+              <Feather name="share-2" size={scale(20)} color={COLORS.primary} />
+              <Text style={styles.buttonPrimaryText}>Partager</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </Modal>
@@ -133,7 +165,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: moderateScale(25),
     paddingHorizontal: scale(20),
     paddingTop: verticalScale(10),
-    paddingBottom: verticalScale(30),
+    paddingBottom: verticalScale(10),
     maxHeight: '90%',
   },
   handleBar: {

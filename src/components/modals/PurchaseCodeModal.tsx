@@ -18,7 +18,8 @@ interface PurchaseCodeModalProps {
   onClose: () => void;
   productType: 'esim' | 'giftcard';
   productName: string;
-  country: string;
+  country?: string;
+  typeEsim?: string;
   beneficiary: {
     name: string;
     email: string;
@@ -35,6 +36,7 @@ export default function PurchaseCodeModal({
   productType,
   productName,
   country,
+  typeEsim,
   beneficiary,
   purchase,
 }: PurchaseCodeModalProps) {
@@ -234,6 +236,7 @@ export default function PurchaseCodeModal({
         productType={productType}
         productName={productName}
         country={country}
+        typeEsim={typeEsim}
         beneficiary={beneficiary}
         purchase={purchase}
       />

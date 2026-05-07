@@ -36,10 +36,11 @@ const giftCardPrices: PriceOption[] = [
 export default function ProductDetailScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<ProductDetailRouteProp>();
-  const { country, name, logo } = route.params as {
-    country: string;
+  const { country, name, logo, typeEsim } = route.params as {
+    country?: string;
     name: string;
     logo: any;
+    typeEsim?: string;
   };
 
   const [euroValue, setEuroValue] = useState("");
@@ -82,6 +83,7 @@ export default function ProductDetailScreen() {
         gnf: price.gnf,
         country,
         name,
+        typeEsim,
       });
     } else {
       navigation.navigate(ROUTES.GIFTCARD_BENEF as any, {
@@ -119,7 +121,9 @@ export default function ProductDetailScreen() {
             {/* Image et info du produit */}
             <View style={styles.productCard}>
               <Image source={logo} style={styles.image} />
-              <Text style={styles.subtitle}>{country} - {name}</Text>
+              <Text style={styles.subtitle}>
+                {typeEsim ? typeEsim : country ? `${country} - ${name}` : name}
+              </Text>
             </View>
 
             <Text style={styles.title}>Veuillez choisir un montant à acheter</Text>

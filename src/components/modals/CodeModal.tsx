@@ -35,6 +35,8 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
                 return 'Réception Orange Money';
             case 'paiement_marchand':
                 return 'Paiement marchand';
+            case 'paiement_facture':
+                return 'Paiement de facture';
             case 'achat_credit':
                 return 'Achat de crédit';
             case 'retrait':

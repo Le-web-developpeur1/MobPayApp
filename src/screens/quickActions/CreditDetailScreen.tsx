@@ -120,7 +120,11 @@ export default function CreditDetailScreen() {
 
             {/* Bouton continuer */}
             <TouchableOpacity
-              style={[styles.continuer, !amount && styles.continuerDisabled]}
+              style={[
+                styles.continuer, 
+                !amount && typeCredit === "pour autre" && !phone && styles.continuerDisabled,
+                
+              ]}
               onPress={handleContinue}
               disabled={!amount}
               activeOpacity={0.8}

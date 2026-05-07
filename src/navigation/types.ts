@@ -1,15 +1,23 @@
 export type RootStackParamList = {
     Main: undefined;
     Notification: undefined;
+    ServiceScreen: undefined;
     SecuriteScreen: undefined;
     PreferenceNotif: undefined;
+    Historique: undefined;
     Limite: undefined;
     Frais: undefined;
     PointsService: undefined;
     Conditions: undefined;
+    TransactionEncours: undefined;
+    ChangePin: undefined;
+    WebView: {
+        url: string;
+    };
     Envoi: {
         phone?: string;
         name?: string;
+        type?: string;
     };
     Confirmation: {
         phone: string;
@@ -69,7 +77,11 @@ export type RootStackParamList = {
         country: string;
         logo: any;
         name: string;
+        typeEsim: string;
     };
+    EsimDetail: {
+        type: string,
+    }
     DetailGiftCard: {
         country: string;
         name: string;
@@ -80,6 +92,7 @@ export type RootStackParamList = {
         gnf: string;
         country: string;
         name: string;
+        typeEsim: string;
     };
     GiftCardBenef: {
         euro?: string;
@@ -139,6 +152,7 @@ export type RootStackParamList = {
         returnScreen?: string;
     } | undefined;
     Merecharger: undefined;
+    TransertNational: undefined;
 };
 
 export interface Beneficiaire {
@@ -162,7 +176,7 @@ export interface ConfirmModalProps {
     country?: string;
     amountReceived?: string;
     exchangeRate?: string;
-    transactionType?: 'cashmoov' | 'orange_money_envoi' | 'orange_money_reception' | 'paiement_marchand' | 'achat_credit' | 'retrait';
+    transactionType?: 'cashmoov' | 'orange_money_envoi' | 'orange_money_reception' | 'paiement_marchand' | 'achat_credit' | 'retrait' | 'paiement_facture';
 };
 
 export interface CodeModalProps {
@@ -181,5 +195,5 @@ export interface CodeModalProps {
     country?: string;
     amountReceived?: string;
     exchangeRate?: string;
-    transactionType?: 'cashmoov' | 'orange_money_envoi' | 'orange_money_reception' | 'paiement_marchand' | 'achat_credit' | 'retrait';
+    transactionType?: 'cashmoov' | 'orange_money_envoi' | 'orange_money_reception' | 'paiement_marchand' | 'achat_credit' | 'retrait' | 'paiement_facture';
 };

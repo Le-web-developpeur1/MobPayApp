@@ -1,10 +1,16 @@
-import { COLORS } from '@/src/constants';
+import { COLORS, ROUTES } from '@/src/constants';
+import { RootStackParamList } from '@/src/navigation/types';
 import { FontAwesome6, Ionicons, MaterialIcons, } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 export default function Securite() {
+    const navigation = useNavigation<NavigationProp>();
     const [bioToggle, setBioToggle] = useState(true);
     const [authToggle, setAuthToggle] = useState(false);
   return (
@@ -52,7 +58,10 @@ export default function Securite() {
             </View>
 
         </View>
-        <TouchableOpacity style={styles.singleCard}>
+        <TouchableOpacity 
+            style={styles.singleCard}
+            onPress={() => navigation.navigate(ROUTES.CHANGE_PIN)}
+        >
             <View style={styles.cardLeft}>
                 <View style={[styles.icon, { backgroundColor: "#FBC02D40", borderColor: "#FBC02D",}]}>
                     <Ionicons name='lock-closed-outline' size={scale(30)} color={"#FBC02D"}/>

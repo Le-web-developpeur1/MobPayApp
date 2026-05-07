@@ -5,7 +5,7 @@ export const ROUTES = {
   HOME: 'Home',
   HISTORIQUE: 'Historique',
   QRSCAN: 'QrScan',
-  SERVICES: 'Services',
+  SERVICES: 'ServiceScreen',
   PROFILE: 'Profile',
   
   // Notifications
@@ -18,6 +18,10 @@ export const ROUTES = {
   FRAIS: 'Frais',
   POINTS_SERVICE: 'PointsService',
   CONDITIONS: 'Conditions',
+  CHANGE_PIN: 'ChangePin',
+  
+  // WebView
+  WEB_VIEW: 'WebView',
   
   // Contacts
   CONTACT: 'Contact',
@@ -33,8 +37,11 @@ export const ROUTES = {
   //Transactions
   NATIONAL: 'National',
   INTERNATIONAL: 'International',
+  TRANSACTIONS_ENCOURS: "TransactionEncours",
   OPTION_TRANSFERT: "OptionTransfert",
   DETAILINTERNATIONAL: "DetailsInternational",
+
+  TRANSFERT_NATIONAL: "TransertNational",
 
   // Transactions CashMoov
   ENVOI: 'Envoi',
@@ -47,6 +54,7 @@ export const ROUTES = {
 
   // Paiements
   PAIEMENTS_PRODUITS : "PaiementProduit",
+  ESIM: "EsimDetail",
   PAIEMENTS_FACTURES : "PaiementFacture",
   DETAIL_FACTURE: "DetailFacture",
   DETAIL_DEBIT: "DetailDebit",

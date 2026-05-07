@@ -1,8 +1,10 @@
 import { COLORS } from '@/src/constants';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import * as Sharing from "expo-sharing";
+import React, { useRef } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { captureRef } from "react-native-view-shot";
 
 interface CreditReceiptModalProps {
   visible: boolean;
@@ -44,6 +46,23 @@ export default function CreditReceiptModal({
   });
   const transactionId = `CRD${Date.now().toString().slice(-8)}`;
 
+  const vieWShotRef = useRef(null);
+  
+    const captureAndShare = async () => {
+      try {
+        const uri = await captureRef(vieWShotRef, {
+          format: "png",
+          quality: 1,
+        });
+        if (uri) {
+          await Sharing.shareAsync(uri);
+        }
+      } catch (error) {
+        console.log("Erreur partage :", error);
+      }
+    };
+  
+
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.overlay}>
@@ -59,7 +78,8 @@ export default function CreditReceiptModal({
             </TouchableOpacity>
           </View>
 
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
+            <View ref={vieWShotRef} collapsable={false} style={{ backgroundColor: "white"}}>
             {/* Status Icon */}
             <View style={styles.statusContainer}>
               <View style={styles.statusIcon}>
@@ -110,20 +130,21 @@ export default function CreditReceiptModal({
               <View style={styles.divider} />
               <RowItem label="ID Transaction" value={transactionId} icon="barcode-outline" />
             </View>
+            </View>
+          </ScrollView>
 
-            {/* Actions */}
-            <View style={styles.actions}>
+          {/* Actions */}
+          <View style={styles.actions}>
               <TouchableOpacity style={styles.buttonOutline}>
                 <Feather name="copy" size={scale(20)} color={COLORS.primary} />
                 <Text style={styles.buttonOutlineText}>Copier l'ID</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.buttonPrimary}>
+              <TouchableOpacity style={styles.buttonPrimary} onPress={captureAndShare}>
                 <Feather name="share-2" size={scale(20)} color={COLORS.primary} />
                 <Text style={styles.buttonPrimaryText}>Partager</Text>
               </TouchableOpacity>
             </View>
-          </ScrollView>
         </View>
       </View>
     </Modal>
@@ -142,7 +163,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: moderateScale(25),
     paddingHorizontal: scale(20),
     paddingTop: verticalScale(10),
-    paddingBottom: verticalScale(30),
+    paddingBottom: verticalScale(10),
     maxHeight: '90%',
   },
   handleBar: {

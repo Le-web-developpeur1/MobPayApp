@@ -44,6 +44,19 @@ const giftCardServices: Record<string, Service[]> = {
     { name: "Playstation Store", logo: require("@/assets/images/national/PNG.png") },
     { name: "Amazon", logo: require("@/assets/images/national/mtn.png") },
     { name: "Spotify", logo: require("@/assets/images/national/cellcom.png") },
+    { name: "Netflix", logo: require("@/assets/images/national/logo-orange.png") },
+    { name: "Playstation Store", logo: require("@/assets/images/national/PNG.png") },
+    { name: "Amazon", logo: require("@/assets/images/national/mtn.png") },
+    { name: "Spotify", logo: require("@/assets/images/national/cellcom.png") },
+    { name: "Netflix", logo: require("@/assets/images/national/logo-orange.png") },
+    { name: "Playstation Store", logo: require("@/assets/images/national/PNG.png") },
+    { name: "Amazon", logo: require("@/assets/images/national/mtn.png") },
+    { name: "Spotify", logo: require("@/assets/images/national/cellcom.png") },
+    { name: "Spotify", logo: require("@/assets/images/national/cellcom.png") },
+    { name: "Netflix", logo: require("@/assets/images/national/logo-orange.png") },
+    { name: "Playstation Store", logo: require("@/assets/images/national/PNG.png") },
+    { name: "Amazon", logo: require("@/assets/images/national/mtn.png") },
+    { name: "Spotify", logo: require("@/assets/images/national/cellcom.png") },
   ],
   "France": [
     { name: "Netflix", logo: require("@/assets/images/national/logo-orange.png") },
@@ -66,17 +79,26 @@ const giftCardServices: Record<string, Service[]> = {
 export default function ServiceSelectorScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<ServiceSelectorRouteProp>();
-  const { country } = route.params as { country: string };
+  const { country, typeEsim } = route.params as { country?: string; typeEsim?: string };
   
   const [search, setSearch] = useState("");
 
   // Déterminer le type basé sur le nom de la route
   const isESim = route.name === 'ESimService';
-  const title = isESim ? 'E-Sim' : 'Gift Card';
+  const title = isESim ? (typeEsim ? `E-Sim ${typeEsim}` : 'E-Sim') : 'Gift Card';
   
   // Sélectionner les bonnes données
   const servicesData = isESim ? eSimServices : giftCardServices;
-  const available = servicesData[country] || [];
+  
+  // Si typeEsim est fourni, afficher tous les services eSim disponibles
+  // Sinon, filtrer par pays
+  let available: Service[] = [];
+  if (isESim && typeEsim) {
+    // Afficher tous les services eSim pour Global ou Europe
+    available = Object.values(servicesData).flat();
+  } else if (country) {
+    available = servicesData[country] || [];
+  }
 
   const filteredServices = available.filter(s =>
     s.name.toLowerCase().includes(search.toLowerCase())
@@ -136,7 +158,8 @@ export default function ServiceSelectorScreen() {
             <View style={styles.emptyContainer}>
               <Ionicons name="search-outline" size={moderateScale(60)} color={COLORS.textSecondary} />
               <Text style={styles.emptyText}>Aucun service trouvé</Text>
-              <Text style={styles.emptySubtext}>pour {country}</Text>
+              {country && <Text style={styles.emptySubtext}>pour {country}</Text>}
+              {typeEsim && <Text style={styles.emptySubtext}>pour {typeEsim}</Text>}
             </View>
           )}
         </ScrollView>
@@ -170,7 +193,7 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
   },
   scrollContent: {
-    paddingBottom: verticalScale(20),
+    paddingBottom: verticalScale(60),
   },
   grid: {
     flexDirection: 'row',

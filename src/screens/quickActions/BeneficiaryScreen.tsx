@@ -1,7 +1,7 @@
 import { COLORS } from '@/src/constants';
 import { RootStackParamList } from '@/src/navigation/types';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -19,7 +19,7 @@ export default function BeneficiaryScreen() {
 
   // Récupérer les params
   const params = route.params as any;
-  const { euro, gnf, euroValue, gnfValue, country, name } = params;
+  const { euro, gnf, euroValue, gnfValue, country, name, typeEsim } = params;
 
   // Déterminer le type basé sur le nom de la route
   const isESim = route.name === 'EsimBenef';
@@ -52,7 +52,7 @@ export default function BeneficiaryScreen() {
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
-                value={country}
+                value={country || typeEsim}
                 editable={false}
                 placeholderTextColor={COLORS.textSecondary}
               />
@@ -100,12 +100,27 @@ export default function BeneficiaryScreen() {
             </View>
 
             {/* Avertissement */}
-            <View style={styles.warningContainer}>
-              <Text style={styles.warningText}>
-                Achat non remboursable et utilisable seulement par les comptes en :
-                <Text style={styles.warningCountry}> {country}</Text>
-              </Text>
-            </View>
+            {typeEsim === "Global" ? (
+              <View style={styles.warningContainer}>
+                  <Text style={styles.warningText}>
+                    Achat non remboursable et utilisable partout dans le monde.
+                </Text>
+              </View>
+            ) : typeEsim === "Europe" ? (
+              <View style={styles.warningContainer}>
+                  <Text style={styles.warningText}>
+                    Achat non remboursable et utilisable seulement en :
+                    <Text style={styles.warningCountry}> {typeEsim}</Text>
+                </Text>
+              </View>
+            ) : ( 
+              <View style={styles.warningContainer}>
+                <Text style={styles.warningText}>
+                  Achat non remboursable et utilisable seulement par les comptes en :
+                  <Text style={styles.warningCountry}> {country}</Text>
+                </Text>
+              </View>
+            )}
 
             {/* Bouton d'achat */}
             <TouchableOpacity

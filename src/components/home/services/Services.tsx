@@ -1,22 +1,39 @@
-import { Ionicons } from "@expo/vector-icons";
+import { ROUTES } from "@/src/constants";
+import { createIconSetFromFontello, Ionicons } from "@expo/vector-icons";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
+import { RootStackParamList } from "@/src/navigation/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import OrangeModal from "../../modals/OrangeModal";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function Services() {
 
+    const navigation = useNavigation<NavigationProp>();
+    const [showOrangeModal, setShowOrangeModal] = useState(false);
+
     const images = [
-    { label: "Cash Moov", img: require("@/assets/images/national/PNG.png"),},
-    { label: "Orange", img: require("@/assets/images/national/logo-orange.png") },
-    { label: "Cellcom", img: require("@/assets/images/national/mtn.png"),},
-    { label: "MTN", img: require("@/assets/images/national/cellcom.png"),},
-    { label: "International", img: require("@/assets/images/national/globe.jpg"),},
+    { label: "CashMoov", img: require("@/assets/images/national/PNG.png"), route: ROUTES.CONTACT},
+    { label: "Orange", img: require("@/assets/images/national/logo-orange.png"), route: ROUTES.ENVOI },
+    { label: "Cellcom", img: require("@/assets/images/national/mtn.png"), route: ROUTES.CREDIT_DETAIL},
+    { label: "MTN", img: require("@/assets/images/national/cellcom.png"), route: ROUTES.CREDIT_DETAIL},
+    { label: "International", img: require("@/assets/images/national/globe.jpg"), route: ROUTES.ENVOI},
 ];
 
+   
+
     return (
+        <>
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Services</Text>
-                <TouchableOpacity style={styles.linkButton}>
+                <TouchableOpacity 
+                    style={styles.linkButton}
+                    onPress={() => navigation.navigate(ROUTES.SERVICES)}
+                >
                     <Text style={styles.linkText}>Voir plus</Text>
                     <Ionicons name="chevron-forward-outline" size={moderateScale(16)} color="#2A4793"/>
                 </TouchableOpacity>
@@ -26,19 +43,36 @@ export default function Services() {
                 contentContainerStyle={styles.grid}
                 showsHorizontalScrollIndicator={false}
             >
-                {images.map((image, index) => (
+                {images.map((item, index) => (
                     <TouchableOpacity
                         key={index}
                         style={styles.service}
+                        onPress={() => {
+                            if (item.label === "CashMoov") {
+                                navigation.navigate(item.route as any, { type: "Envoi"});
+                            } else if (item.label === "International") {
+                                navigation.navigate(ROUTES.SERVICES);
+                            } else if (item.label === "Orange"){
+                                setShowOrangeModal(true);
+                            } else {
+                                navigation.navigate(ROUTES.CREDIT_DETAIL, { typeCredit: "pour autre"})
+                            }
+                        }}
                     >
                         <View style={styles.iconContainer}>
-                            <Image source={image.img} style={styles.image1}/>        
+                            <Image source={item.img} style={styles.image1}/>        
                             
                         </View>
                     </TouchableOpacity>
                 ))}
             </ScrollView>
+
         </View>
+        <OrangeModal 
+            visible={showOrangeModal}
+            onClose={() => setShowOrangeModal(false)}
+        />
+        </>
     );
 }
 

@@ -34,7 +34,7 @@ const ContactItem = ({ contact }: { contact: Contact }) => {
               // Repasser country pour qu'il ne se perde pas
               navigation.navigate(ROUTES.DETAILINTERNATIONAL, { name, phone, country });
             } else {
-                navigation.navigate(ROUTES.ENVOI, { name, phone});
+                navigation.navigate(ROUTES.ENVOI, { name, phone, type});
             }
         }}
     >

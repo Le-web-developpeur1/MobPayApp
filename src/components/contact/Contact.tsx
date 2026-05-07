@@ -69,7 +69,10 @@ export default function Contact() {
                     style={styles.item}
                     onPress={() => {
                         if (type === "International") {
-                            navigation.navigate(ROUTES.DETAILINTERNATIONAL, { phone: search, country});
+                          // Repasser country pour qu'il ne se perde pas
+                           navigation.navigate(ROUTES.DETAILINTERNATIONAL, {name: "", phone: search, country });
+                        } else {
+                             navigation.navigate(ROUTES.ENVOI, { name: "", phone: search, type});
                         }
                     }}
 

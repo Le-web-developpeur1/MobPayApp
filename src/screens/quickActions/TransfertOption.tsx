@@ -50,8 +50,8 @@ export default function TransfertOption() {
               style={styles.logo}
             />
           </View>
-          <Text style={styles.cardTitle}>Orange Money</Text>
-          <Text style={styles.cardDescription}>Envoi</Text>
+          <Text style={styles.cardTitle}>Envoyez vers</Text>
+          <Text style={styles.cardDescription}>Orange Money</Text>
         </TouchableOpacity>
 
         <TouchableOpacity 
@@ -67,8 +67,8 @@ export default function TransfertOption() {
               style={styles.logo}
             />
           </View>
-          <Text style={styles.cardTitle}>Orange Money</Text>
-          <Text style={styles.cardDescription}>Réception</Text>
+          <Text style={styles.cardTitle}>Récevez depuis</Text>
+          <Text style={styles.cardDescription}>Orange Money</Text>
         </TouchableOpacity>
       </View>
 
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   cardDescription: {
-    fontSize: moderateScale(10),
+    fontSize: moderateScale(12),
     color: COLORS.textSecondary,
     textAlign: 'center',
   },

@@ -1,17 +1,74 @@
 import { Fontisto, Ionicons, SimpleLineIcons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from 'expo-router';
-import React from 'react';
-import { ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, Share, StatusBar, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { COLORS, ROUTES } from '../../constants';
 import { RootStackParamList } from '../../navigation/types';
+import * as ImagePicker from "expo-image-picker";
+import { Image } from 'react-native';
+
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function ProfileScreen() {
     const navigation = useNavigation<NavigationProp>();
+    const [profileImage, setProfileImage] = useState<string | null>(null);
+    const [selectedLanguage, setSelectedLanguage] = useState('Français');
+
+    const handleShareApp = async () => {
+        try {
+            await Share.share({
+                message: 'Télécharge MobPay, la meilleure application de paiement mobile en Guinée ! https://mobpay.gn/download',
+                title: 'Recommander MobPay',
+            });
+        } catch (error) {
+            console.log('Erreur lors du partage:', error);
+        }
+    };
+
+    const handleChangePhoto = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        
+        if (status !== 'granted') {
+            Alert.alert('Permission refusée', 'Nous avons besoin de votre permission pour accéder à vos photos.');
+            return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 0.8,
+        });
+
+        if (!result.canceled) {
+            setProfileImage(result.assets[0].uri);
+        }
+    };
+
+    const handleChangeLanguage = () => {
+        Alert.alert(
+            'Changer la langue',
+            'Sélectionnez votre langue',
+            [
+                {
+                    text: 'Français',
+                    onPress: () => setSelectedLanguage('Français'),
+                },
+                {
+                    text: 'English',
+                    onPress: () => setSelectedLanguage('English'),
+                },
+                {
+                    text: 'Annuler',
+                    style: 'cancel',
+                },
+            ]
+        );
+    };
 
   return (
     <>
@@ -21,11 +78,19 @@ export default function ProfileScreen() {
           edges={['top']}
       >
         <View style={styles.container}>
-            <Text style={styles.title}>Profil</Text>
             <View style={styles.info}>
-                <View style={styles.photoProfil}>
-                    <Text style={{ fontSize: moderateScale(25), color: COLORS.white}}>BB</Text>
-                </View>
+                <TouchableOpacity onPress={handleChangePhoto} style={styles.photoContainer}>
+                    <View style={styles.photoProfil}>
+                        {profileImage ? (
+                            <Image source={{ uri: profileImage }} style={styles.profileImage} />
+                        ) : (
+                            <Text style={{ fontSize: moderateScale(25), color: COLORS.white}}>BB</Text>
+                        )}
+                    </View>
+                    <View style={styles.cameraIcon}>
+                        <Ionicons name="camera" size={scale(16)} color={COLORS.white} />
+                    </View>
+                </TouchableOpacity>
 
                 <Text style={styles.name}>Boubacar Bah</Text>
                 <Text style={styles.phone}>+224 626 05 80 33</Text>
@@ -139,6 +204,46 @@ export default function ProfileScreen() {
                         </View>
                     </View>
                 </TouchableOpacity>
+                    {/**Recommander l'application */}
+                <TouchableOpacity 
+                    style={styles.sectionParams}
+                    onPress={handleShareApp}
+                >
+                    <View style={styles.card}>
+                        <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
+                            <View style={styles.icon}>
+                                <Ionicons name='share-social-outline' size={scale(23)} color={COLORS.primary}/>
+                            </View>
+                            <View>
+                                <Text style={styles.subtitle}>Recommander l'application</Text>
+                                <Text style={styles.parametres}>Partager avec vos proches</Text>
+                            </View>
+                        </View>
+                        <View style={{ alignItems: "center", justifyContent: "center" }}>
+                            <Ionicons name="chevron-forward-sharp" size={scale(20)} color={COLORS.textSecondary}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                    {/**Langue */}
+                <TouchableOpacity 
+                    style={styles.sectionParams}
+                    onPress={handleChangeLanguage}
+                >
+                    <View style={styles.card}>
+                        <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
+                            <View style={styles.icon}>
+                                <Ionicons name='language-outline' size={scale(23)} color={COLORS.primary}/>
+                            </View>
+                            <View>
+                                <Text style={styles.subtitle}>Langue</Text>
+                                <Text style={styles.parametres}>{selectedLanguage}</Text>
+                            </View>
+                        </View>
+                        <View style={{ alignItems: "center", justifyContent: "center" }}>
+                            <Ionicons name="chevron-forward-sharp" size={scale(20)} color={COLORS.textSecondary}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
                     {/**Notifications */}
                 <TouchableOpacity 
                     style={styles.sectionParams}
@@ -179,7 +284,7 @@ const styles = StyleSheet.create({
     },
     info: {
         backgroundColor: COLORS.white,
-        height: verticalScale(200),
+        height: verticalScale(220),
         marginTop: verticalScale(5),
         borderRadius: moderateScale(15),
         justifyContent: "center",
@@ -188,13 +293,34 @@ const styles = StyleSheet.create({
     },
     photoProfil: {
         backgroundColor: COLORS.primaryMedium,
-        width: scale(60),
-        height: verticalScale(60),
-        borderRadius: moderateScale(60),
+        width: scale(80),
+        height: verticalScale(80),
+        borderRadius: moderateScale(80),
         justifyContent: "center",
         alignItems: "center",
         borderWidth: scale(1),
         borderColor: COLORS.primary,
+        overflow: 'hidden',
+    },
+    photoContainer: {
+        position: 'relative',
+    },
+    profileImage: {
+        width: '100%',
+        height: '100%',
+    },
+    cameraIcon: {
+        position: 'absolute',
+        bottom: 0,
+        right: -5,
+        backgroundColor: COLORS.primary,
+        width: scale(24),
+        height: scale(24),
+        borderRadius: moderateScale(12),
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: scale(2),
+        borderColor: COLORS.white,
     },
     name: {
         fontSize: moderateScale(20),

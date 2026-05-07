@@ -1,8 +1,10 @@
 import { COLORS } from '@/src/constants';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import * as Sharing from "expo-sharing";
+import React, { useRef } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { captureRef } from "react-native-view-shot";
 
 interface DetailTransactionProps {
   visible: boolean;
@@ -48,6 +50,23 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
   amountReceived,
   exchangeRate,
 }) => {
+
+  const vieWShotRef = useRef(null);
+
+  const captureAndShare = async () => {
+    try {
+      const uri = await captureRef(vieWShotRef, {
+        format: "png",
+        quality: 1,
+      });
+      if (uri) {
+        await Sharing.shareAsync(uri);
+      }
+    } catch (error) {
+      console.log("Erreur partage :", error);
+    }
+  };
+
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.overlay}>
@@ -65,54 +84,56 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
             </TouchableOpacity>
           </View>
 
-          <ScrollView showsVerticalScrollIndicator={false}>
-            {/* Status Icon */}
-            <View style={styles.statusContainer}>
-              <View style={styles.statusIcon}>
-                <Ionicons name="checkmark-circle" size={scale(60)} color={COLORS.success} />
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
+            <View ref={vieWShotRef} collapsable={false} style={{ backgroundColor: "white"}}>
+              {/* Status Icon */}
+              <View style={styles.statusContainer}>
+                <View style={styles.statusIcon}>
+                  <Ionicons name="checkmark-circle" size={scale(60)} color={COLORS.success} />
+                </View>
+                <Text style={styles.statusText}>Transaction réussie</Text>
               </View>
-              <Text style={styles.statusText}>Transaction réussie</Text>
-            </View>
 
-            {/* Amount */}
-            <View style={styles.amountContainer}>
-              <Text style={styles.amount}>{amount || "0"} GNF</Text>
-              {isInternational && amountReceived && (
-                <Text style={styles.amountReceived}>≈ {amountReceived}</Text>
-              )}
-            </View>
+              {/* Amount */}
+              <View style={styles.amountContainer}>
+                <Text style={styles.amount}>{amount || "0"} GNF</Text>
+                {isInternational && amountReceived && (
+                  <Text style={styles.amountReceived}>≈ {amountReceived}</Text>
+                )}
+              </View>
 
-            {/* Transaction Details Card */}
-            <View style={styles.detailsCard}>
-              <Text style={styles.sectionTitle}>Informations</Text>
-              
-              {isInternational && country && (
-                <RowItem label="Pays" value={country} icon="globe-outline" />
-              )}
-              <RowItem label="Bénéficiaire" value={name || "N/A"} icon="person-outline" />
-              <RowItem label="Numéro" value={number || "N/A"} icon="call-outline" />
-              <RowItem label="Date" value={date || "N/A"} icon="calendar-outline" />
-              <RowItem label="ID Transaction" value={transactionId || "N/A"} icon="receipt-outline" />
-              {isInternational && exchangeRate && (
-                <RowItem label="Taux de change" value={exchangeRate} icon="swap-horizontal-outline" />
-              )}
-              <RowItem label="Frais" value={fees || "0 GNF"} icon="cash-outline" />
-              {note && <RowItem label="Note" value={note} icon="document-text-outline" />}
+              {/* Transaction Details Card */}
+              <View style={styles.detailsCard}>
+                <Text style={styles.sectionTitle}>Informations</Text>
+                
+                {isInternational && country && (
+                  <RowItem label="Pays" value={country} icon="globe-outline" />
+                )}
+                <RowItem label="Bénéficiaire" value={name || "N/A"} icon="person-outline" />
+                <RowItem label="Numéro" value={number || "N/A"} icon="call-outline" />
+                <RowItem label="Date" value={date || "N/A"} icon="calendar-outline" />
+                <RowItem label="ID Transaction" value={transactionId || "N/A"} icon="receipt-outline" />
+                {isInternational && exchangeRate && (
+                  <RowItem label="Taux de change" value={exchangeRate} icon="swap-horizontal-outline" />
+                )}
+                <RowItem label="Frais" value={fees || "0 GNF"} icon="cash-outline" />
+                {note && <RowItem label="Note" value={note} icon="document-text-outline" />}
+              </View>
             </View>
-
-            {/* Actions */}
-            <View style={styles.actions}>
+          </ScrollView>
+          {/* Actions EN DEHORS de la capture */}
+          <View style={styles.actions}>
               <TouchableOpacity style={styles.buttonOutline}>
                 <Feather name="copy" size={scale(20)} color={COLORS.primary} />
                 <Text style={styles.buttonOutlineText}>Copier l'ID</Text>
               </TouchableOpacity>
               
-              <TouchableOpacity style={styles.buttonPrimary}>
+              <TouchableOpacity style={styles.buttonPrimary} onPress={captureAndShare}>
                 <Feather name="share-2" size={scale(20)} color={COLORS.primary} />
                 <Text style={styles.buttonPrimaryText}>Partager</Text>
               </TouchableOpacity>
             </View>
-          </ScrollView>
+          
         </View>
       </View>
     </Modal>
@@ -133,7 +154,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: moderateScale(25),
     paddingHorizontal: scale(20),
     paddingTop: verticalScale(10),
-    paddingBottom: verticalScale(30),
+    paddingBottom: verticalScale(10),
     maxHeight: '90%',
   },
   handleBar: {

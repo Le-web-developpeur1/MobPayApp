@@ -1,3 +1,4 @@
+import { COLORS } from '@/src/constants';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Progress from "react-native-progress";
@@ -19,16 +20,16 @@ export default function Limite() {
           <Text>Par jour</Text>
           <Text style={{ fontSize: moderateScale(20), fontWeight: "bold"}}>50 000 000 GNF</Text>
         </View>
-        <Progress.Bar progress={0.52} width={scale(290)} color="#F7CE47"/>
-        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>35%</Text> utilisé ce mois</Text>
+        <Progress.Bar progress={0.52} width={scale(290)} color="#2A4793"/>
+        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>52%</Text> utilisé ce mois</Text>
       </View>
       <View style={styles.card}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%", paddingBottom: verticalScale(10)}}>
           <Text>Par mois</Text>
           <Text style={{ fontSize: moderateScale(20), fontWeight: "bold"}}>200 000 000 GNF</Text>
         </View>
-        <Progress.Bar progress={0.23} width={scale(290)} color="#2A4793"/>
-        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>35%</Text> utilisé ce mois</Text>
+        <Progress.Bar progress={0.70} width={scale(290)} color="#2A4793"/>
+        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>70%</Text> utilisé ce mois</Text>
       </View>
       <View 
         style={[{ 
@@ -52,7 +53,7 @@ export default function Limite() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ccc",
+    backgroundColor: COLORS.background,
     paddingHorizontal: scale(15)
   },
   card: {

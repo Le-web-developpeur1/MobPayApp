@@ -20,12 +20,12 @@ const fraisData: FraisItem[] = [
   {
     title: 'Transfert Orange Money',
     description: 'Vers un compte Orange Money',
-    montant: '2% du montant',
+    montant: '1% du montant',
   },
   {
     title: 'Retrait en agence',
     description: 'Retrait d\'espèces en agence',
-    montant: '500 GNF',
+    montant: '1% du montant',
   },
   {
     title: 'Paiement de facture',

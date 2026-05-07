@@ -10,7 +10,8 @@ interface PurchaseConfirmModalProps {
   onClose: () => void;
   productType: 'esim' | 'giftcard';
   productName: string;
-  country: string;
+  country?: string;
+  typeEsim?: string;
   beneficiary: {
     name: string;
     email: string;
@@ -27,6 +28,7 @@ export function PurchaseConfirmModal({
   productType,
   productName,
   country,
+  typeEsim,
   beneficiary,
   purchase,
 }: PurchaseConfirmModalProps) {
@@ -42,6 +44,16 @@ export function PurchaseConfirmModal({
   };
 
   const productLabel = productType === 'esim' ? 'eSim' : 'Gift Card';
+  
+  // Déterminer le texte à afficher pour le pays/zone
+  const getLocationText = () => {
+    if (typeEsim === 'Global') return 'Monde entier';
+    if (typeEsim === 'Europe') return 'Europe';
+    return country || '';
+  };
+  
+  const locationText = getLocationText();
+  const showLocation = !!locationText;
 
   return (
     <>
@@ -89,14 +101,18 @@ export function PurchaseConfirmModal({
                     </View>
                     <Text style={styles.valueText}>{productName}</Text>
                   </View>
-                  <View style={styles.divider} />
-                  <View style={styles.row}>
-                    <View style={styles.iconLabel}>
-                      <Ionicons name="globe-outline" size={scale(20)} color={COLORS.primary} />
-                      <Text style={styles.labelText}>Pays</Text>
-                    </View>
-                    <Text style={styles.valueText}>{country}</Text>
-                  </View>
+                  {showLocation && (
+                    <>
+                      <View style={styles.divider} />
+                      <View style={styles.row}>
+                        <View style={styles.iconLabel}>
+                          <Ionicons name="globe-outline" size={scale(20)} color={COLORS.primary} />
+                          <Text style={styles.labelText}>Zone</Text>
+                        </View>
+                        <Text style={styles.valueText}>{locationText}</Text>
+                      </View>
+                    </>
+                  )}
                 </View>
               </View>
 
@@ -126,7 +142,7 @@ export function PurchaseConfirmModal({
               <View style={styles.warningCard}>
                 <Ionicons name="warning-outline" size={scale(20)} color="#856404" />
                 <Text style={styles.warningText}>
-                  Achat non remboursable et utilisable uniquement pour {country}
+                  Achat non remboursable{showLocation && ` et utilisable uniquement pour ${locationText}`}
                 </Text>
               </View>
 
@@ -152,6 +168,7 @@ export function PurchaseConfirmModal({
         productType={productType}
         productName={productName}
         country={country}
+        typeEsim={typeEsim}
         beneficiary={beneficiary}
         purchase={purchase}
       />

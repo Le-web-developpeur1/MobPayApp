@@ -1,6 +1,7 @@
+import { ConfirmModal } from "@/src/components/modals/ConfirmModal";
 import HeaderScreen from "@/src/components/ui/HeaderScreen";
 import { RootStackParamList } from "@/src/navigation/types";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -11,7 +12,6 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function DetailDebitScreen() {
     const route = useRoute();
-    const navigation = useNavigation<NavigationProp>();
     const { headerTitle } = route.params as { headerTitle: string };
     
     const [phone, setPhone] = useState("");
@@ -20,6 +20,7 @@ export default function DetailDebitScreen() {
     const [frais, setfrais] = useState("");
     const [taxeValue, setTaxeValue] = useState(Number);
     const [montantFacturer, setMontantFacturer] = useState(Number);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
     
     const fraisValue = 0 ;
     const taxe = 0 ;
@@ -36,77 +37,92 @@ export default function DetailDebitScreen() {
     const handleCalcul = () => {
         setBouton(!bouton);
         setTaxeValue(taxe);
-        setMontantFacturer(montant)
+        setMontantFacturer(montant);
+        setfrais(fraisValue.toString());
+    };
+
+    const handleSuivant = () => {
+        setShowConfirmModal(true);
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#2A4793"}}>
-            <View style={{ flex: 1, backgroundColor: "#F3F4F6" }}>
-                <HeaderScreen title={headerTitle}/>
-                <KeyboardAvoidingView
-                    style={{ flex: 1}}
-                    behavior={ Platform.OS === "ios" ? "padding" : "height"}
-                >
-                    <ScrollView
-                        style={{ flex: 1 }}
-                        contentContainerStyle={{ marginBottom: verticalScale(20)}}
+        <>
+        
+            <SafeAreaView style={{ flex: 1, backgroundColor: "#2A4793"}}>
+                <View style={{ flex: 1, backgroundColor: "#F3F4F6" }}>
+                    <HeaderScreen title={headerTitle}/>
+                    <KeyboardAvoidingView
+                        style={{ flex: 1}}
+                        behavior={ Platform.OS === "ios" ? "padding" : "height"}
                     >
-                        <View style={styles.container}>
-                            <Text style={styles.title}>Détails de la transaction</Text>
-                            <View style={styles.inputWrapper}>
-                                <TextInput
-                                    style={styles.input}
-                                    value="GNF"
-                                    editable={false}
-                                />
+                        <ScrollView
+                            style={{ flex: 1 }}
+                            contentContainerStyle={{ marginBottom: verticalScale(20)}}
+                        >
+                            <View style={styles.container}>
+                                <Text style={styles.title}>Détails de la transaction</Text>
+                                <View style={styles.inputWrapper}>
+                                    <TextInput
+                                        style={styles.input}
+                                        value="GNF"
+                                        editable={false}
+                                    />
+                                </View>
+                                <View style={styles.inputWrapper}>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Veuillez entrer le numéro de téléphone"
+                                        value={phone}
+                                        onChangeText={setPhone}
+                                    />
+                                </View>
+                                <View style={styles.inputWrapper}>
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="Montant"
+                                        value={amount}
+                                        onChangeText={setAmount}
+                                    />
+                                </View>
+                                <View style={styles.frais}>
+                                    <Text style={styles.text}>Frais : {frais} GNF</Text>
+                                    <Text style={styles.text}>Taxe : {taxeValue} GNF</Text>
+                                    <Text style={styles.text}>Montant à facturer : {montantFacturer} GNF</Text>
+                                </View>
+                                {bouton ? (
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={handleSuivant}
+                                    >
+                                        <Text style={styles.buttonText}>Suivant</Text>
+                                    </TouchableOpacity>
+                                ) : (
+                                    <TouchableOpacity
+                                        style={styles.button}
+                                        onPress={handleCalcul}
+                                    >
+                                        <Text style={styles.buttonText}>Calculer</Text>
+                                    </TouchableOpacity>
+                                )}
                             </View>
-                            <View style={styles.inputWrapper}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Veuillez entrer le numéro de téléphone"
-                                    value={phone}
-                                    onChangeText={setPhone}
-                                />
-                            </View>
-                            <View style={styles.inputWrapper}>
-                                <TextInput
-                                    style={styles.input}
-                                    placeholder="Montant"
-                                    value={amount}
-                                    onChangeText={setAmount}
-                                />
-                            </View>
-                            <View style={styles.frais}>
-                                <Text style={styles.text}>Frais : {frais} GNF</Text>
-                                <Text style={styles.text}>Taxe : {taxeValue} GNF</Text>
-                                <Text style={styles.text}>Montant à facturer : {montantFacturer} GNF</Text>
-                            </View>
-                            {bouton ? (
-                                <TouchableOpacity
-                                    style={styles.button}
-                                    // onPress={() => navigation.navigate("RecuPaiement", {
-                                    //     name,
-                                    //     phone,
-                                    //     frais,
-                                    //     formAmount,
-                                    //     date,
-                                    // })}
-                                >
-                                    <Text style={styles.buttonText}>Suivant</Text>
-                                </TouchableOpacity>
-                            ) : (
-                                <TouchableOpacity
-                                    style={styles.button}
-                                    onPress={handleCalcul}
-                                >
-                                    <Text style={styles.buttonText}>Calculer</Text>
-                                </TouchableOpacity>
-                            )}
-                        </View>
-                    </ScrollView>
-                </KeyboardAvoidingView>
-            </View>
-        </SafeAreaView>
+                        </ScrollView>
+                    </KeyboardAvoidingView>
+                </View>
+            </SafeAreaView>
+
+            <ConfirmModal
+                visible={showConfirmModal}
+                onClose={() => setShowConfirmModal(false)}
+                beneficiaire={{ name, phone }}
+                transaction={{
+                    montant: formAmount,
+                    frais: frais,
+                    taxe: taxeValue.toString(),
+                    total: montantFacturer.toLocaleString(),
+                }}
+                transactionType="paiement_facture"
+            />
+        </>
     );
 }
 

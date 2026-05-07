@@ -14,12 +14,12 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const paiementService = [
   { 
     label: "Produits digitaux", 
-    img: require("@/assets/images/national/PNG.png"), 
+    img: require("@/assets/images/paiement/produits.png"), 
     route: ROUTES.PAIEMENTS_PRODUITS,
   },
   { 
     label: "Paiement d'électricité", 
-    img: require("@/assets/images/national/logo-orange.png"), 
+    img: require("@/assets/images/paiement/edg.jpeg"), 
     route: ROUTES.PAIEMENTS_FACTURES,
   },
 ];
