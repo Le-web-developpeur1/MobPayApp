@@ -2,7 +2,7 @@ import { Fontisto, Ionicons, SimpleLineIcons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, Share, StatusBar, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
+import { ScrollView, Share, StatusBar, StyleSheet, Text, TouchableOpacity, View, Alert, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { COLORS, ROUTES } from '../../constants';
@@ -20,10 +20,17 @@ export default function ProfileScreen() {
 
     const handleShareApp = async () => {
         try {
-            await Share.share({
-                message: 'Télécharge MobPay, la meilleure application de paiement mobile en Guinée ! https://mobpay.gn/download',
-                title: 'Recommander MobPay',
+            if (Platform.OS === "android") {
+                await Share.share({
+                message: 'Télécharge CashMoov, la meilleure application de transfert d\'argent et de paiement mobile en Guinée ! https://play.google.com/store/apps/details?id=com.estel.cashmoovsubscriberapp',
+                title: 'Recommander CashMoov',
             });
+            } else {
+                await Share.share({
+                message: 'Télécharge CashMoov, la meilleure application de transfert d\'argent et de paiement mobile en Guinée ! https://apps.apple.com/us/app/cashmoov-client/id6642668233?l=fr-FR',
+                title: 'Recommander CashMoov',
+            });
+            }
         } catch (error) {
             console.log('Erreur lors du partage:', error);
         }
