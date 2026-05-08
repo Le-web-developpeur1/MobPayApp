@@ -1,13 +1,16 @@
+import "./src/i18n";
 import 'react-native-gesture-handler';
-import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import { LanguageProvider } from "./src/context/LanguageContext";
 
 import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <AppNavigator />
-    </NavigationContainer>
+    <LanguageProvider>
+      <NavigationContainer>
+        <AppNavigator />
+      </NavigationContainer>
+    </LanguageProvider>
   );
 }

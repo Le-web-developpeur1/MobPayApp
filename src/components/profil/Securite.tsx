@@ -4,7 +4,7 @@ import { FontAwesome6, Ionicons, MaterialIcons, } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -13,6 +13,20 @@ export default function Securite() {
     const navigation = useNavigation<NavigationProp>();
     const [bioToggle, setBioToggle] = useState(true);
     const [authToggle, setAuthToggle] = useState(false);
+
+    const handleLogout = () => {
+        Alert.alert(
+            "Êtes-vous sûr de vouloir vous déconnecter de l'application ?",
+            "Cette action vous déconnectera de l'application",
+            [
+                {
+                    text: "Ok",
+                    onPress: () => navigation.navigate(ROUTES.LOGIN),
+                }
+            ]
+        )
+    };
+
   return (
     <View style={styles.container}>
         <View style={styles.cardGroup}>
@@ -85,7 +99,10 @@ export default function Securite() {
             </View>
             <Ionicons name='chevron-forward' size={scale(20)} color={COLORS.textSecondary}/>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.singleCard}>
+        <TouchableOpacity 
+            style={styles.singleCard}
+            onPress={() => handleLogout()}
+        >
             <View style={styles.cardLeft}>
                 <View style={[styles.icon, { backgroundColor: "#D32F2F40", borderColor: "#D32F2F",}]}>
                     <MaterialIcons name='logout' size={scale(30)} color={"#D32F2F"}/>

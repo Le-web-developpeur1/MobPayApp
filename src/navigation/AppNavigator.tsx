@@ -5,9 +5,15 @@ import { Confirm } from '../components/modals/ConfirmModal';
 import TransfertNational from '../components/tab/services/TransfertNational';
 import TransactionEncours from '../components/Transactions/TransactionEncours';
 import { ROUTES } from '../constants';
+import CreatePinScreen from '../screens/auth/CreatePinScreen';
+import LoginScreen from '../screens/auth/LoginScreen';
+import OnboardingScreen from '../screens/auth/OnboardingScreen';
+import RegisterScreen from '../screens/auth/RegisterScreen';
+import VerificationScreen from '../screens/auth/VerificationScreen';
 import DetailsInternational from '../screens/international/DetailsInternational';
 import OptionTransfert from '../screens/international/OptionTransfert';
 import NotificationScreen from '../screens/NotificationScreen';
+import ChangePinScreen from '../screens/profil/ChangePinScreen';
 import ConditionScreen from '../screens/profil/ConditionScreen';
 import FraisScreen from '../screens/profil/FraisScreen';
 import LimiteScreen from '../screens/profil/LimiteScreen';
@@ -41,13 +47,22 @@ import TransactionsScreen from '../screens/transfert/TransactionScreen';
 import WebScreen from '../screens/WebScreen';
 import TabNavigator from './TabNavigator';
 import { RootStackParamList } from './types';
-import ChangePinScreen from '../screens/profil/ChangePinScreen';
+import LoginPinScreen from '../screens/auth/LoginPinScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function AppNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName={ROUTES.ONBOARDING}>
+      {/** Écrans d'authentification */}
+      <Stack.Screen name={ROUTES.ONBOARDING} component={OnboardingScreen} options={{ headerShown: false }} />
+      <Stack.Screen name={ROUTES.LOGIN} component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name={ROUTES.LOGIN_PIN} component={LoginPinScreen} options={{ headerShown: false }} />
+      <Stack.Screen name={ROUTES.REGISTER} component={RegisterScreen} options={{ headerShown: false }} />
+      <Stack.Screen name={ROUTES.VERIFICATION} component={VerificationScreen} options={{ headerShown: false }} />
+      <Stack.Screen name={ROUTES.CREATE_PIN} component={CreatePinScreen} options={{ headerShown: false }} />
+
+      {/** Écran principal */}
       <Stack.Screen 
         name={ROUTES.MAIN} 
         component={TabNavigator} 

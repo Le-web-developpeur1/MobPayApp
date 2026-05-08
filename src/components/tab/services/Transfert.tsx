@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    paddingTop: verticalScale(20),
-    paddingHorizontal: scale(20),
+    paddingTop: verticalScale(10),
+    paddingHorizontal: scale(10),
   },
   sectionTitle: {
     fontSize: moderateScale(18),
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     gap: scale(10),
-    marginBottom: verticalScale(10),
   },
   card: {
     flex: 1,
@@ -112,11 +111,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   internationalCard: {
-    flexDirection: "column",
     alignItems: 'center',
+    justifyContent: "center",
     backgroundColor: COLORS.white,
     borderRadius: moderateScale(16),
-    padding: scale(16),
+    padding: scale(8),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: verticalScale(2) },
     shadowOpacity: 0.06,

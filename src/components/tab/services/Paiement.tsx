@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    paddingHorizontal: scale(10),
-    paddingTop: verticalScale(20),
+    paddingHorizontal: scale(8),
+    paddingTop: verticalScale(10),
   },
  
   title: {
@@ -83,13 +83,12 @@ const styles = StyleSheet.create({
   grid: {
     flexDirection: "row",
     justifyContent: "space-between",
-    gap: scale(10),
   },
   serviceCard: {
-    width: '30%',
+    width: '32%',
     backgroundColor: COLORS.white,
     borderRadius: moderateScale(14),
-    padding: scale(15),
+    padding: scale(8),
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: verticalScale(2) },

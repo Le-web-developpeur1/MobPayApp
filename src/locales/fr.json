@@ -1,0 +1,27 @@
+{
+  "common": {
+    "welcome": "Bienvenue",
+    "continue": "Continuer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "save": "Enregistrer",
+    "search": "Rechercher",
+    "share": "Partager"
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "Créer un compte",
+    "phone": "Numéro de téléphone",
+    "enterPin": "Entrez votre PIN",
+    "forgotPin": "PIN oublié ?",
+    "invalidPhone": "Numéro de téléphone invalide",
+    "pinIncorrect": "Code PIN incorrect"
+  },
+  "home": {
+    "balance": "Solde",
+    "send": "Envoyer",
+    "receive": "Recevoir",
+    "services": "Services"
+  }
+}

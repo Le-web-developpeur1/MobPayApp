@@ -9,6 +9,7 @@ import { COLORS, ROUTES } from '../../constants';
 import { RootStackParamList } from '../../navigation/types';
 import * as ImagePicker from "expo-image-picker";
 import { Image } from 'react-native';
+import { useLanguage } from '@/src/context/LanguageContext';
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -17,6 +18,7 @@ export default function ProfileScreen() {
     const navigation = useNavigation<NavigationProp>();
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const [selectedLanguage, setSelectedLanguage] = useState('Français');
+    const { currentLanguage, changeLanguage } = useLanguage();
 
     const handleShareApp = async () => {
         try {
@@ -57,25 +59,31 @@ export default function ProfileScreen() {
     };
 
     const handleChangeLanguage = () => {
-        Alert.alert(
-            'Changer la langue',
-            'Sélectionnez votre langue',
-            [
-                {
-                    text: 'Français',
-                    onPress: () => setSelectedLanguage('Français'),
+    Alert.alert(
+        'Changer la langue',
+        'Sélectionnez votre langue',
+        [
+            {
+                text: 'Français 🇫🇷',
+                onPress: async () => {
+                    await changeLanguage('fr');
+                    setSelectedLanguage('Français');
                 },
-                {
-                    text: 'English',
-                    onPress: () => setSelectedLanguage('English'),
+            },
+            {
+                text: 'English 🇬🇧',
+                onPress: async () => {
+                    await changeLanguage('en');
+                    setSelectedLanguage('English');
                 },
-                {
-                    text: 'Annuler',
-                    style: 'cancel',
-                },
-            ]
-        );
-    };
+            },
+            {
+                text: 'Annuler',
+                style: 'cancel',
+            },
+        ]
+    );
+};
 
   return (
     <>

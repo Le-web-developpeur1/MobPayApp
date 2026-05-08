@@ -8,6 +8,14 @@ export const ROUTES = {
   SERVICES: 'ServiceScreen',
   PROFILE: 'Profile',
   
+  // Auth
+  ONBOARDING: 'Onboarding',
+  LOGIN: 'Login',
+  LOGIN_PIN: 'LoginPin',
+  REGISTER: 'Register',
+  VERIFICATION: 'Verification',
+  CREATE_PIN: 'CreatePin',
+  
   // Notifications
   NOTIFICATION: 'Notification',
   

@@ -1,5 +1,19 @@
 export type RootStackParamList = {
     Main: undefined;
+    Onboarding: undefined;
+    Login: undefined;
+    LoginPin: {
+        phone: string;
+    };
+    Register?: {
+        numero: string;
+    };
+    Verification: {
+        phone: string;
+    };
+    CreatePin: {
+        phone: string;
+    };
     Notification: undefined;
     ServiceScreen: undefined;
     SecuriteScreen: undefined;

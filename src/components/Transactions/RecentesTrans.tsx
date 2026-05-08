@@ -96,49 +96,46 @@ export default function RecentesTransaction() {
             </View>
 
             {data.map((item, index) => (
-                <TouchableOpacity
-                    key={index}
-                    style={styles.info}
-                    onPress={() => {
-                        setSelectedTransaction(item);
-                        setShowModal(true);
-                    }}
-                >
-                    <View style={styles.card}>
-                        <View style={{ flexDirection: "row", gap: scale(15), justifyContent: "center", alignItems: "center"}}>
-                            <View 
-                                style={[
-                                    styles.iconContainer,
-                                    item.status === "entrant" && styles.iconContainerEntrant,
-                                    item.status === "sortant" && styles.iconContainerSortant,
-                                ]}
-                            >
-                                <Feather 
-                                    name={item.status === "sortant" ? "arrow-up-right" : "arrow-down-left"} 
-                                    color={item.status === "entrant" ? COLORS.success : COLORS.error} 
-                                    size={scale(22)}
-                                />
-                            </View>
-                            <View style={{ gap: scale(4)}}>
-                                <Text style={styles.name}>{item.name}</Text>
-                                <Text style={styles.date}>{item.phone}</Text>
-                            </View>
-                        </View>
-                        <View style={{ gap: scale(4), alignItems: "flex-end", justifyContent: "center"}}>
-                            <Text
-                                style={[
-                                    styles.amount,
-                                    item.status === "entrant" && {color: COLORS.success},
-                                    item.status === "sortant" && {color: COLORS.error}
-                                ]}
-                            >
-                                {item.amount}
-                            </Text>
-                            <Text style={styles.date}>{item.date}</Text>
-                        </View>
-
-                    </View>
-                </TouchableOpacity>
+                                <TouchableOpacity
+                                    key={index}
+                                    style={styles.transactionCard}
+                                    onPress={() => {
+                                        setSelectedTransaction(item);
+                                        setShowModal(true);
+                                    }}
+                                    activeOpacity={0.7}
+                                >
+                                    <View 
+                                        style={[
+                                            styles.transactionIcon,
+                                            item.status === "entrant" ? styles.iconEntrant : styles.iconSortant,
+                                        ]}
+                                    >
+                                        <Feather 
+                                            name={item.status === "sortant" ? "arrow-up-right" : "arrow-down-left"} 
+                                            color={item.status === "entrant" ? COLORS.success : COLORS.error} 
+                                            size={scale(20)}
+                                        />
+                                    </View>
+                                    
+                                    <View style={styles.transactionInfo}>
+                                        <Text style={styles.transactionName} numberOfLines={1}>{item.name}</Text>
+                                        <Text style={styles.transactionPhone}>{item.phone}</Text>
+                                    </View>
+                                    
+                                    <View style={styles.transactionRight}>
+                                        <Text
+                                            style={[
+                                                styles.transactionAmount,
+                                                { color: item.status === "entrant" ? COLORS.success : COLORS.error }
+                                            ]}
+                                            numberOfLines={1}
+                                        >
+                                            {item.status === "entrant" ? "+" : "-"}{item.amount}
+                                        </Text>
+                                        <Text style={styles.transactionDate}>{item.date}</Text>
+                                    </View>
+                                </TouchableOpacity>
             ))}
             <DetailTransaction
               visible={showModal}
@@ -247,5 +244,62 @@ const styles = StyleSheet.create({
     date: {
         color: COLORS.textSecondary,
         fontSize: moderateScale(12),
-    }
+    },
+    transactionCard: {
+        flexDirection: "row",
+        alignItems: "center",
+        backgroundColor: COLORS.white,
+        borderRadius: moderateScale(12),
+        padding: scale(12),
+        marginBottom: verticalScale(10),
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
+        elevation: 2,
+    },
+    transactionIcon: {
+        width: scale(45),
+        height: scale(45),
+        borderRadius: moderateScale(10),
+        justifyContent: "center",
+        alignItems: "center",
+        marginRight: scale(12),
+    },
+    iconEntrant: {
+        backgroundColor: COLORS.successLight,
+        borderColor: COLORS.success,
+        borderWidth: 1,
+    },
+    iconSortant: {
+        backgroundColor: COLORS.errorLight,
+        borderColor: COLORS.error,
+        borderWidth: 1,
+    },
+    transactionInfo: {
+        flex: 1,
+        marginRight: scale(8),
+    },
+    transactionName: {
+        fontSize: moderateScale(15),
+        fontWeight: "700",
+        color: COLORS.textPrimary,
+        marginBottom: verticalScale(3),
+    },
+    transactionPhone: {
+        fontSize: moderateScale(13),
+        color: COLORS.textSecondary,
+    },
+    transactionRight: {
+        alignItems: "flex-end",
+    },
+    transactionAmount: {
+        fontSize: moderateScale(15),
+        fontWeight: "700",
+        marginBottom: verticalScale(3),
+    },
+    transactionDate: {
+        fontSize: moderateScale(11),
+        color: COLORS.textSecondary,
+    },
 });

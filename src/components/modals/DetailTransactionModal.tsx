@@ -2,7 +2,7 @@ import { COLORS } from '@/src/constants';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as Sharing from "expo-sharing";
 import React, { useRef } from 'react';
-import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
 
@@ -116,7 +116,7 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
                 {isInternational && exchangeRate && (
                   <RowItem label="Taux de change" value={exchangeRate} icon="swap-horizontal-outline" />
                 )}
-                <RowItem label="Frais" value={fees || "0 GNF"} icon="cash-outline" />
+                <RowItem label="Frais" value={fees + " GNF" || "0 GNF"} icon="cash-outline" />
                 {note && <RowItem label="Note" value={note} icon="document-text-outline" />}
               </View>
             </View>
@@ -254,6 +254,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: scale(12),
     marginTop: verticalScale(10),
+    marginBottom: Platform.OS === "ios" ? verticalScale(20) : verticalScale(0)
   },
   buttonOutline: {
     flex: 1,

@@ -1,0 +1,26 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "save": "Save",
+    "search": "Search"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Create account",
+    "phone": "Phone number",
+    "enterPin": "Enter your PIN",
+    "forgotPin": "Forgot PIN?",
+    "invalidPhone": "Invalid phone number",
+    "pinIncorrect": "Incorrect PIN code"
+  },
+  "home": {
+    "balance": "Balance",
+    "send": "Send",
+    "receive": "Receive",
+    "services": "Services"
+  }
+}

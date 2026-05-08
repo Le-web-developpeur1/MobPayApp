@@ -59,8 +59,9 @@ const styles = StyleSheet.create({
   service: {
     borderColor: "#2A4793",
     borderWidth: scale(1),
-    height: Platform.OS === "android" ? verticalScale(150) : verticalScale(125),
+    height: Platform.OS === "android" ? verticalScale(125) : verticalScale(120),
     borderRadius: moderateScale(10),
     marginBottom: verticalScale(15),
+    justifyContent: "center",
   },
 });
