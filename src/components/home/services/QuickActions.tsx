@@ -3,28 +3,30 @@ import { RootStackParamList } from '@/src/navigation/types';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 type Action = {
-  label: string;
+  labelKey: string;
   icon: keyof typeof Ionicons.glyphMap;
   route: string;
 };
 
-const actions: Action[] = [
-    { label: "Transfert", icon: "send-outline", route: ROUTES.TRANSFERT },
-    { label: "Factures", icon: "document-text-outline", route: ROUTES.FACTURES },
-    { label: "Crédits", icon: "phone-portrait-outline", route: ROUTES.CREDITS },
-    { label: "Marchands", icon: "cart-outline", route: ROUTES.DETAIL_MARCHAND },
-    { label: "Retraits", icon: "download-outline", route: ROUTES.RETRAITS },
-    { label: "Me Recharger", icon: "add-circle-outline", route: ROUTES.ME_RECHARGER},
-];
-
 const QuickActions = () => {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
+
+  const actions: Action[] = [
+    { labelKey: "quickActions.transfer", icon: "send-outline", route: ROUTES.TRANSFERT },
+    { labelKey: "quickActions.bills", icon: "document-text-outline", route: ROUTES.FACTURES },
+    { labelKey: "quickActions.credits", icon: "phone-portrait-outline", route: ROUTES.CREDITS },
+    { labelKey: "quickActions.merchants", icon: "cart-outline", route: ROUTES.DETAIL_MARCHAND },
+    { labelKey: "quickActions.withdrawals", icon: "download-outline", route: ROUTES.RETRAITS },
+    { labelKey: "quickActions.topUp", icon: "add-circle-outline", route: ROUTES.ME_RECHARGER},
+  ];
 
   return (
         <View style={styles.container}>
@@ -37,7 +39,7 @@ const QuickActions = () => {
                     <View style={styles.iconContainer}>
                         <Ionicons name={item.icon} size={moderateScale(24)} color={COLORS.primary}/>
                     </View>
-                    <Text style={styles.label}>{item.label}</Text>
+                    <Text style={styles.label}>{t(item.labelKey)}</Text>
                 </TouchableOpacity>
             ))}
         </View>

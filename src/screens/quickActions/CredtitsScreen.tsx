@@ -3,6 +3,7 @@ import { RootStackParamList } from '@/src/navigation/types';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -16,11 +17,12 @@ const paiementService = [
 ];
 
 export default function CreditsScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <HeaderScreen title="Achat de crédits" />
+      <HeaderScreen title={t('credit.creditPurchase')} />
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.grid}>

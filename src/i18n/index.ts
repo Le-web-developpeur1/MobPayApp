@@ -1,17 +1,26 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import fr from "../locales/fr.json";
 import en from "../locales/en.json";
+import fr from "../locales/fr.json";
 
 const LANGUAGE_KEY = "@app_language";
+
+// Fonction pour réinitialiser la langue (utile pour le développement)
+// export const resetLanguage = async () => {
+//     try {
+//         await AsyncStorage.removeItem(LANGUAGE_KEY);
+//     } catch (error) {
+//         console.error("Error resetting language:", error);
+//     }
+// };
 
 const getStoredLanguage = async () => {
     try {
         const language = await AsyncStorage.getItem(LANGUAGE_KEY);
-        return language || "fr";
+        return language || "fr"; 
     } catch (error) {
-        return "fr";
+        return "fr"; 
     }
 };
 
@@ -34,7 +43,7 @@ const initI18n = async () => {
             en: { translation: en },
         },
         lng: language,
-        fallbacking: "fr",
+        fallbackLng: "en", 
         interpolation: {
             escapeValue: false,
         },

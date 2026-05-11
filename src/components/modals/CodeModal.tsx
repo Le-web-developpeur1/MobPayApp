@@ -10,10 +10,12 @@ import { Alert, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-na
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from "react-native-reanimated";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import DetailTransaction from "./DetailTransactionModal";
+import { useTranslation } from "react-i18next";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function CodeModal({ visible, onClose, onSuccess, amount, number, fees, note, transactionId, name, status, date, isInternational, country, amountReceived, exchangeRate, transactionType = 'cashmoov'}: CodeModalProps) {
+    const { t } = useTranslation();
     const [code, setCode] = useState<number[]>([]);
     const codeLength = Array(4).fill(0);
     const [showModal, setShowModal] = useState(false);
@@ -30,20 +32,20 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
         
         switch (transactionType) {
             case 'orange_money_envoi':
-                return 'Envoi Orange Money';
+                return t('transactions.orangeMoneySend');
             case 'orange_money_reception':
-                return 'Réception Orange Money';
+                return t('transactions.orangeMoneyReceive');
             case 'paiement_marchand':
-                return 'Paiement marchand';
+                return t('transactions.merchantPayment');
             case 'paiement_facture':
-                return 'Paiement de facture';
+                return t('transactions.billPayment');
             case 'achat_credit':
-                return 'Achat de crédit';
+                return t('transactions.creditPurchase');
             case 'retrait':
-                return 'Retrait d\'argent';
+                return t('transactions.withdrawal');
             case 'cashmoov':
             default:
-                return 'Transfert CashMoov';
+                return t('transactions.cashmoovTransfer');
         }
     };
     
@@ -82,7 +84,7 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
                     setShowLoader(true); // Affiche le loader
                     setTimeout(() => {
                         setShowLoader(false); // Cache le loader
-                        Alert.alert("Transaction réussie avec succès");
+                        Alert.alert(t('transactions.transactionSuccess'));
                         setShowModal(true); // Affiche DetailTransaction
                     }, 2000); // Loader pendant 2 secondes
                 }, 300);
@@ -121,7 +123,7 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
                 setShowLoader(true); // Affiche le loader
                 setTimeout(() => {
                     setShowLoader(false); // Cache le loader
-                    Alert.alert("Transaction réussie avec succès");
+                    Alert.alert(t('transactions.transactionSuccess'));
                     setShowModal(true); // Affiche DetailTransaction
                 }, 2000); // Loader pendant 2 secondes
             }, 300);
@@ -141,7 +143,7 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
         <Modal visible={visible} transparent animationType="slide">
             <View style={styles.modalView}>
                 <View style={styles.modalContent}>
-                <Text style={{ textAlign: "center", fontSize: moderateScale(22), color: COLORS.textPrimary}}>Entrez votre PIN</Text>
+                <Text style={{ textAlign: "center", fontSize: moderateScale(22), color: COLORS.textPrimary}}>{t('auth.enterPin')}</Text>
                 <Animated.View style={[styles.codeView, style]}>
                     {codeLength.map((_, index) => (
                         <View 
@@ -230,8 +232,8 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
                     <Animated.View style={loaderStyle}>
                         <MaterialCommunityIcons name="loading" size={scale(60)} color={COLORS.primary} />
                     </Animated.View>
-                    <Text style={styles.loaderText}>Traitement en cours...</Text>
-                    <Text style={styles.loaderSubtext}>Veuillez patienter</Text>
+                    <Text style={styles.loaderText}>{t('common.processing')}</Text>
+                    <Text style={styles.loaderSubtext}>{t('common.pleaseWait')}</Text>
                 </View>
             </View>
         </Modal>

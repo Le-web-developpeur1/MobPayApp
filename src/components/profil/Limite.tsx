@@ -1,35 +1,38 @@
 import { COLORS } from '@/src/constants';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import * as Progress from "react-native-progress";
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 export default function Limite() {
+  const { t } = useTranslation();
+  
   return (
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%", paddingBottom: verticalScale(10)}}>
-          <Text>Par transaction</Text>
+          <Text>{t('profile.perTransaction')}</Text>
           <Text style={{ fontSize: moderateScale(20), fontWeight: "bold"}}>10 000 000 GNF</Text>
         </View>
         <Progress.Bar progress={0.35} width={scale(290)} color="#2A4793"/>
-        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>35%</Text> utilisé ce mois</Text>
+        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>35%</Text> {t('profile.usedThisMonth')}</Text>
       </View>
       <View style={styles.card}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%", paddingBottom: verticalScale(10)}}>
-          <Text>Par jour</Text>
+          <Text>{t('profile.perDay')}</Text>
           <Text style={{ fontSize: moderateScale(20), fontWeight: "bold"}}>50 000 000 GNF</Text>
         </View>
         <Progress.Bar progress={0.52} width={scale(290)} color="#2A4793"/>
-        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>52%</Text> utilisé ce mois</Text>
+        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>52%</Text> {t('profile.usedThisMonth')}</Text>
       </View>
       <View style={styles.card}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%", paddingBottom: verticalScale(10)}}>
-          <Text>Par mois</Text>
+          <Text>{t('profile.perMonth')}</Text>
           <Text style={{ fontSize: moderateScale(20), fontWeight: "bold"}}>200 000 000 GNF</Text>
         </View>
         <Progress.Bar progress={0.70} width={scale(290)} color="#2A4793"/>
-        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>70%</Text> utilisé ce mois</Text>
+        <Text style={{ paddingTop: verticalScale(5)}}><Text style={{ color: "#2A4793", fontWeight: "bold"}}>70%</Text> {t('profile.usedThisMonth')}</Text>
       </View>
       <View 
         style={[{ 
@@ -44,7 +47,7 @@ export default function Limite() {
           justifyContent: "center",
         }]}
       >
-        <Text style={{ color: "#00000095", fontSize: moderateScale(18)}}>Pour augmenter vos limites, <Text style={{ color: "#2A4793", fontWeight: "bold", fontSize: moderateScale(20)}}>contactez le support.</Text></Text>
+        <Text style={{ color: "#00000095", fontSize: moderateScale(18)}}>{t('profile.increaseLimit')} <Text style={{ color: "#2A4793", fontWeight: "bold", fontSize: moderateScale(20)}}>{t('profile.contactSupport')}</Text></Text>
       </View>  
     </View>
   );

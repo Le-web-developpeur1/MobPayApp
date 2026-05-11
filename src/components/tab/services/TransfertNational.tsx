@@ -1,9 +1,9 @@
 import { COLORS, ROUTES } from '@/src/constants';
 import { RootStackParamList } from '@/src/navigation/types';
-import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -14,12 +14,12 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type TransferType = "Envoi" | "EnvoiOM" | "ReceptionOM";
 
 export default function TransfertNational() {
-
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
 
   return (
     <SafeAreaView style={styles.safe}>
-        <HeaderScreen title='Transfert National'/>
+        <HeaderScreen title={t('transfer.nationalTransfer')}/>
         <View style={styles.container}>      
         <View style={styles.row}>
             <TouchableOpacity 
@@ -36,7 +36,7 @@ export default function TransfertNational() {
                 />
             </View>
             <Text style={styles.cardTitle}>Cash Moov</Text>
-            <Text style={styles.cardDescription}>Instantané</Text>
+            <Text style={styles.cardDescription}>{t('transfer.instant')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
@@ -52,7 +52,7 @@ export default function TransfertNational() {
                 style={styles.logo}
                 />
             </View>
-            <Text style={styles.cardTitle}>Envoyez vers</Text>
+            <Text style={styles.cardTitle}>{t('transfer.sendTo')}</Text>
             <Text style={styles.cardDescription}>Orange Money</Text>
             </TouchableOpacity>
 
@@ -69,7 +69,7 @@ export default function TransfertNational() {
                 style={styles.logo}
                 />
             </View>
-            <Text style={styles.cardTitle}>Récevez depuis</Text>
+            <Text style={styles.cardTitle}>{t('transfer.receiveFrom')}</Text>
             <Text style={styles.cardDescription}>Orange Money</Text>
             </TouchableOpacity>
         </View>

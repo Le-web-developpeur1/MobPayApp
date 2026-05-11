@@ -3,10 +3,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -14,6 +15,7 @@ export default function VerificationScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
   const { phone } = route.params as { phone: string };
+  const { t } = useTranslation();
 
   const [code, setCode] = useState(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(60);
@@ -53,17 +55,17 @@ export default function VerificationScreen() {
 
   const handleVerify = (fullCode: string) => {
     if (fullCode.length !== 6) {
-      Alert.alert('Erreur', 'Veuillez saisir le code complet');
+      Alert.alert(t('common.error'), t('auth.enterPinError'));
       return;
     }
 
     // Simulation de vérification - Navigation vers création de PIN
     Alert.alert(
-      'Succès',
+      t('common.success'),
       'Votre numéro a été vérifié avec succès',
       [
         {
-          text: 'OK',
+          text: t('common.ok'),
           onPress: () => navigation.navigate(ROUTES.CREATE_PIN, { phone }),
         },
       ]
@@ -83,7 +85,7 @@ export default function VerificationScreen() {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={scale(24)} color={COLORS.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Vérification</Text>
+        <Text style={styles.headerTitle}>{t('auth.verification')}</Text>
         <View style={{ width: scale(24) }} />
       </View>
       <KeyboardAvoidingView
@@ -98,9 +100,9 @@ export default function VerificationScreen() {
               <Ionicons name="mail-outline" size={scale(60)} color={COLORS.primary} />
             </View>
 
-            <Text style={styles.title}>Vérifiez votre numéro</Text>
+            <Text style={styles.title}>{t('auth.verifyNumber')}</Text>
             <Text style={styles.subtitle}>
-              Nous avons envoyé un code de vérification au{'\n'}
+              {t('auth.verificationCodeSent')}{'\n'}
               <Text style={styles.phone}>{phone}</Text>
             </Text>
 
@@ -121,10 +123,10 @@ export default function VerificationScreen() {
             </View>
 
             <View style={styles.resendContainer}>
-              <Text style={styles.resendText}>Vous n'avez pas reçu le code ?</Text>
+              <Text style={styles.resendText}>{t('auth.didntReceiveCode')}</Text>
               <TouchableOpacity onPress={handleResend} disabled={timer > 0}>
                 <Text style={[styles.resendButton, timer > 0 && styles.resendButtonDisabled]}>
-                  {timer > 0 ? `Renvoyer (${timer}s)` : 'Renvoyer'}
+                  {timer > 0 ? `${t('auth.resend')} (${timer}s)` : t('auth.resend')}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -133,7 +135,7 @@ export default function VerificationScreen() {
               style={styles.button}
               onPress={() => handleVerify(code.join(''))}
             >
-              <Text style={styles.buttonText}>Vérifier</Text>
+              <Text style={styles.buttonText}>{t('auth.verify')}</Text>
             </TouchableOpacity>
           </View>
 

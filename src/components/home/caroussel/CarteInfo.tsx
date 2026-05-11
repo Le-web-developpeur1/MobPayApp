@@ -1,5 +1,6 @@
 import { COLORS } from "@/src/constants";
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
@@ -11,45 +12,46 @@ const AUTO_SCROLL_INTERVAL = 3000; // 3 secondes
 interface CarteData {
   id: string;
   emoji: string;
-  title: string;
-  description: string[];
+  titleKey: string;
+  descriptionKeys: string[];
 }
 
-const cartesData: CarteData[] = [
-  {
-    id: '1',
-    emoji: '💳',
-    title: 'Transferts internationaux',
-    description: [
-      'Envoyez de l\'argent dans plus de 63 pays à travers le monde.',
-      'Payez vos fournisseurs en toute simplicité.'
-    ]
-  },
-  {
-    id: '2',
-    emoji: '🔒',
-    title: 'Sécurité garantie',
-    description: [
-      'Vos transactions sont protégées par un cryptage de niveau bancaire.',
-      'Authentification biométrique disponible.'
-    ]
-  },
-  {
-    id: '3',
-    emoji: '⚡',
-    title: 'Instantané',
-    description: [
-      'Transferts en temps réel vers tous les opérateurs.',
-      'Recevez des notifications instantanées.'
-    ]
-  },
-];
-
-// Dupliquer les données pour créer l'effet infini
-const infiniteData = [...cartesData, ...cartesData, ...cartesData];
-const ORIGINAL_DATA_LENGTH = cartesData.length;
-
 export default function CarteInfo() {
+  const { t } = useTranslation();
+  
+  const cartesData: CarteData[] = [
+    {
+      id: '1',
+      emoji: '💳',
+      titleKey: 'carousel.internationalTransfers',
+      descriptionKeys: [
+        'carousel.sendMoney63Countries',
+        'carousel.paySuppliers'
+      ]
+    },
+    {
+      id: '2',
+      emoji: '🔒',
+      titleKey: 'carousel.guaranteedSecurity',
+      descriptionKeys: [
+        'carousel.bankLevelEncryption',
+        'carousel.biometricAuth'
+      ]
+    },
+    {
+      id: '3',
+      emoji: '⚡',
+      titleKey: 'carousel.instant',
+      descriptionKeys: [
+        'carousel.realTimeTransfers',
+        'carousel.instantNotifications'
+      ]
+    },
+  ];
+
+  // Dupliquer les données pour créer l'effet infini
+  const infiniteData = [...cartesData, ...cartesData, ...cartesData];
+  const ORIGINAL_DATA_LENGTH = cartesData.length;
   const [activeIndex, setActiveIndex] = useState(ORIGINAL_DATA_LENGTH);
   const flatListRef = useRef<FlatList>(null);
   const scrolling = useRef(false);
@@ -124,9 +126,9 @@ export default function CarteInfo() {
       </View>
 
       <View style={styles.card}>
-        <Text style={styles.title}>{item.title}</Text>
-        {item.description.map((text, index) => (
-          <Text key={index} style={styles.text}>{text}</Text>
+        <Text style={styles.title}>{t(item.titleKey)}</Text>
+        {item.descriptionKeys.map((key, index) => (
+          <Text key={index} style={styles.text}>{t(key)}</Text>
         ))}
       </View>
     </View>

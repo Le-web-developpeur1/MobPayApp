@@ -3,10 +3,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -14,6 +15,7 @@ export default function CreatePinScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
   const { phone } = route.params as { phone: string };
+  const { t } = useTranslation();
 
   const [pin, setPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -22,27 +24,27 @@ export default function CreatePinScreen() {
 
   const handleCreatePin = () => {
     if (!pin || !confirmPin) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
+      Alert.alert(t('common.error'), 'Veuillez remplir tous les champs');
       return;
     }
 
     if (pin.length !== 4 || confirmPin.length !== 4) {
-      Alert.alert('Erreur', 'Le PIN doit contenir exactement 4 chiffres');
+      Alert.alert(t('common.error'), 'Le PIN doit contenir exactement 4 chiffres');
       return;
     }
 
     if (pin !== confirmPin) {
-      Alert.alert('Erreur', 'Les PINs ne correspondent pas');
+      Alert.alert(t('common.error'), 'Les PINs ne correspondent pas');
       return;
     }
 
     // Simulation de création de compte
     Alert.alert(
-      'Succès',
+      t('common.success'),
       'Votre compte a été créé avec succès',
       [
         {
-          text: 'OK',
+          text: t('common.ok'),
           onPress: () => navigation.navigate(ROUTES.MAIN),
         },
       ]
@@ -55,7 +57,7 @@ export default function CreatePinScreen() {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={scale(24)} color={COLORS.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Créer un PIN</Text>
+        <Text style={styles.headerTitle}>{t('auth.createPin')}</Text>
         <View style={{ width: scale(24) }} />
       </View>
       <KeyboardAvoidingView
@@ -71,14 +73,14 @@ export default function CreatePinScreen() {
               <Ionicons name="lock-closed-outline" size={scale(60)} color={COLORS.primary} />
             </View>
 
-            <Text style={styles.title}>Sécurisez votre compte</Text>
+            <Text style={styles.title}>{t('auth.secureAccount')}</Text>
             <Text style={styles.subtitle}>
-              Créez un code PIN de 4 chiffres pour sécuriser vos transactions
+              {t('auth.createPinSubtitle')}
             </Text>
 
             <View style={styles.form}>
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Code PIN</Text>
+                <Text style={styles.label}>{t('auth.enterPin')}</Text>
                 <View style={styles.inputWrapper}>
                   <TextInput
                     style={styles.input}
@@ -106,7 +108,7 @@ export default function CreatePinScreen() {
               </View>
 
               <View style={styles.inputContainer}>
-                <Text style={styles.label}>Confirmer le PIN</Text>
+                <Text style={styles.label}>{t('auth.confirmPin')}</Text>
                 <View style={styles.inputWrapper}>
                   <TextInput
                     style={styles.input}
@@ -141,7 +143,7 @@ export default function CreatePinScreen() {
               </View>
 
               <TouchableOpacity style={styles.button} onPress={handleCreatePin}>
-                <Text style={styles.buttonText}>Créer mon compte</Text>
+                <Text style={styles.buttonText}>{t('auth.register')}</Text>
               </TouchableOpacity>
             </View>
           </View>

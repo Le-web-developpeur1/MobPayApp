@@ -3,12 +3,14 @@ import { COLORS } from '@/src/constants';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 export default function ChangePinScreen() {
   const navigation = useNavigation();
+  const { t } = useTranslation();
   const [currentPin, setCurrentPin] = useState('');
   const [newPin, setNewPin] = useState('');
   const [confirmPin, setConfirmPin] = useState('');
@@ -18,32 +20,32 @@ export default function ChangePinScreen() {
 
   const handleChangePin = () => {
     if (!currentPin || !newPin || !confirmPin) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
+      Alert.alert(t('common.error'), 'Veuillez remplir tous les champs');
       return;
     }
 
     if (currentPin.length !== 4 || newPin.length !== 4 || confirmPin.length !== 4) {
-      Alert.alert('Erreur', 'Le PIN doit contenir exactement 4 chiffres');
+      Alert.alert(t('common.error'), 'Le PIN doit contenir exactement 4 chiffres');
       return;
     }
 
     if (newPin !== confirmPin) {
-      Alert.alert('Erreur', 'Les nouveaux PINs ne correspondent pas');
+      Alert.alert(t('common.error'), 'Les nouveaux PINs ne correspondent pas');
       return;
     }
 
     if (currentPin === newPin) {
-      Alert.alert('Erreur', 'Le nouveau PIN doit être différent de l\'ancien');
+      Alert.alert(t('common.error'), 'Le nouveau PIN doit être différent de l\'ancien');
       return;
     }
 
     // Simulation de changement de PIN
     Alert.alert(
-      'Succès',
+      t('common.success'),
       'Votre PIN a été modifié avec succès',
       [
         {
-          text: 'OK',
+          text: t('common.ok'),
           onPress: () => navigation.goBack(),
         },
       ]
@@ -52,7 +54,7 @@ export default function ChangePinScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
-      <HeaderScreen title="Changer le PIN" />
+      <HeaderScreen title={t('auth.changePin')} />
       <View style={styles.container}>
         <ScrollView 
           showsVerticalScrollIndicator={false}
@@ -61,13 +63,13 @@ export default function ChangePinScreen() {
           <View style={styles.infoCard}>
             <Ionicons name="information-circle-outline" size={scale(24)} color={COLORS.primary} />
             <Text style={styles.infoText}>
-              Votre PIN doit contenir exactement 4 chiffres et ne doit être partagé avec personne.
+              {t('auth.pinInfo')}
             </Text>
           </View>
 
           {/* PIN actuel */}
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>PIN actuel</Text>
+            <Text style={styles.label}>{t('auth.currentPin')}</Text>
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
@@ -96,7 +98,7 @@ export default function ChangePinScreen() {
 
           {/* Nouveau PIN */}
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Nouveau PIN</Text>
+            <Text style={styles.label}>{t('auth.newPin')}</Text>
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
@@ -125,7 +127,7 @@ export default function ChangePinScreen() {
 
           {/* Confirmer PIN */}
           <View style={styles.inputContainer}>
-            <Text style={styles.label}>Confirmer le nouveau PIN</Text>
+            <Text style={styles.label}>{t('auth.confirmNewPin')}</Text>
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
@@ -153,7 +155,7 @@ export default function ChangePinScreen() {
           </View>
 
           <TouchableOpacity style={styles.button} onPress={handleChangePin}>
-            <Text style={styles.buttonText}>Modifier le PIN</Text>
+            <Text style={styles.buttonText}>{t('auth.changePin')}</Text>
           </TouchableOpacity>
         </ScrollView>
 

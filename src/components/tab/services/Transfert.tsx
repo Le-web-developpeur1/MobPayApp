@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
@@ -12,7 +13,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type TransferType = "Envoi" | "EnvoiOM" | "ReceptionOM";
 
 export default function Transfert() {
-
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
 
   return (
@@ -31,8 +32,8 @@ export default function Transfert() {
                         style={styles.logo}
                     />
                 </View>
-                <Text style={styles.cardTitle}>National</Text>
-                <Text style={styles.cardDescription}>Instantané</Text>
+                <Text style={styles.cardTitle}>{t('transfer.national')}</Text>
+                <Text style={styles.cardDescription}>{t('transfer.instant')}</Text>
             </TouchableOpacity>
 
         
@@ -45,8 +46,8 @@ export default function Transfert() {
                     <Ionicons name="globe" size={moderateScale(32)} color={COLORS.primary}/>
                 </View>
                 <View style={styles.cardContent}>
-                    <Text style={styles.cardTitle}>International</Text>
-                    <Text style={styles.cardDescription}>Envoi vers l'étranger • 24-48h</Text>
+                    <Text style={styles.cardTitle}>{t('transfer.international')}</Text>
+                    <Text style={styles.cardDescription}>{t('transfer.sendAbroad')} • 24-48h</Text>
                 </View>
             </TouchableOpacity>
         </View>
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    gap: scale(10),
+    gap: scale(5),
   },
   card: {
     flex: 1,

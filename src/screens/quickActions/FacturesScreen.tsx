@@ -8,6 +8,7 @@ import { Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import HeaderScreen from '../../components/ui/HeaderScreen';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -25,6 +26,7 @@ const paiementService = [
 ];
 
 export default function FacturesScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const [search, setSearch] = useState("");
 
@@ -34,13 +36,13 @@ export default function FacturesScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <HeaderScreen title="Paiement de factures" />
+      <HeaderScreen title={t('bills.billPayment')} />
       <View style={styles.container}>
         <View style={styles.inputWrapper}>
           <Ionicons name="search-outline" size={moderateScale(20)} color={COLORS.textSecondary} />
           <TextInput
             style={styles.input}
-            placeholder="Rechercher un service"
+            placeholder={t('bills.searchService')}
             value={search}
             onChangeText={setSearch}
             placeholderTextColor={COLORS.textSecondary}
@@ -70,7 +72,7 @@ export default function FacturesScreen() {
           {filteredPaiement.length === 0 && (
             <View style={styles.emptyContainer}>
               <Ionicons name="search-outline" size={moderateScale(60)} color={COLORS.textSecondary} />
-              <Text style={styles.emptyText}>Aucun service trouvé</Text>
+              <Text style={styles.emptyText}>{t('bills.noServiceFound')}</Text>
             </View>
           )}
         </ScrollView>

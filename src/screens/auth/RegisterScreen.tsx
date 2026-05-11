@@ -8,11 +8,13 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function RegisterScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const { t } = useTranslation();
 
   const route = useRoute();
   
@@ -103,12 +105,12 @@ export default function RegisterScreen() {
 
   const handleContinue = () => {
     if (!prenom || !nom || !region || !ville || !adresse || !sexe || !piece || !numeroPiece || !profession || !dateNaissance) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs obligatoires');
+      Alert.alert(t('common.error'), 'Veuillez remplir tous les champs obligatoires');
       return;
     }
 
     if (!checked) {
-      Alert.alert('Erreur', 'Veuillez accepter les conditions générales');
+      Alert.alert(t('common.error'), 'Veuillez accepter les conditions générales');
       return;
     }
 
@@ -122,7 +124,7 @@ export default function RegisterScreen() {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={scale(24)} color={COLORS.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Inscription</Text>
+        <Text style={styles.headerTitle}>{t('auth.registration')}</Text>
         <View style={{ width: scale(24) }} />
       </View>
       <KeyboardAvoidingView
@@ -140,6 +142,7 @@ export default function RegisterScreen() {
             placeholder="+224 626 05 80 33"
             placeholderTextColor={COLORS.textSecondary}
             keyboardType="phone-pad"
+            editable={false}
           />
 
           <TextInput
@@ -291,18 +294,18 @@ export default function RegisterScreen() {
               </View>
             </TouchableOpacity>
             <Text style={styles.checkboxText}>
-              J'accepte les{' '}
+              {t('auth.acceptTerms')}{' '}
               <Text
                 style={styles.link}
                 onPress={() => Linking.openURL('https://mobpay.gn/conditions')}
               >
-                Conditions générales
+                {t('auth.termsAndConditions')}
               </Text>
             </Text>
           </View>
 
           <TouchableOpacity style={styles.button} onPress={handleContinue}>
-            <Text style={styles.buttonText}>Continuer</Text>
+            <Text style={styles.buttonText}>{t('common.continue')}</Text>
           </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>

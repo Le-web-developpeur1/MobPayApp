@@ -8,6 +8,7 @@ import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'r
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import HeaderScreen from '../../components/ui/HeaderScreen';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -82,6 +83,7 @@ const COUNTRIES: Country[] = [
 ];
 
 export default function International() {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
 
   const navigation = useNavigation<NavigationProp>();
@@ -114,13 +116,13 @@ export default function International() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <HeaderScreen title='Transfert International' />
+      <HeaderScreen title={t('transfer.internationalTransfer')} />
       <View style={styles.container}>
         <View style={styles.searchContainer}>
           <Ionicons name="search" size={moderateScale(20)} color={COLORS.textSecondary} />
           <TextInput
             style={styles.searchInput}
-            placeholder="Rechercher un pays..."
+            placeholder={t('transfer.searchCountry')}
             placeholderTextColor={COLORS.textSecondary}
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -133,7 +135,7 @@ export default function International() {
         </View>
 
         <Text style={styles.resultCount}>
-          {filteredCountries.length} {filteredCountries.length > 1 ? 'pays disponibles' : 'pays disponible'}
+          {filteredCountries.length} {filteredCountries.length > 1 ? t('transfer.countriesAvailable') : t('transfer.countryAvailable')}
         </Text>
 
         <FlatList

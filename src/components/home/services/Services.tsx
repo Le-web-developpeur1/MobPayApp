@@ -1,17 +1,18 @@
 import { ROUTES } from "@/src/constants";
-import { createIconSetFromFontello, Ionicons } from "@expo/vector-icons";
+import { RootStackParamList } from "@/src/navigation/types";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
-import { RootStackParamList } from "@/src/navigation/types";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
 import OrangeModal from "../../modals/OrangeModal";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function Services() {
-
+    const { t } = useTranslation();
     const navigation = useNavigation<NavigationProp>();
     const [showOrangeModal, setShowOrangeModal] = useState(false);
 
@@ -29,12 +30,12 @@ export default function Services() {
         <>
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Services</Text>
+                <Text style={styles.title}>{t('home.services')}</Text>
                 <TouchableOpacity 
                     style={styles.linkButton}
                     onPress={() => navigation.navigate(ROUTES.SERVICES)}
                 >
-                    <Text style={styles.linkText}>Voir plus</Text>
+                    <Text style={styles.linkText}>{t('common.seeMore')}</Text>
                     <Ionicons name="chevron-forward-outline" size={moderateScale(16)} color="#2A4793"/>
                 </TouchableOpacity>
             </View>

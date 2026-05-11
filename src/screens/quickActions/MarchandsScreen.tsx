@@ -6,6 +6,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
@@ -14,6 +15,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type DetailMarchandRouteProp = RouteProp<RootStackParamList, "DetailMarchand">;
 
 export default function MarchandsScreen() {
+    const { t } = useTranslation();
     const navigation = useNavigation<NavigationProp>();
     const route = useRoute<DetailMarchandRouteProp>();
     
@@ -47,7 +49,7 @@ export default function MarchandsScreen() {
         <>
         <SafeAreaView style={{ flex: 1, backgroundColor: "#2A4793"}}>
             <View style={{ flex: 1, backgroundColor: "#F3F4F6" }}>
-                <HeaderScreen title="Paiement marchand"/>
+                <HeaderScreen title={t('merchant.merchantPayment')}/>
                 <KeyboardAvoidingView
                     style={{ flex: 1 }}
                     behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -58,11 +60,11 @@ export default function MarchandsScreen() {
                         showsVerticalScrollIndicator={false}  
                     >
                         <View style={styles.container}>
-                            <Text style={styles.title}>Détails du marchand</Text>
+                            <Text style={styles.title}>{t('merchant.merchantDetails')}</Text>
                             <View style={styles.inputWrapper}>
                                 <TextInput
                                     style={styles.input}
-                                    placeholder="Numéro du point de vente"
+                                    placeholder={t('merchant.posNumber')}
                                     keyboardType="phone-pad"
                                     value={phone}
                                     onChangeText={setPhone}
@@ -71,7 +73,7 @@ export default function MarchandsScreen() {
                             <View style={styles.inputWrapper}>
                                 <TextInput
                                     style={styles.input}
-                                    placeholder="Prénom"
+                                    placeholder={t('transfer.firstName')}
                                     value={name}
                                     onChangeText={setName}
                                 />
@@ -79,7 +81,7 @@ export default function MarchandsScreen() {
                             <View style={styles.inputWrapper}>
                                 <TextInput
                                     style={styles.input}
-                                    placeholder="Montant"
+                                    placeholder={t('transfer.amount')}
                                     keyboardType="numeric"
                                     value={amount}
                                     onChangeText={setAmount}
@@ -91,7 +93,7 @@ export default function MarchandsScreen() {
                                 onPress={handlePayPress}
                                 disabled={!phone || !name || !amount}
                             >
-                                <Text style={styles.confirmerText}>Payer</Text>
+                                <Text style={styles.confirmerText}>{t('merchant.pay')}</Text>
                             </TouchableOpacity>
 
                             <View style={styles.option}>
@@ -102,7 +104,7 @@ export default function MarchandsScreen() {
                                     <MaterialIcons name="qr-code-scanner" size={moderateScale(80)} color="#2A4793"/>
                                 </TouchableOpacity>
                             </View>
-                            <Text style={styles.scan}>Scanner pour payer</Text>
+                            <Text style={styles.scan}>{t('merchant.scanToPay')}</Text>
                         </View>
                     </ScrollView>
                 </KeyboardAvoidingView>

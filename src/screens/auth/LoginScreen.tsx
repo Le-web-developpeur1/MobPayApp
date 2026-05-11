@@ -1,13 +1,13 @@
+import CountryCodePicker, { COUNTRIES, Country } from '@/src/components/auth/CountryCodePicker';
 import { COLORS, ROUTES } from '@/src/constants';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
-import CountryCodePicker, { COUNTRIES, Country } from '@/src/components/auth/CountryCodePicker';
-import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -20,10 +20,10 @@ export default function LoginScreen() {
 
   const handleContinue = () => {
     if (!phone) {
-      Alert.alert('Erreur', 'Veuillez saisir votre numéro de téléphone');
+      Alert.alert(t('common.error'), t('auth.enterPhoneError'));
       return;
     } else if (phone.length < 9) {
-      Alert.alert('Erreur', 'Numéro de téléphone invalide');
+      Alert.alert(t('common.error'), t('auth.invalidPhone'));
       return;
     } else if (phone === "626058033") {
       navigation.navigate(ROUTES.LOGIN_PIN, { phone: `${selectedCountry.dialCode} ${phone}` });
@@ -32,9 +32,6 @@ export default function LoginScreen() {
     }
   };
 
-  const handleRegister = () => {
-    navigation.navigate(ROUTES.REGISTER);
-  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,7 +48,7 @@ export default function LoginScreen() {
               <Text style={styles.logo}>CashMoov</Text>
             </View>
             <Text style={styles.title}>{t('common.welcome')}</Text>
-            <Text style={styles.subtitle}>Connectez-vous pour continuer</Text>
+            <Text style={styles.subtitle}>{t('auth.loginSubtitle')}</Text>
           </View>
 
           <View style={styles.form}>
@@ -66,7 +63,7 @@ export default function LoginScreen() {
                   style={styles.phoneInput}
                   value={phone}
                   onChangeText={setPhone}
-                  placeholder="626 05 80 33"
+                  placeholder={t('auth.phonePlaceholder')}
                   placeholderTextColor={COLORS.textSecondary}
                   keyboardType="phone-pad"
                   maxLength={12}
@@ -80,15 +77,7 @@ export default function LoginScreen() {
               <Text style={styles.buttonText}>{t('common.continue')}</Text>
             </TouchableOpacity>
 
-            <View style={styles.divider}>
-              <View style={styles.dividerLine} />
-              <Text style={styles.dividerText}>ou</Text>
-              <View style={styles.dividerLine} />
-            </View>
-
-            <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-              <Text style={styles.registerButtonText}>Créer un compte</Text>
-            </TouchableOpacity>
+      
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

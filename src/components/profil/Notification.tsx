@@ -1,10 +1,12 @@
 import { COLORS } from '@/src/constants';
 import { FontAwesome6 } from '@expo/vector-icons';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 export default function Notification() {
+    const { t } = useTranslation();
     const [pushToggle, setPushToggle] = useState(false);
     const [smsToggle, setSmsToggle] = useState(false);
     const [offreToggle, setOffreToggle] = useState(false);
@@ -14,8 +16,8 @@ export default function Notification() {
         <View style={{ borderColor: "#ccc", borderWidth: scale(0.5), backgroundColor: "white", borderRadius: moderateScale(10)}}>
             <View style={styles.card}>
                 <View style={{ gap: scale(5)}}>
-                    <Text style={styles.tilte}>Notifications push</Text>
-                    <Text style={{ color: "#00000095"}}>Alertes en temps réel</Text>
+                    <Text style={styles.tilte}>{t('profile.pushNotifications')}</Text>
+                    <Text style={{ color: "#00000095"}}>{t('profile.realTimeAlerts')}</Text>
                 </View>
                 <TouchableOpacity
                     onPress={() => setPushToggle(!pushToggle)}
@@ -29,8 +31,8 @@ export default function Notification() {
             </View>
             <View style={styles.card}>
                 <View style={{ gap: scale(5)}}>
-                    <Text style={styles.tilte}>SMS</Text>
-                    <Text style={{ color: "#00000095"}}>Message texte</Text>
+                    <Text style={styles.tilte}>{t('profile.sms')}</Text>
+                    <Text style={{ color: "#00000095"}}>{t('profile.textMessage')}</Text>
                 </View>
                 <TouchableOpacity
                         onPress={() => setSmsToggle(!smsToggle)}
@@ -44,8 +46,8 @@ export default function Notification() {
             </View>
             <View style={styles.card}>
                 <View style={{ gap: scale(5)}}>
-                    <Text style={styles.tilte}>Offres et promotions</Text>
-                    <Text style={{ color: "#00000095"}}>Bons plans exclusifs</Text>
+                    <Text style={styles.tilte}>{t('profile.offersPromotions')}</Text>
+                    <Text style={{ color: "#00000095"}}>{t('profile.exclusiveDeals')}</Text>
                 </View>
                 <TouchableOpacity
                         onPress={() => setOffreToggle(!offreToggle)}
@@ -72,7 +74,7 @@ export default function Notification() {
                 justifyContent: "center",
             }]}
         >
-            <Text style={{ color: "#00000095"}}>Les arlertes de sécurité sont <Text style={{ color: "#2A4793", fontWeight: "bold", fontSize: moderateScale(15)}}>toujours activées</Text> pour votre protection.</Text>
+            <Text style={{ color: "#00000095"}}>{t('profile.securityAlertsAlways')} <Text style={{ color: "#2A4793", fontWeight: "bold", fontSize: moderateScale(15)}}>{t('profile.alwaysEnabled')}</Text> {t('profile.forYourProtection')}</Text>
         </View>  
     </View>
   );

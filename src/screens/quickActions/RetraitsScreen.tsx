@@ -6,6 +6,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
@@ -14,6 +15,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type DetailRetraitRouteProp = RouteProp<RootStackParamList, "DetailRetrait">;
 
 export default function RetraitsScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<DetailRetraitRouteProp>();
   
@@ -50,7 +52,7 @@ export default function RetraitsScreen() {
   return (
     <>
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
-        <HeaderScreen title="Retrait d'argent" />
+        <HeaderScreen title={t('withdrawal.title')} />
         <View style={{ flex: 1, backgroundColor: COLORS.background }}>
           <KeyboardAvoidingView
             style={{ flex: 1 }}
@@ -62,12 +64,12 @@ export default function RetraitsScreen() {
               showsVerticalScrollIndicator={false}
             >
               <View style={styles.container}>
-                <Text style={styles.title}>Détails de l'agent</Text>
+                <Text style={styles.title}>{t('withdrawal.agentDetails')}</Text>
 
                 <View style={styles.inputWrapper}>
                   <TextInput
                     style={styles.input}
-                    placeholder="Numéro de l'agent"
+                    placeholder={t('withdrawal.agentNumber')}
                     keyboardType="phone-pad"
                     value={phone}
                     onChangeText={setPhone}
@@ -77,7 +79,7 @@ export default function RetraitsScreen() {
                 <View style={styles.inputWrapper}>
                   <TextInput
                     style={styles.input}
-                    placeholder="Nom de l'agent"
+                    placeholder={t('withdrawal.agentName')}
                     value={name}
                     onChangeText={setName}
                   />
@@ -86,7 +88,7 @@ export default function RetraitsScreen() {
                 <View style={styles.inputWrapper}>
                   <TextInput
                     style={styles.input}
-                    placeholder="Montant à retirer"
+                    placeholder={t('withdrawal.amountToWithdraw')}
                     keyboardType="numeric"
                     value={amount}
                     onChangeText={setAmount}
@@ -99,7 +101,7 @@ export default function RetraitsScreen() {
                   onPress={handleWithdrawPress}
                   disabled={!phone || !name || !amount}
                 >
-                  <Text style={styles.confirmerText}>Retirer</Text>
+                  <Text style={styles.confirmerText}>{t('withdrawal.withdraw')}</Text>
                 </TouchableOpacity>
 
                 <View style={styles.option}>
@@ -108,7 +110,7 @@ export default function RetraitsScreen() {
                   </TouchableOpacity>
                 </View>
 
-                <Text style={styles.scan}>Scanner le QR de l'agent</Text>
+                <Text style={styles.scan}>{t('withdrawal.scanAgentQR')}</Text>
               </View>
             </ScrollView>
           </KeyboardAvoidingView>

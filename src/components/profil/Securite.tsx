@@ -4,6 +4,7 @@ import { FontAwesome6, Ionicons, MaterialIcons, } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
@@ -11,6 +12,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function Securite() {
     const navigation = useNavigation<NavigationProp>();
+    const { t } = useTranslation();
     const [bioToggle, setBioToggle] = useState(true);
     const [authToggle, setAuthToggle] = useState(false);
 
@@ -36,8 +38,8 @@ export default function Securite() {
                         <Ionicons name='finger-print-outline' size={scale(30)} color={"#2BA668"}/>
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.tilte}>Biométrie</Text>
-                        <Text style={styles.subtitle}>Empreinte & Face ID</Text>
+                        <Text style={styles.tilte}>{t('profile.biometrics')}</Text>
+                        <Text style={styles.subtitle}>{t('profile.biometricsDesc')}</Text>
                     </View>
                 </View>
                 <TouchableOpacity
@@ -56,8 +58,8 @@ export default function Securite() {
                         <Ionicons name='shield-checkmark-outline' size={scale(30)} color={"#6A1B9A"}/>
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.tilte}>Double authentification</Text>
-                        <Text style={styles.subtitle}>Via SMS ou email</Text>
+                        <Text style={styles.tilte}>{t('profile.twoFactor')}</Text>
+                        <Text style={styles.subtitle}>{t('profile.twoFactorDesc')}</Text>
                     </View>
                 </View>
                 <TouchableOpacity
@@ -81,8 +83,8 @@ export default function Securite() {
                     <Ionicons name='lock-closed-outline' size={scale(30)} color={"#FBC02D"}/>
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={styles.tilte}>Changer le PIN</Text>
-                    <Text style={styles.subtitle}>4 chiffres requis</Text>
+                    <Text style={styles.tilte}>{t('profile.changePinTitle')}</Text>
+                    <Text style={styles.subtitle}>{t('profile.changePinDesc')}</Text>
                 </View>
             </View>
             <Ionicons name='chevron-forward' size={scale(20)} color={COLORS.textSecondary}/>
@@ -93,8 +95,8 @@ export default function Securite() {
                     <Ionicons name='globe-outline' size={scale(30)} color={"#1976D2"}/>
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={styles.tilte}>Session actives</Text>
-                    <Text style={styles.subtitle}>1 appareil connecté</Text>
+                    <Text style={styles.tilte}>{t('profile.activeSessions')}</Text>
+                    <Text style={styles.subtitle}>{t('profile.activeSessionsDesc')}</Text>
                 </View>
             </View>
             <Ionicons name='chevron-forward' size={scale(20)} color={COLORS.textSecondary}/>
@@ -108,8 +110,8 @@ export default function Securite() {
                     <MaterialIcons name='logout' size={scale(30)} color={"#D32F2F"}/>
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={[styles.tilte, { color: "#D32F2F"}]}>Déconnexion</Text>
-                    <Text style={styles.subtitle}>Terminer la session</Text>
+                    <Text style={[styles.tilte, { color: "#D32F2F"}]}>{t('profile.logout')}</Text>
+                    <Text style={styles.subtitle}>{t('profile.logoutDesc')}</Text>
                 </View>
             </View>
             <Ionicons name='chevron-forward' size={scale(20)} color={COLORS.textSecondary}/>

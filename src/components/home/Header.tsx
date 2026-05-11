@@ -3,19 +3,21 @@ import { RootStackParamList } from "@/src/navigation/types";
 import { Ionicons } from "@expo/vector-icons";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from "expo-router";
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View, } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
 export default function Header() {
+    const { t } = useTranslation();
     const unreadCount = 2;
     const navigation = useNavigation<NavigationProps>();
     
     return (
         <View style={styles.container}>
             <View style={styles.info}>
-                <Text style={styles.greeting}>Bonjour 👋</Text>
+                <Text style={styles.greeting}>{t('home.hello')} 👋</Text>
                 <Text style={styles.name}>Boubacar Bah</Text>
             </View>
             <TouchableOpacity 

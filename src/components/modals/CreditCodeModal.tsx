@@ -16,6 +16,7 @@ import Animated, {
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
 import CreditReceiptModal from './CreditReceiptModal';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -38,6 +39,7 @@ export default function CreditCodeModal({
   total,
   isSelfPurchase,
 }: CreditCodeModalProps) {
+  const { t } = useTranslation();
   const [code, setCode] = useState<number[]>([]);
   const codeLength = Array(4).fill(0);
   const [showReceipt, setShowReceipt] = useState(false);
@@ -79,7 +81,7 @@ export default function CreditCodeModal({
           setShowLoader(true);
           setTimeout(() => {
             setShowLoader(false);
-            Alert.alert('Achat de crédit réussi avec succès');
+            Alert.alert(t('credit.purchaseSuccess'));
             setShowReceipt(true);
           }, 2000);
         }, 300);
@@ -118,7 +120,7 @@ export default function CreditCodeModal({
         setShowLoader(true);
         setTimeout(() => {
           setShowLoader(false);
-          Alert.alert('Achat de crédit réussi avec succès');
+          Alert.alert(t('credit.purchaseSuccess'));
           setShowReceipt(true);
         }, 2000);
       }, 300);
@@ -138,7 +140,7 @@ export default function CreditCodeModal({
       <Modal visible={visible} transparent animationType="slide">
         <View style={styles.modalView}>
           <View style={styles.modalContent}>
-            <Text style={styles.title}>Entrez votre PIN</Text>
+            <Text style={styles.title}>{t('auth.enterPin')}</Text>
             <Animated.View style={[styles.codeView, style]}>
               {codeLength.map((_, index) => (
                 <View
@@ -222,8 +224,8 @@ export default function CreditCodeModal({
             <Animated.View style={loaderStyle}>
               <MaterialCommunityIcons name="loading" size={scale(60)} color={COLORS.primary} />
             </Animated.View>
-            <Text style={styles.loaderText}>Traitement en cours...</Text>
-            <Text style={styles.loaderSubtext}>Veuillez patienter</Text>
+            <Text style={styles.loaderText}>{t('common.processing')}</Text>
+            <Text style={styles.loaderSubtext}>{t('common.pleaseWait')}</Text>
           </View>
         </View>
       </Modal>

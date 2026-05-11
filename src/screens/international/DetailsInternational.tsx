@@ -9,11 +9,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { ConfirmModal } from '../../components/modals/ConfirmModal';
 import HeaderScreen from '../../components/ui/HeaderScreen';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type DetailsInterRouteProp = RouteProp<RootStackParamList, 'DetailsInternational'>;
 
 export default function DetailsInternational() {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<DetailsInterRouteProp>();
   

@@ -1,16 +1,18 @@
 import { COLORS } from '@/src/constants';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import HeaderScreen from '../../components/ui/HeaderScreen';
 
 export default function National() {
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-        <HeaderScreen title='Transfert National'/>
+        <HeaderScreen title={t('transfer.nationalTransfer')}/>
         <View style={styles.container}>
-            <Text style={styles.subtitle}>Choisissez votre opérateur</Text>
+            <Text style={styles.subtitle}>{t('transfer.chooseOperator')}</Text>
             
             <View style={styles.grid}>
                 <TouchableOpacity style={styles.card} activeOpacity={0.7}>
@@ -21,7 +23,7 @@ export default function National() {
                         />
                     </View>
                     <Text style={styles.cardTitle}>Cash Moov</Text>
-                    <Text style={styles.cardDescription}>Instantané</Text>
+                    <Text style={styles.cardDescription}>{t('transfer.instant')}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.card} activeOpacity={0.7}>
@@ -32,7 +34,7 @@ export default function National() {
                         />
                     </View>
                     <Text style={styles.cardTitle}>Orange Money</Text>
-                    <Text style={styles.cardDescription}>Envoi</Text>
+                    <Text style={styles.cardDescription}>{t('transfer.send')}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.card} activeOpacity={0.7}>
@@ -43,7 +45,7 @@ export default function National() {
                         />
                     </View>
                     <Text style={styles.cardTitle}>Orange Money</Text>
-                    <Text style={styles.cardDescription}>Réception</Text>
+                    <Text style={styles.cardDescription}>{t('transfer.receive')}</Text>
                 </TouchableOpacity>
             </View>
         </View>

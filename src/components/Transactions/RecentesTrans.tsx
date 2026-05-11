@@ -1,12 +1,13 @@
 import { COLORS, ROUTES } from "@/src/constants";
+import { RootStackParamList } from "@/src/navigation/types";
 import { Feather, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import DetailTransaction from "../modals/DetailTransactionModal";
-import { RootStackParamList } from "@/src/navigation/types";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useTranslation } from "react-i18next";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -45,6 +46,7 @@ const transactionsEncours = [
 
 
 export default function RecentesTransaction() {
+    const { t } = useTranslation();
     const [activTab, setActivTab] = useState<"reussies" | "encours">("reussies");
     const data = activTab === "reussies" ? transactionsReussies : transactionsEncours;
     const [showModal, setShowModal] = useState(false);
@@ -62,7 +64,7 @@ export default function RecentesTransaction() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Transactions récentes</Text>
+            <Text style={styles.title}>{t('transactions.recent')}</Text>
             <View style={styles.statusView}>
                 <View style={styles.status}>
                     <TouchableOpacity
@@ -90,7 +92,7 @@ export default function RecentesTransaction() {
                     style={styles.voirPlus}
                     onPress={navigationTrans}
                 >
-                    <Text style={styles.link}>Voir plus</Text>
+                    <Text style={styles.link}>{t('common.seeMore')}</Text>
                     <Ionicons name="chevron-forward" size={scale(15)} color={COLORS.primary}/>
                 </TouchableOpacity>
             </View>

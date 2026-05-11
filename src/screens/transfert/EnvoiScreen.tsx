@@ -1,17 +1,19 @@
 import { COLORS } from "@/src/constants";
 import { RootStackParamList, } from "@/src/navigation/types";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState, useMemo } from "react";
+import { useState } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { ConfirmModal } from "../../components/modals/ConfirmModal";
 import HeaderScreen from "../../components/ui/HeaderScreen";
+import { useTranslation } from "react-i18next";
 
 
 type EnvoiRouteProp = RouteProp<RootStackParamList, "Envoi">;
 
 export default function Envoi() {
+    const { t } = useTranslation();
     const [visible, setVisible] = useState(false);
 
     const route = useRoute<EnvoiRouteProp>();
@@ -34,13 +36,13 @@ export default function Envoi() {
     const formFrais = new Intl.NumberFormat("fr-FR").format(frais);
     const formTotal = new Intl.NumberFormat("fr-FR").format(total);
 
-    let titre = type === "Envoi" ? "Transfert de l'argent" : type === "EnvoiOM" ? "Envoie Orange Money" : "Réception Orange Money";
-    let bouton = type === "Envoi" ? "Transfert Cash Moov" : type === "EnvoiOM" ? "Envoie Orange Money" : "Réception Orange Money";
+    let titre = type === "Envoi" ? t('transfer.moneyTransfer') : type === "EnvoiOM" ? t('transfer.sendOrangeMoney') : t('transfer.receiveOrangeMoney');
+    let bouton = type === "Envoi" ? t('transfer.cashMoovTransfer') : type === "EnvoiOM" ? t('transfer.sendOrangeMoney') : t('transfer.receiveOrangeMoney');
     let infoText = type === "Envoi" 
-        ? "Vous êtes sur le point d'effectuer un transfert CashMoov. Le bénéficiaire recevra l'argent instantanément." 
+        ? t('transfer.cashMoovInfo')
         : type === "EnvoiOM" 
-        ? "Vous êtes sur le point d'envoyer de l'argent vers un compte Orange Money. Le bénéficiaire recevra l'argent instantanément."
-        : "Vous êtes sur le point d'initier un retrait Orange Money, demander à votre contact de confirmer le retrait après la soumission.";
+        ? t('transfer.sendOMInfo')
+        : t('transfer.receiveOMInfo');
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary}}>
@@ -55,16 +57,16 @@ export default function Envoi() {
                     contentContainerStyle={{ paddingBottom: verticalScale(40) }}
                 >
                 <View style={styles.container}>
-                    <Text style={styles.title}>Détails du bénéficiare</Text>
+                    <Text style={styles.title}>{t('transfer.beneficiaryDetails')}</Text>
                     <TextInput
                         style={[styles.input, styles.inputWrapper]} 
-                        value="Guinée"
+                        value={t('transfer.guinea')}
                         editable={false}
                     />
                     <View style={styles.inputWrapper}>
                         <TextInput
                             style={styles.input} 
-                            placeholder="Numéro du bénéficiare"
+                            placeholder={t('transfer.beneficiaryNumber')}
                             keyboardType="phone-pad"
                             value={phone}
                             onChangeText={setPhone}
@@ -72,14 +74,14 @@ export default function Envoi() {
                     </View>
                     <TextInput
                         style={[styles.input, styles.inputWrapper]}
-                        placeholder="Prénom et Nom"
+                        placeholder={t('transfer.firstAndLastName')}
                         value={name}
                         onChangeText={setName}
                     />
                     <View style={styles.inputWrapper}>
                         <TextInput
                             style={styles.input} 
-                            placeholder="Montant"
+                            placeholder={t('transfer.amount')}
                             keyboardType="numeric"
                             value={amount}
                             onChangeText={setAmount}

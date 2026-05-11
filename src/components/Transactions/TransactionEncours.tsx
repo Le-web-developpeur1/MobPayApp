@@ -1,11 +1,12 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import HeaderScreen from '../ui/HeaderScreen'
 import { COLORS } from '@/src/constants';
-import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { Feather } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import DetailTransaction from '../modals/DetailTransactionModal';
+import HeaderScreen from '../ui/HeaderScreen';
+import { useTranslation } from 'react-i18next';
 
 const transactionsEncours = [
     {
@@ -67,12 +68,13 @@ const transactionsEncours = [
 ];
 
 export default function TransactionEncours() {
+        const { t } = useTranslation();
         const [showModal, setShowModal] = useState(false);
         const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
     
   return (
     <SafeAreaView style={styles.safe}>
-        <HeaderScreen title='Transactions Encours' />
+        <HeaderScreen title={t('transactions.pending')} />
         <View style={styles.container}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
@@ -125,7 +127,7 @@ export default function TransactionEncours() {
                     visible={showModal}
                     onClose={() => setShowModal(false)}
                     amount={selectedTransaction?.amount || "0"}
-                    status="En cours"
+                    status={t('transactions.statusPending')}
                     name={selectedTransaction?.name || ""}
                     date={selectedTransaction?.date || ""}
                     transactionId={`TRX${Date.now().toString().slice(-8)}`}

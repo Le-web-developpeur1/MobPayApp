@@ -1,15 +1,17 @@
-import { Feather, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View, } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
-import { COLORS, ROUTES } from '../../constants';
+import { COLORS } from '../../constants';
 import { RootStackParamList } from '../../navigation/types';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function BalanceCard() {
+    const { t } = useTranslation();
     const [visible, setVisible] = useState(true);
     const navigation = useNavigation<NavigationProp>();
     
@@ -23,7 +25,7 @@ export default function BalanceCard() {
                         <View>
                             <View style={{ flexDirection: "row", gap: scale(10), alignItems: "center"}}>
                                 <Ionicons name="wallet-outline" size={scale(22)} color={COLORS.white}/>
-                                <Text style={{ color: COLORS.white, fontSize: moderateScale(18)}}>Solde disponible</Text>
+                                <Text style={{ color: COLORS.white, fontSize: moderateScale(18)}}>{t('home.availableBalance')}</Text>
                             </View>
                             {visible ? (
                                 <View> 
@@ -31,20 +33,20 @@ export default function BalanceCard() {
                                 </View>
                             ) : (
                                 <View>
-                                    <Text  style={styles.soldeDispo}>4 580 000 GNF</Text>
+                                    <Text  style={styles.soldeDispo}>1 954 580 750 GNF</Text>
                                 </View>
                             )}
                         </View>
                         <View style={styles.soldeRes}>
                             <Ionicons name="bag-outline" size={scale(15)} color={COLORS.textPrimary}/>
-                            <Text style={{ color: COLORS.textPrimary }}>Solde réservé:</Text>
+                            <Text style={{ color: COLORS.textPrimary }}>{t('home.balance')}:</Text>
                             {visible ? (
                                 <View>
                                     <Text style={{ color: COLORS.textPrimary }}>•••••</Text>
                                 </View>
                             ) : (
                                 <View>
-                                    <Text style={{ color: COLORS.textPrimary }}>4 580 000 GNF</Text>
+                                    <Text style={{ color: COLORS.textPrimary }}>14 580 260 GNF</Text>
                                 </View>
                             )}
                         </View>

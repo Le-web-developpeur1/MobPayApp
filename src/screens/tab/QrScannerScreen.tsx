@@ -5,13 +5,14 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { BarcodeScanningResult, CameraView, useCameraPermissions } from 'expo-camera';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withRepeat,
-    withSequence,
-    withTiming,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -33,6 +34,7 @@ const SIZES = {
 };
 
 export default function QrScannerScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<QrScanRouteProp>();
   
@@ -108,11 +110,11 @@ export default function QrScannerScreen() {
     if (!result.granted && !result.canAskAgain) {
       // L'utilisateur a refusé définitivement
       Alert.alert(
-        'Permission requise',
-        'Veuillez autoriser l\'accès à la caméra dans les paramètres de votre appareil pour scanner des QR codes.',
+        t('qrScanner.permissionRequired'),
+        t('qrScanner.permissionMessage'),
         [
-          { text: 'Annuler', style: 'cancel' },
-          { text: 'Ouvrir les paramètres', onPress: () => Linking.openSettings() },
+          { text: t('common.cancel'), style: 'cancel' },
+          { text: t('qrScanner.openSettings'), onPress: () => Linking.openSettings() },
         ]
       );
     }
@@ -124,7 +126,7 @@ export default function QrScannerScreen() {
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.loadingContainer}>
           <Ionicons name="camera-outline" size={SIZES.iconMedium} color={COLORS.primary} />
-          <Text style={styles.loadingText}>Chargement...</Text>
+          <Text style={styles.loadingText}>{t('common.loading')}</Text>
         </View>
       </SafeAreaView>
     );
@@ -136,20 +138,20 @@ export default function QrScannerScreen() {
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.errorContainer}>
           <Ionicons name="camera-outline" size={SIZES.iconLarge} color={COLORS.error} />
-          <Text style={styles.errorTitle}>Accès caméra requis</Text>
+          <Text style={styles.errorTitle}>{t('qrScanner.cameraAccessRequired')}</Text>
           <Text style={styles.errorText}>
-            L'application a besoin d'accéder à votre caméra pour scanner les QR codes.
+            {t('qrScanner.cameraAccessMessage')}
           </Text>
           
           {permission.canAskAgain ? (
             <TouchableOpacity style={styles.permissionButton} onPress={handleRequestPermission}>
               <Ionicons name="camera" size={SIZES.iconTiny} color={COLORS.white} />
-              <Text style={styles.permissionButtonText}>Autoriser l'accès</Text>
+              <Text style={styles.permissionButtonText}>{t('qrScanner.allowAccess')}</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity style={styles.permissionButton} onPress={() => Linking.openSettings()}>
               <Ionicons name="settings" size={SIZES.iconTiny} color={COLORS.white} />
-              <Text style={styles.permissionButtonText}>Ouvrir les paramètres</Text>
+              <Text style={styles.permissionButtonText}>{t('qrScanner.openSettings')}</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -163,7 +165,7 @@ export default function QrScannerScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View style={styles.headerButton} />
-          <Text style={styles.headerTitle}>Scanner QR Code</Text>
+          <Text style={styles.headerTitle}>{t('qrScanner.title')}</Text>
           <TouchableOpacity
             style={styles.headerButton}
             onPress={() => setFlashEnabled(!flashEnabled)}
@@ -227,19 +229,19 @@ export default function QrScannerScreen() {
           {!scanned ? (
             <>
               <Ionicons name="qr-code-outline" size={SIZES.iconSmall} color={COLORS.primary} />
-              <Text style={styles.instructionsTitle}>Scannez un QR Code</Text>
+              <Text style={styles.instructionsTitle}>{t('qrScanner.scanQRCode')}</Text>
               <Text style={styles.instructionsText}>
-                Placez le QR code dans le cadre pour le scanner automatiquement
+                {t('qrScanner.scanInstruction')}
               </Text>
             </>
           ) : (
             <>
               <Ionicons name="checkmark-circle" size={SIZES.iconSmall} color={COLORS.success} />
-              <Text style={styles.successTitle}>QR Code scanné avec succès!</Text>
+              <Text style={styles.successTitle}>{t('qrScanner.scanSuccess')}</Text>
               
               {/* Affichage des données scannées */}
               <View style={styles.dataContainer}>
-                <Text style={styles.dataLabel}>Données scannées:</Text>
+                <Text style={styles.dataLabel}>{t('qrScanner.scannedData')}</Text>
                 <View style={styles.dataBox}>
                   <Text style={styles.dataText} selectable>
                     {scannedData}
@@ -249,7 +251,7 @@ export default function QrScannerScreen() {
 
               <TouchableOpacity style={styles.rescanButton} onPress={handleRescan}>
                 <Ionicons name="refresh" size={SIZES.iconTiny} color={COLORS.white} />
-                <Text style={styles.rescanButtonText}>Scanner à nouveau</Text>
+                <Text style={styles.rescanButtonText}>{t('qrScanner.scanAgain')}</Text>
               </TouchableOpacity>
             </>
           )}

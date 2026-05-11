@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import CreditCodeModal from './CreditCodeModal';
+import { useTranslation } from 'react-i18next';
 
 interface CreditConfirmModalProps {
   visible: boolean;
@@ -20,6 +21,7 @@ export function CreditConfirmModal({
   amount,
   isSelfPurchase,
 }: CreditConfirmModalProps) {
+  const { t } = useTranslation();
   const [showCodeModal, setShowCodeModal] = useState(false);
 
   // Calcul des frais (exemple: 2% du montant)

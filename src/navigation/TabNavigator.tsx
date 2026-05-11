@@ -1,5 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,11 +10,10 @@ import { COLORS, ROUTES } from '../constants';
 import HistoriqueScreen from '../screens/tab/HistoriqueScreen';
 import HomeScreen from '../screens/tab/HomeScreen';
 import ProfileScreen from '../screens/tab/ProfilScreen';
-import ServiceScreen from '../screens/tab/ServiceScreen';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from './types';
 import QrScannerScreen from '../screens/tab/QrScannerScreen';
+import ServiceScreen from '../screens/tab/ServiceScreen';
+import { RootStackParamList } from './types';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -20,6 +21,7 @@ const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
   const navigation = useNavigation<NavigationProp>();
+  const { t } = useTranslation();
 
   const insets = useSafeAreaInsets();
   
@@ -60,12 +62,12 @@ export default function TabNavigator() {
       <Tab.Screen 
         name={ROUTES.HOME} 
         component={HomeScreen} 
-        options={{ title: 'Accueil' }} 
+        options={{ title: t('home.title') || 'Accueil' }} 
       />
       <Tab.Screen 
         name={ROUTES.HISTORIQUE} 
         component={HistoriqueScreen} 
-        options={{ title: 'Historique' }} 
+        options={{ title: t('history.title') || 'Historique' }} 
       />
       <Tab.Screen 
         name={ROUTES.QRSCAN}
@@ -85,12 +87,12 @@ export default function TabNavigator() {
       <Tab.Screen 
         name={ROUTES.SERVICES} 
         component={ServiceScreen} 
-        options={{ title: 'Services' }} 
+        options={{ title: t('services.title') || 'Services' }} 
       />
       <Tab.Screen 
         name={ROUTES.PROFILE} 
         component={ProfileScreen} 
-        options={{ title: 'Profil' }} 
+        options={{ title: t('profile.title') || 'Profil' }} 
       />
     </Tab.Navigator>
   );

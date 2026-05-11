@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import PurchaseCodeModal from './PurchaseCodeModal';
+import { useTranslation } from 'react-i18next';
 
 interface PurchaseConfirmModalProps {
   visible: boolean;
@@ -32,6 +33,7 @@ export function PurchaseConfirmModal({
   beneficiary,
   purchase,
 }: PurchaseConfirmModalProps) {
+  const { t } = useTranslation();
   const [showCodeModal, setShowCodeModal] = useState(false);
 
   const handleConfirm = () => {
@@ -43,12 +45,12 @@ export function PurchaseConfirmModal({
     setShowCodeModal(false);
   };
 
-  const productLabel = productType === 'esim' ? 'eSim' : 'Gift Card';
+  const productLabel = productType === 'esim' ? 'eSim' : t('purchase.giftCard');
   
   // Déterminer le texte à afficher pour le pays/zone
   const getLocationText = () => {
-    if (typeEsim === 'Global') return 'Monde entier';
-    if (typeEsim === 'Europe') return 'Europe';
+    if (typeEsim === 'Global') return t('purchase.worldwide');
+    if (typeEsim === 'Europe') return t('purchase.europe');
     return country || '';
   };
   
@@ -66,8 +68,8 @@ export function PurchaseConfirmModal({
             {/* Header */}
             <View style={styles.header}>
               <View>
-                <Text style={styles.title}>Confirmer l'achat</Text>
-                <Text style={styles.subtitle}>Vérifiez les informations avant de valider</Text>
+                <Text style={styles.title}>{t('purchase.confirmPurchase')}</Text>
+                <Text style={styles.subtitle}>{t('transfer.verifyBeforeValidating')}</Text>
               </View>
               <TouchableOpacity style={styles.closeButton} onPress={onClose}>
                 <Ionicons name="close" size={scale(24)} color={COLORS.textPrimary} />
@@ -77,19 +79,19 @@ export function PurchaseConfirmModal({
             <ScrollView showsVerticalScrollIndicator={false}>
               {/* Montant principal */}
               <View style={styles.amountContainer}>
-                <Text style={styles.amountLabel}>Montant à payer</Text>
+                <Text style={styles.amountLabel}>{t('purchase.amountToPay')}</Text>
                 <Text style={styles.amount}>{purchase.amountGnf} GNF</Text>
                 <Text style={styles.amountEuro}>{purchase.amount}</Text>
               </View>
 
               {/* Produit */}
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Produit</Text>
+                <Text style={styles.sectionTitle}>{t('purchase.product')}</Text>
                 <View style={styles.card}>
                   <View style={styles.row}>
                     <View style={styles.iconLabel}>
                       <Ionicons name="card-outline" size={scale(20)} color={COLORS.primary} />
-                      <Text style={styles.labelText}>Type</Text>
+                      <Text style={styles.labelText}>{t('credit.type')}</Text>
                     </View>
                     <Text style={styles.valueText}>{productLabel}</Text>
                   </View>
@@ -97,7 +99,7 @@ export function PurchaseConfirmModal({
                   <View style={styles.row}>
                     <View style={styles.iconLabel}>
                       <Ionicons name="pricetag-outline" size={scale(20)} color={COLORS.primary} />
-                      <Text style={styles.labelText}>Service</Text>
+                      <Text style={styles.labelText}>{t('purchase.service')}</Text>
                     </View>
                     <Text style={styles.valueText}>{productName}</Text>
                   </View>
@@ -107,7 +109,7 @@ export function PurchaseConfirmModal({
                       <View style={styles.row}>
                         <View style={styles.iconLabel}>
                           <Ionicons name="globe-outline" size={scale(20)} color={COLORS.primary} />
-                          <Text style={styles.labelText}>Zone</Text>
+                          <Text style={styles.labelText}>{t('purchase.zone')}</Text>
                         </View>
                         <Text style={styles.valueText}>{locationText}</Text>
                       </View>
@@ -118,12 +120,12 @@ export function PurchaseConfirmModal({
 
               {/* Bénéficiaire */}
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Bénéficiaire</Text>
+                <Text style={styles.sectionTitle}>{t('transfer.beneficiary')}</Text>
                 <View style={styles.card}>
                   <View style={styles.row}>
                     <View style={styles.iconLabel}>
                       <Ionicons name="person-outline" size={scale(20)} color={COLORS.primary} />
-                      <Text style={styles.labelText}>Nom</Text>
+                      <Text style={styles.labelText}>{t('transfer.name')}</Text>
                     </View>
                     <Text style={styles.valueText}>{beneficiary.name}</Text>
                   </View>
@@ -131,7 +133,7 @@ export function PurchaseConfirmModal({
                   <View style={styles.row}>
                     <View style={styles.iconLabel}>
                       <Ionicons name="mail-outline" size={scale(20)} color={COLORS.primary} />
-                      <Text style={styles.labelText}>Email</Text>
+                      <Text style={styles.labelText}>{t('transfer.email')}</Text>
                     </View>
                     <Text style={styles.valueText}>{beneficiary.email}</Text>
                   </View>
@@ -142,7 +144,7 @@ export function PurchaseConfirmModal({
               <View style={styles.warningCard}>
                 <Ionicons name="warning-outline" size={scale(20)} color="#856404" />
                 <Text style={styles.warningText}>
-                  Achat non remboursable{showLocation && ` et utilisable uniquement pour ${locationText}`}
+                  {t('purchase.nonRefundable')}{showLocation && ` ${t('purchase.usableOnlyFor')} ${locationText}`}
                 </Text>
               </View>
 
@@ -150,10 +152,10 @@ export function PurchaseConfirmModal({
               <View style={styles.buttonView}>
                 <TouchableOpacity style={styles.backButton} onPress={onClose}>
                   <Feather name="chevron-left" size={scale(20)} color={COLORS.textSecondary} />
-                  <Text style={styles.backText}>Retour</Text>
+                  <Text style={styles.backText}>{t('common.back')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
-                  <Text style={styles.confirmText}>Confirmer</Text>
+                  <Text style={styles.confirmText}>{t('common.confirm')}</Text>
                   <Feather name="arrow-right" size={scale(20)} color={COLORS.primary} />
                 </TouchableOpacity>
               </View>

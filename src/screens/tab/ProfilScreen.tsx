@@ -1,15 +1,15 @@
+import { useLanguage } from '@/src/context/LanguageContext';
 import { Fontisto, Ionicons, SimpleLineIcons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
-import { ScrollView, Share, StatusBar, StyleSheet, Text, TouchableOpacity, View, Alert, Platform } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Alert, Image, Modal, Platform, ScrollView, Share, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { COLORS, ROUTES } from '../../constants';
 import { RootStackParamList } from '../../navigation/types';
-import * as ImagePicker from "expo-image-picker";
-import { Image } from 'react-native';
-import { useLanguage } from '@/src/context/LanguageContext';
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -17,8 +17,9 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 export default function ProfileScreen() {
     const navigation = useNavigation<NavigationProp>();
     const [profileImage, setProfileImage] = useState<string | null>(null);
-    const [selectedLanguage, setSelectedLanguage] = useState('Français');
-    const { currentLanguage, changeLanguage } = useLanguage();
+    const [languageModalVisible, setLanguageModalVisible] = useState(false);
+    const { currentLanguage, changeLanguage, availableLanguages } = useLanguage();
+    const { t } = useTranslation();
 
     const handleShareApp = async () => {
         try {
@@ -59,31 +60,8 @@ export default function ProfileScreen() {
     };
 
     const handleChangeLanguage = () => {
-    Alert.alert(
-        'Changer la langue',
-        'Sélectionnez votre langue',
-        [
-            {
-                text: 'Français 🇫🇷',
-                onPress: async () => {
-                    await changeLanguage('fr');
-                    setSelectedLanguage('Français');
-                },
-            },
-            {
-                text: 'English 🇬🇧',
-                onPress: async () => {
-                    await changeLanguage('en');
-                    setSelectedLanguage('English');
-                },
-            },
-            {
-                text: 'Annuler',
-                style: 'cancel',
-            },
-        ]
-    );
-};
+        setLanguageModalVisible(true);
+    };
 
   return (
     <>
@@ -111,7 +89,7 @@ export default function ProfileScreen() {
                 <Text style={styles.phone}>+224 626 05 80 33</Text>
                 <View style={styles.status}>
                     <Ionicons name='shield-checkmark-outline' size={scale(15)} color={COLORS.success}/>
-                    <Text style={styles.textStatus}>Compte vérifié</Text>
+                    <Text style={styles.textStatus}>{t('profile.verified')}</Text>
                 </View>
             </View>
 
@@ -130,8 +108,8 @@ export default function ProfileScreen() {
                                 <SimpleLineIcons name='credit-card' size={scale(23)} color={COLORS.primary}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Frais</Text>
-                                <Text style={styles.parametres}>Transferts, Paiement...</Text>
+                                <Text style={styles.subtitle}>{t('profile.fees')}</Text>
+                                <Text style={styles.parametres}>{t('profile.feesDesc')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -150,8 +128,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='shield-checkmark-outline' size={scale(23)} color={COLORS.primary}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Sécurité</Text>
-                                <Text style={styles.parametres}>PIN, biométrie</Text>
+                                <Text style={styles.subtitle}>{t('profile.security')}</Text>
+                                <Text style={styles.parametres}>{t('profile.securityDesc')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -170,8 +148,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='location-outline' size={scale(23)} color={COLORS.primary}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Point de service</Text>
-                                <Text style={styles.parametres}>Agences</Text>
+                                <Text style={styles.subtitle}>{t('profile.servicePoints')}</Text>
+                                <Text style={styles.parametres}>{t('profile.servicePointsDesc')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -190,8 +168,8 @@ export default function ProfileScreen() {
                                 <Fontisto name='wallet' size={scale(23)} color={COLORS.primary}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Limites de transfert</Text>
-                                <Text style={styles.parametres}>100 000 000 GNF/mois</Text>
+                                <Text style={styles.subtitle}>{t('profile.limits')}</Text>
+                                <Text style={styles.parametres}>{t('profile.limitsDesc')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -210,8 +188,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='alert-circle-outline' size={scale(23)} color={COLORS.primary}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Conditions</Text>
-                                <Text style={styles.parametres}>Conditions, Politique, A propos</Text>
+                                <Text style={styles.subtitle}>{t('profile.conditions')}</Text>
+                                <Text style={styles.parametres}>{t('profile.conditionsDesc')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -230,8 +208,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='share-social-outline' size={scale(23)} color={COLORS.primary}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Recommander l'application</Text>
-                                <Text style={styles.parametres}>Partager avec vos proches</Text>
+                                <Text style={styles.subtitle}>{t('profile.recommend')}</Text>
+                                <Text style={styles.parametres}>{t('profile.recommendDesc')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -250,8 +228,10 @@ export default function ProfileScreen() {
                                 <Ionicons name='language-outline' size={scale(23)} color={COLORS.primary}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Langue</Text>
-                                <Text style={styles.parametres}>{selectedLanguage}</Text>
+                                <Text style={styles.subtitle}>{t('profile.language')}</Text>
+                                <Text style={styles.parametres}>
+                                    {availableLanguages.find(l => l.code === currentLanguage)?.name || 'Français'}
+                                </Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -270,8 +250,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='notifications-outline' size={scale(23)} color={COLORS.primary}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Notifications</Text>
-                                <Text style={styles.parametres}>Alertes activées</Text>
+                                <Text style={styles.subtitle}>{t('profile.notifications')}</Text>
+                                <Text style={styles.parametres}>{t('profile.notificationsDesc')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -281,6 +261,46 @@ export default function ProfileScreen() {
                 </TouchableOpacity>
             </ScrollView>
         </View>
+
+        <Modal
+            visible={languageModalVisible}
+            transparent
+            animationType="slide"
+            onRequestClose={() => setLanguageModalVisible(false)}
+        >
+            <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                    <Text style={styles.modalTitle}>{t('profile.selectLanguage')}</Text>
+                    
+                    {availableLanguages.map((lang) => (
+                        <TouchableOpacity
+                            key={lang.code}
+                            style={[
+                                styles.languageOption,
+                                currentLanguage === lang.code && styles.selectedOption
+                            ]}
+                            onPress={async () => {
+                                await changeLanguage(lang.code);
+                                setLanguageModalVisible(false);
+                            }}
+                        >
+                            <Text style={styles.flag}>{lang.flag}</Text>
+                            <Text style={styles.languageName}>{lang.name}</Text>
+                            {currentLanguage === lang.code && (
+                                <Ionicons name="checkmark-circle" size={24} color={COLORS.primary} />
+                            )}
+                        </TouchableOpacity>
+                    ))}
+                    
+                    <TouchableOpacity
+                        style={styles.cancelButton}
+                        onPress={() => setLanguageModalVisible(false)}
+                    >
+                        <Text style={styles.cancelButtonText}>{t('common.cancel')}</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </Modal>
     </SafeAreaView>
     </>
   );
@@ -388,5 +408,57 @@ const styles = StyleSheet.create({
         borderRadius: moderateScale(10),
         justifyContent: "center",
         alignItems: "center",
-    }
+    },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'flex-end',
+    },
+    modalContent: {
+        backgroundColor: COLORS.white,
+        borderTopLeftRadius: moderateScale(20),
+        borderTopRightRadius: moderateScale(20),
+        padding: scale(20),
+        paddingBottom: verticalScale(30),
+    },
+    modalTitle: {
+        fontSize: moderateScale(20),
+        fontWeight: '700',
+        color: COLORS.textPrimary,
+        marginBottom: verticalScale(20),
+        textAlign: 'center',
+    },
+    languageOption: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: scale(15),
+        borderRadius: moderateScale(12),
+        backgroundColor: COLORS.background,
+        marginBottom: verticalScale(10),
+        gap: scale(15),
+    },
+    selectedOption: {
+        backgroundColor: COLORS.secondary,
+        borderWidth: 2,
+        borderColor: COLORS.primary,
+    },
+    flag: {
+        fontSize: moderateScale(32),
+    },
+    languageName: {
+        flex: 1,
+        fontSize: moderateScale(16),
+        fontWeight: '600',
+        color: COLORS.textPrimary,
+    },
+    cancelButton: {
+        marginTop: verticalScale(10),
+        padding: scale(15),
+        alignItems: 'center',
+    },
+    cancelButtonText: {
+        fontSize: moderateScale(16),
+        color: COLORS.textSecondary,
+        fontWeight: '600',
+    },
 });

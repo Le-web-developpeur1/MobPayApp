@@ -2,14 +2,16 @@ import Securite from '@/src/components/profil/Securite';
 import HeaderScreen from '@/src/components/ui/HeaderScreen';
 import { COLORS } from '@/src/constants';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 
 export default function SecuriteScreen() {
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
-        <HeaderScreen title='Sécurité'/>
+        <HeaderScreen title={t('profile.security')}/>
         <View style={styles.container}>
             <Securite/>
         </View>

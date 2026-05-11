@@ -7,10 +7,12 @@ import React, { useState } from "react";
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import CodeModal from "./CodeModal";
+import { useTranslation } from "react-i18next";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isInternational, country, amountReceived, exchangeRate, transactionType = 'cashmoov' }: ConfirmModalProps) {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const [show, setShow] = useState(false);
 
@@ -35,9 +37,9 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
             <View style={styles.header}>
               <View>
                 <Text style={styles.title}>
-                  {isInternational ? 'Transfert International' : 'Confirmer le transfert'}
+                  {isInternational ? t('transfer.internationalTransfer') : t('transfer.confirmTransfer')}
                 </Text>
-                <Text style={styles.subtitle}>Vérifiez les informations avant d'envoyer</Text>
+                <Text style={styles.subtitle}>{t('transfer.verifyBeforeSending')}</Text>
               </View>
               <TouchableOpacity style={styles.closeButton} onPress={onClose}>
                 <Ionicons name="close" size={scale(24)} color={COLORS.textPrimary}/>
@@ -47,7 +49,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
             <ScrollView showsVerticalScrollIndicator={false}>
               {/* Montant principal */}
               <View style={styles.amountContainer}>
-                <Text style={styles.amountLabel}>Montant à envoyer</Text>
+                <Text style={styles.amountLabel}>{t('transfer.amountToSend')}</Text>
                 <Text style={styles.amount}>{transaction.montant} GNF</Text>
                 {isInternational && amountReceived && (
                   <Text style={styles.amountReceived}>≈ {amountReceived}</Text>
@@ -56,14 +58,14 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
 
               {/* Bénéficiaire */}
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Bénéficiaire</Text>
+                <Text style={styles.sectionTitle}>{t('transfer.beneficiary')}</Text>
                 <View style={styles.card}>
                   {isInternational && country && (
                     <>
                       <View style={styles.row}>
                         <View style={styles.iconLabel}>
                           <Ionicons name="globe-outline" size={scale(20)} color={COLORS.primary}/>
-                          <Text style={styles.labelText}>Pays</Text>
+                          <Text style={styles.labelText}>{t('transfer.country')}</Text>
                         </View>
                         <Text style={styles.valueText}>{country}</Text>
                       </View>
@@ -73,7 +75,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
                   <View style={styles.row}>
                     <View style={styles.iconLabel}>
                       <Ionicons name="person-outline" size={scale(20)} color={COLORS.primary}/>
-                      <Text style={styles.labelText}>Nom complet</Text>
+                      <Text style={styles.labelText}>{t('transfer.fullName')}</Text>
                     </View>
                     <Text style={styles.valueText}>{beneficiaire.name}</Text>
                   </View>
@@ -81,7 +83,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
                   <View style={styles.row}>
                     <View style={styles.iconLabel}>
                       <Ionicons name="call-outline" size={scale(20)} color={COLORS.primary}/>
-                      <Text style={styles.labelText}>Numéro</Text>
+                      <Text style={styles.labelText}>{t('transfer.number')}</Text>
                     </View>
                     <Text style={styles.valueText}>{beneficiaire.phone}</Text>
                   </View>
@@ -90,14 +92,14 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
 
               {/* Détails de la transaction */}
               <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Détails de la transaction</Text>
+                <Text style={styles.sectionTitle}>{t('transfer.transactionDetails')}</Text>
                 <View style={styles.card}>
                   {isInternational && exchangeRate && (
                     <>
                       <View style={styles.row}>
                         <View style={styles.iconLabel}>
                           <Ionicons name="swap-horizontal-outline" size={scale(20)} color={COLORS.textSecondary}/>
-                          <Text style={styles.labelText}>Taux de change</Text>
+                          <Text style={styles.labelText}>{t('transfer.exchangeRate')}</Text>
                         </View>
                         <Text style={styles.valueText}>{exchangeRate}</Text>
                       </View>
@@ -107,7 +109,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
                   <View style={styles.row}>
                     <View style={styles.iconLabel}>
                       <Ionicons name="cash-outline" size={scale(20)} color={COLORS.textSecondary}/>
-                      <Text style={styles.labelText}>Frais de transfert</Text>
+                      <Text style={styles.labelText}>{t('transfer.transferFees')}</Text>
                     </View>
                     <Text style={styles.valueText}>{transaction.frais} GNF</Text>
                   </View>
@@ -115,7 +117,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
                   <View style={styles.row}>
                     <View style={styles.iconLabel}>
                       <Ionicons name="receipt-outline" size={scale(20)} color={COLORS.textSecondary}/>
-                      <Text style={styles.labelText}>Taxe</Text>
+                      <Text style={styles.labelText}>{t('transfer.tax')}</Text>
                     </View>
                     <Text style={styles.valueText}>{transaction.taxe}</Text>
                   </View>
@@ -124,7 +126,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
 
               {/* Total */}
               <View style={styles.totalCard}>
-                <Text style={styles.totalLabel}>Total à débiter</Text>
+                <Text style={styles.totalLabel}>{t('transfer.totalToDebit')}</Text>
                 <Text style={styles.totalValue}>{transaction.total} GNF</Text>
               </View>
 
@@ -132,13 +134,13 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
               <View style={styles.buttonView}>
                 <TouchableOpacity style={styles.backButton} onPress={onClose}>
                   <Feather name="chevron-left" size={scale(20)} color={COLORS.textSecondary}/>
-                  <Text style={styles.backText}>Retour</Text>
+                  <Text style={styles.backText}>{t('common.back')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                   style={styles.confirmButton}
                   onPress={handleConfirm}
                 >
-                  <Text style={styles.confirmText}>Confirmer</Text>
+                  <Text style={styles.confirmText}>{t('common.confirm')}</Text>
                   <Feather name="arrow-right" size={scale(20)} color={COLORS.primary}/>
                 </TouchableOpacity>
               </View>
@@ -172,11 +174,12 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
 }
 
 export function Confirm() {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => setVisible(true)} style={styles.openButton}>
-        <Text style={{ color: COLORS.white, fontWeight: "bold" }}>Ouvrir Modal</Text>
+        <Text style={{ color: COLORS.white, fontWeight: "bold" }}>{t('common.openModal')}</Text>
       </TouchableOpacity>
       <ConfirmModal
         visible={visible}

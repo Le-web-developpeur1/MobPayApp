@@ -8,6 +8,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import HeaderScreen from '../../components/ui/HeaderScreen';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -18,6 +19,7 @@ interface Service {
 }
 
 export default function OptionTransfert() {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
   const { country } = route.params as { country: string };
@@ -48,9 +50,9 @@ export default function OptionTransfert() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <HeaderScreen title={`Transfert vers ${country}`} />
+      <HeaderScreen title={`${t('transfer.transferTo')} ${country}`} />
       <View style={styles.container}>
-        <Text style={styles.subtitle}>Choisissez un service</Text>
+        <Text style={styles.subtitle}>{t('transfer.chooseService')}</Text>
 
         {available.length > 0 ? (
           <View style={styles.servicesGrid}>
@@ -71,8 +73,8 @@ export default function OptionTransfert() {
         ) : (
           <View style={styles.noServiceContainer}>
             <Ionicons name="alert-circle-outline" size={moderateScale(60)} color={COLORS.textSecondary} />
-            <Text style={styles.noServiceText}>Aucun service disponible</Text>
-            <Text style={styles.noServiceSubtext}>pour {country}</Text>
+            <Text style={styles.noServiceText}>{t('transfer.noServiceAvailable')}</Text>
+            <Text style={styles.noServiceSubtext}>{t('transfer.for')} {country}</Text>
           </View>
         )}
       </View>

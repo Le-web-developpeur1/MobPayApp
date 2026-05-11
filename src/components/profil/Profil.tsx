@@ -1,17 +1,18 @@
+import { RootStackParamList } from '@/src/navigation/types';
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { scale, moderateScale, verticalScale } from 'react-native-size-matters';
-import { ScrollView } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from 'expo-router';
-import { RootStackParamList } from '@/src/navigation/types';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function ProfileScreen() {
     const navigation = useNavigation<NavigationProp>();
+    const { t } = useTranslation();
 
   return (
     <SafeAreaView
@@ -19,7 +20,7 @@ export default function ProfileScreen() {
         edges={['top']}
     >
         <View style={styles.container}>
-            <Text style={styles.title}>Profil</Text>
+            <Text style={styles.title}>{t('profile.profile')}</Text>
             <View style={styles.info}>
                 <View style={styles.photoProfil}>
                     <Text style={{ fontSize: moderateScale(25), color: "white"}}>BB</Text>
@@ -29,7 +30,7 @@ export default function ProfileScreen() {
                 <Text style={styles.phone}>+224 626 05 80 33</Text>
                 <View style={styles.status}>
                     <Ionicons name='shield-checkmark-outline' size={scale(15)} color={"white"}/>
-                    <Text style={styles.textStatus}>Compte vérifié</Text>
+                    <Text style={styles.textStatus}>{t('profile.verifiedAccount')}</Text>
                 </View>
             </View>
 
@@ -45,8 +46,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Frais</Text>
-                                <Text style={styles.parametres}>Transferts, Paiement...</Text>
+                                <Text style={styles.subtitle}>{t('profile.fees')}</Text>
+                                <Text style={styles.parametres}>{t('profile.transfersPayments')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -65,8 +66,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Sécurité</Text>
-                                <Text style={styles.parametres}>PIN, biométrie</Text>
+                                <Text style={styles.subtitle}>{t('profile.security')}</Text>
+                                <Text style={styles.parametres}>{t('profile.pinBiometric')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -82,8 +83,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Point de service</Text>
-                                <Text style={styles.parametres}>Agences</Text>
+                                <Text style={styles.subtitle}>{t('profile.servicePoints')}</Text>
+                                <Text style={styles.parametres}>{t('profile.agencies')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -102,8 +103,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Limites de transfert</Text>
-                                <Text style={styles.parametres}>100 000 000 GNF/mois</Text>
+                                <Text style={styles.subtitle}>{t('profile.transferLimits')}</Text>
+                                <Text style={styles.parametres}>100 000 000 GNF/{t('profile.month')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -119,8 +120,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Conditions</Text>
-                                <Text style={styles.parametres}>Conditions, Politique, A propos</Text>
+                                <Text style={styles.subtitle}>{t('profile.terms')}</Text>
+                                <Text style={styles.parametres}>{t('profile.termsPrivacyAbout')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -139,8 +140,8 @@ export default function ProfileScreen() {
                                 <Ionicons name='notifications-outline' size={scale(23)} color={"white"}/>
                             </View>
                             <View>
-                                <Text style={styles.subtitle}>Notifications</Text>
-                                <Text style={styles.parametres}>Alertes activées</Text>
+                                <Text style={styles.subtitle}>{t('profile.notifications')}</Text>
+                                <Text style={styles.parametres}>{t('profile.alertsEnabled')}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>

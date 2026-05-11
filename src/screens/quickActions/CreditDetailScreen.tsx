@@ -16,8 +16,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
-import HeaderScreen from '../../components/ui/HeaderScreen';
 import { CreditConfirmModal } from '../../components/modals/CreditConfirmModal';
+import HeaderScreen from '../../components/ui/HeaderScreen';
+import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type DetailCreditRouteProp = RouteProp<RootStackParamList, 'CreditDetail'>;
@@ -32,6 +33,7 @@ const credit = [
 ];
 
 export default function CreditDetailScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<DetailCreditRouteProp>();
 
@@ -58,7 +60,7 @@ export default function CreditDetailScreen() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <HeaderScreen title="Achat de crédits" />
+      <HeaderScreen title={t('credit.creditPurchase')} />
       <KeyboardAvoidingView
         style={styles.keyboardView}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -74,7 +76,7 @@ export default function CreditDetailScreen() {
               <View style={styles.inputWrapper}>
                 <TextInput
                   style={styles.input}
-                  placeholder="Numéro du bénéficiaire"
+                  placeholder={t('credit.beneficiaryNumber')}
                   keyboardType="phone-pad"
                   value={phone}
                   onChangeText={setPhone}
@@ -95,7 +97,7 @@ export default function CreditDetailScreen() {
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
-                placeholder="Montant à envoyer"
+                placeholder={t('credit.amountToSend')}
                 value={amount}
                 onChangeText={setAmount}
                 keyboardType="numeric"
@@ -129,7 +131,7 @@ export default function CreditDetailScreen() {
               disabled={!amount}
               activeOpacity={0.8}
             >
-              <Text style={styles.continuerText}>Continuer</Text>
+              <Text style={styles.continuerText}>{t('common.continue')}</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>

@@ -7,36 +7,38 @@ import { Dimensions, FlatList, Platform, StyleSheet, Text, TouchableOpacity, Vie
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
+import { useTranslation } from 'react-i18next';
 
 const { width } = Dimensions.get('window');
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const slides = [
-  {
-    id: '1',
-    title: 'Transferts rapides',
-    description: 'Envoyez et recevez de l\'argent en quelques secondes partout en Guinée',
-    icon: 'flash-outline',
-  },
-  {
-    id: '2',
-    title: 'Paiements sécurisés',
-    description: 'Payez vos factures, achats et services en toute sécurité',
-    icon: 'shield-checkmark-outline',
-  },
-  {
-    id: '3',
-    title: 'Gestion simplifiée',
-    description: 'Suivez toutes vos transactions et gérez votre argent facilement',
-    icon: 'wallet-outline',
-  },
-];
-
 export default function OnboardingScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
+
+  const slides = [
+    {
+      id: '1',
+      title: t('onboarding.slide1Title'),
+      description: t('onboarding.slide1Desc'),
+      icon: 'flash-outline',
+    },
+    {
+      id: '2',
+      title: t('onboarding.slide2Title'),
+      description: t('onboarding.slide2Desc'),
+      icon: 'shield-checkmark-outline',
+    },
+    {
+      id: '3',
+      title: t('onboarding.slide3Title'),
+      description: t('onboarding.slide3Desc'),
+      icon: 'wallet-outline',
+    },
+  ];
 
   const handleNext = () => {
     if (currentIndex < slides.length - 1) {
@@ -63,7 +65,7 @@ export default function OnboardingScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
-        <Text style={styles.skipText}>Passer</Text>
+        <Text style={styles.skipText}>{t('common.skip')}</Text>
       </TouchableOpacity>
 
       <FlatList
@@ -84,7 +86,7 @@ export default function OnboardingScreen() {
 
         <TouchableOpacity style={styles.button} onPress={handleNext}>
           <Text style={styles.buttonText}>
-            {currentIndex === slides.length - 1 ? 'Commencer' : 'Suivant'}
+            {currentIndex === slides.length - 1 ? t('common.start') : t('common.next')}
           </Text>
           <Ionicons name="arrow-forward" size={scale(20)} color={COLORS.white} />
         </TouchableOpacity>

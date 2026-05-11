@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import DetailTransaction from '../../components/modals/DetailTransactionModal';
 import { COLORS } from '../../constants';
+import { useTranslation } from 'react-i18next';
 
 const week = [
     {
@@ -117,6 +118,7 @@ const year = [
 ];
 
 export default function HistoriqueScreen() {
+    const { t } = useTranslation();
     const [activTab, setActivTab] = useState<"all" | "week" | "month" | "year">("all");
     const data = activTab === "all" ? all : activTab === "week" ? week : activTab === "month" ? month : year;
     const [modalVisible, setModalVisible] = useState(false);
@@ -134,8 +136,8 @@ export default function HistoriqueScreen() {
         <View style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <Text style={styles.title}>Historique</Text>
-                <Text style={styles.subtitle}>Toutes vos transactions</Text>
+                <Text style={styles.title}>{t('history.title')}</Text>
+                <Text style={styles.subtitle}>{t('history.allTransactions')}</Text>
             </View>
 
             {/* Cartes de résumé */}
@@ -144,18 +146,18 @@ export default function HistoriqueScreen() {
                     <View style={[styles.iconCircle, { backgroundColor: COLORS.successLight }]}>
                         <Feather name="arrow-down-left" size={scale(18)} color={COLORS.success} />
                     </View>
-                    <Text style={styles.summaryLabel}>Total reçu</Text>
+                    <Text style={styles.summaryLabel}>{t('history.totalReceived')}</Text>
                     <Text style={styles.summaryAmount}>1 500 000</Text>
-                    <Text style={styles.summaryCurrency}>GNF ce mois</Text>
+                    <Text style={styles.summaryCurrency}>GNF {t('history.thisMonth')}</Text>
                 </View>
                 
                 <View style={styles.summaryCard}>
                     <View style={[styles.iconCircle, { backgroundColor: COLORS.errorLight }]}>
                         <Feather name="arrow-up-right" size={scale(18)} color={COLORS.error} />
                     </View>
-                    <Text style={styles.summaryLabel}>Total envoyé</Text>
+                    <Text style={styles.summaryLabel}>{t('history.totalSent')}</Text>
                     <Text style={styles.summaryAmount}>1 500 000</Text>
-                    <Text style={styles.summaryCurrency}>GNF ce mois</Text>
+                    <Text style={styles.summaryCurrency}>GNF {t('history.thisMonth')}</Text>
                 </View>
             </View>
 
@@ -166,7 +168,7 @@ export default function HistoriqueScreen() {
                     onPress={() => setActivTab("all")}
                 >
                     <Text style={[styles.filterText, activTab === "all" && styles.filterTextActive]}>
-                        Tout
+                        {t('history.all')}
                     </Text>
                 </TouchableOpacity>
 
@@ -175,7 +177,7 @@ export default function HistoriqueScreen() {
                     onPress={() => setActivTab("week")}
                 >
                     <Text style={[styles.filterText, activTab === "week" && styles.filterTextActive]}>
-                        Semaine
+                        {t('history.week')}
                     </Text>
                 </TouchableOpacity>
 
@@ -184,7 +186,7 @@ export default function HistoriqueScreen() {
                     onPress={() => setActivTab("month")}
                 >
                     <Text style={[styles.filterText, activTab === "month" && styles.filterTextActive]}>
-                        Mois
+                        {t('history.month')}
                     </Text>
                 </TouchableOpacity>
 
@@ -193,7 +195,7 @@ export default function HistoriqueScreen() {
                     onPress={() => setActivTab("year")}
                 >
                     <Text style={[styles.filterText, activTab === "year" && styles.filterTextActive]}>
-                        Année
+                        {t('history.year')}
                     </Text>
                 </TouchableOpacity>
             </View>

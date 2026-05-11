@@ -3,17 +3,21 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useRef, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+const DEFAULT_PIN = '1234'; // PIN par défaut pour le développement
+
 export default function LoginPinScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
   const { phone } = route.params as { phone: string };
+  const { t } = useTranslation();
 
   const [pin, setPin] = useState(['', '', '', '']);
   const inputRefs = useRef<Array<TextInput | null>>([]);
@@ -46,28 +50,28 @@ export default function LoginPinScreen() {
 
   const handleLogin = (fullPin: string) => {
     if (fullPin.length !== 4) {
-      Alert.alert('Erreur', 'Veuillez saisir votre code PIN');
+      Alert.alert(t('common.error'), t('auth.enterPinError'));
       return;
     }
     
     if (fullPin === DEFAULT_PIN) {
       Alert.alert(
-        'Succès',
-        'Connexion réussie'
+        t('common.success'),
+        t('auth.loginSuccess')
       );
       navigation.reset({
         index: 0,
         routes: [{ name: ROUTES.MAIN}],
       });
     } else {
-      Alert.alert("Erreur", "Code PIN incorrect");
+      Alert.alert(t('common.error'), t('auth.pinIncorrect'));
       setPin(["", "", "", ""]);
       inputRefs.current[0]?.focus();
     }
   };
 
   const handleForgotPin = () => {
-    Alert.alert('PIN oublié', 'Contactez le service client pour réinitialiser votre PIN');
+    Alert.alert(t('auth.forgotPin'), t('auth.forgotPinMessage'));
   };
 
   return (
@@ -76,7 +80,7 @@ export default function LoginPinScreen() {
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={scale(24)} color={COLORS.textPrimary} />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Connexion</Text>
+        <Text style={styles.headerTitle}>{t('auth.login')}</Text>
         <View style={{ width: scale(24) }} />
       </View>
 
@@ -93,9 +97,9 @@ export default function LoginPinScreen() {
               <Ionicons name="lock-closed-outline" size={scale(60)} color={COLORS.primary} />
             </View>
 
-            <Text style={styles.title}>Entrez votre PIN</Text>
+            <Text style={styles.title}>{t('auth.enterPin')}</Text>
             <Text style={styles.subtitle}>
-              Saisissez votre code PIN pour accéder à votre compte
+              {t('auth.enterPinSubtitle')}
             </Text>
             <Text style={styles.phone}>{phone}</Text>
 
@@ -117,14 +121,14 @@ export default function LoginPinScreen() {
             </View>
 
             <TouchableOpacity onPress={handleForgotPin}>
-              <Text style={styles.forgotPin}>PIN oublié ?</Text>
+              <Text style={styles.forgotPin}>{t('auth.forgotPin')}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.button}
               onPress={() => handleLogin(pin.join(''))}
             >
-              <Text style={styles.buttonText}>Se connecter</Text>
+              <Text style={styles.buttonText}>{t('auth.login')}</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
