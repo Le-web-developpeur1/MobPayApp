@@ -71,10 +71,9 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.overlay}>
         <View style={styles.container}>
-          {/* Handle bar */}
+          
           <View style={styles.handleBar} />
 
-          {/* Header */}
           <View style={styles.header}>
             <Text style={styles.title}>
               {isInternational ? 'Transfert International' : 'Détails de la transaction'}
@@ -133,7 +132,6 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
                 <Text style={styles.buttonPrimaryText}>Partager</Text>
               </TouchableOpacity>
             </View>
-          
         </View>
       </View>
     </Modal>

@@ -35,6 +35,8 @@ export default function CreatePinScreen() {
 
     if (pin !== confirmPin) {
       Alert.alert(t('common.error'), 'Les PINs ne correspondent pas');
+      setPin("");
+      setConfirmPin("");
       return;
     }
 
@@ -45,7 +47,7 @@ export default function CreatePinScreen() {
       [
         {
           text: t('common.ok'),
-          onPress: () => navigation.navigate(ROUTES.MAIN),
+          onPress: () => navigation.navigate(ROUTES.LOGIN_PIN, {phone}),
         },
       ]
     );

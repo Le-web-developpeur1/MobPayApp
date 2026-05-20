@@ -4,12 +4,12 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { ConfirmModal } from '../../components/modals/ConfirmModal';
 import HeaderScreen from '../../components/ui/HeaderScreen';
-import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type DetailsInterRouteProp = RouteProp<RootStackParamList, 'DetailsInternational'>;
@@ -74,7 +74,7 @@ export default function DetailsInternational() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <HeaderScreen title="Transfert International" />
+      <HeaderScreen title={t('transfer.internationalTransfer')} />
       <KeyboardAvoidingView
         style={styles.keyboardView}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -85,7 +85,7 @@ export default function DetailsInternational() {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.container}>
-            <Text style={styles.sectionTitle}>Détails du bénéficiaire</Text>
+            <Text style={styles.sectionTitle}>{t('transfer.beneficiaryDetails')}</Text>
 
             <View style={styles.inputWrapper}>
               <TextInput
@@ -99,7 +99,7 @@ export default function DetailsInternational() {
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
-                placeholder="Numéro du bénéficiaire"
+                placeholder={t('transfer.beneficiaryNumber')}
                 keyboardType="phone-pad"
                 value={phone}
                 onChangeText={setPhone}
@@ -113,19 +113,19 @@ export default function DetailsInternational() {
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
-                placeholder="Prénom et Nom"
+                placeholder={t('transfer.firstAndLastName')}
                 value={name}
                 onChangeText={setName}
                 placeholderTextColor={COLORS.textSecondary}
               />
             </View>
 
-            <Text style={styles.sectionTitle}>Montant du transfert</Text>
+            <Text style={styles.sectionTitle}>{t('transfer.transferAmount')}</Text>
 
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
-                placeholder="Montant en GNF"
+                placeholder={t('transfer.amountInGNF')}
                 keyboardType="numeric"
                 value={gnf}
                 onChangeText={handleGnfChange}
@@ -137,7 +137,7 @@ export default function DetailsInternational() {
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
-                placeholder="Montant en XOF"
+                placeholder={t('transfer.amountInXOF')}
                 keyboardType="numeric"
                 value={xof}
                 onChangeText={handleXofChange}
@@ -149,21 +149,21 @@ export default function DetailsInternational() {
             {calcul && (
               <View style={styles.fraisCard}>
                 <View style={styles.fraisRow}>
-                  <Text style={styles.fraisLabel}>Taux de change</Text>
+                  <Text style={styles.fraisLabel}>{t('transfer.exchangeRate')}</Text>
                   <Text style={styles.fraisValue}>{tauxValue}</Text>
                 </View>
                 <View style={styles.divider} />
                 <View style={styles.fraisRow}>
-                  <Text style={styles.fraisLabel}>Frais</Text>
+                  <Text style={styles.fraisLabel}>{t('transfer.fees')}</Text>
                   <Text style={styles.fraisValue}>{formatNumber(fraisValue)} GNF</Text>
                 </View>
                 <View style={styles.fraisRow}>
-                  <Text style={styles.fraisLabel}>Taxe</Text>
+                  <Text style={styles.fraisLabel}>{t('transfer.tax')}</Text>
                   <Text style={styles.fraisValue}>{taxeValue} GNF</Text>
                 </View>
                 <View style={styles.divider} />
                 <View style={styles.fraisRow}>
-                  <Text style={styles.totalLabel}>Montant à facturer</Text>
+                  <Text style={styles.totalLabel}>{t('transfer.amountToBill')}</Text>
                   <Text style={styles.totalValue}>{formatNumber(montantFacturer)} GNF</Text>
                 </View>
               </View>
@@ -171,7 +171,7 @@ export default function DetailsInternational() {
 
             {!calcul ? (
               <TouchableOpacity style={styles.button} onPress={handleCalcul} activeOpacity={0.8}>
-                <Text style={styles.buttonText}>Calculer</Text>
+                <Text style={styles.buttonText}>{t('transfer.calculate')}</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
@@ -179,7 +179,7 @@ export default function DetailsInternational() {
                 onPress={() => setVisible(true)}
                 activeOpacity={0.8}
               >
-                <Text style={styles.buttonText}>Suivant</Text>
+                <Text style={styles.buttonText}>{t('common.next')}</Text>
               </TouchableOpacity>
             )}
           </View>
