@@ -3,6 +3,7 @@ import { RootStackParamList } from '@/src/navigation/types';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
@@ -78,6 +79,7 @@ const countries = [
 ];
 
 export default function CountrySelector({ type }: CountrySelectorProps) {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const [search, setSearch] = useState("");
 
@@ -106,11 +108,11 @@ export default function CountrySelector({ type }: CountrySelectorProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>Veuillez choisir un pays</Text>
+      <Text style={styles.subtitle}>{t('auth.chooseCountry')}</Text>
       
       <TextInput
         style={styles.searchInput}
-        placeholder="Rechercher un pays"
+        placeholder={t('transfer.searchCountry')}
         value={search}
         onChangeText={setSearch}
         placeholderTextColor={COLORS.textSecondary}
@@ -134,7 +136,7 @@ export default function CountrySelector({ type }: CountrySelectorProps) {
 
         {filteredCountries.length === 0 && (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>Aucun pays trouvé</Text>
+            <Text style={styles.emptyText}>{t('transfer.noCountryFound')}</Text>
           </View>
         )}
       </ScrollView>

@@ -20,7 +20,7 @@ export default function ChangePinScreen() {
 
   const handleChangePin = () => {
     if (!currentPin || !newPin || !confirmPin) {
-      Alert.alert(t('common.error'), 'Veuillez remplir tous les champs');
+      Alert.alert(t('common.error'), t('auth.fillAllFields'));
       return;
     }
 
@@ -42,7 +42,7 @@ export default function ChangePinScreen() {
     // Simulation de changement de PIN
     Alert.alert(
       t('common.success'),
-      'Votre PIN a été modifié avec succès',
+      t('auth.pinChangedSuccess'),
       [
         {
           text: t('common.ok'),

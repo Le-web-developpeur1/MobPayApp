@@ -2,6 +2,7 @@ import { COLORS, ROUTES } from '@/src/constants';
 import { RootStackParamList } from '@/src/navigation/types';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -9,33 +10,35 @@ import HeaderScreen from '../../components/ui/HeaderScreen';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-const paiementService = [
+const getPaiementService = (t: any) => [
   { 
     label: "e-Sim", 
     img: require("@/assets/images/paiement/esim.jpg"), 
     type: "esim" as const,
-    description: "Achetez des forfaits eSIM pour rester connecté partout dans le monde"
+    description: t('purchase.eSimDesc')
   },
   { 
     label: "Gift Card", 
     img: require("@/assets/images/paiement/giftcard.png"), 
     type: "giftcard" as const,
-    description: "Payez en ligne sans carte bancaire sur vos plateformes préférées"
+    description: t('purchase.giftCardDesc')
   },
 ];
 
 export default function PaiementProduitScreen() {
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
+  const paiementService = getPaiementService(t);
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
-      <HeaderScreen title="Produits digitaux" />
+      <HeaderScreen title={t('purchase.digitalProducts')} />
       <View style={styles.container}>
         <ScrollView 
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.scrollContent}
         >
-          <Text style={styles.title}>Veuillez choisir un service</Text>
+          <Text style={styles.title}>{t('purchase.chooseService')}</Text>
           
           <View style={styles.grid}>
             {paiementService.map((service, index) => (

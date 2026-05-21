@@ -47,7 +47,7 @@ export default function VerificationScreen() {
       // Simulation de vérification - Navigation vers création de PIN
       Alert.alert(
         t('common.success'),
-        'Votre numéro a été vérifié avec succès',
+        t('auth.numberVerifiedSuccess'),
         [
           {
             text: t('common.ok'),

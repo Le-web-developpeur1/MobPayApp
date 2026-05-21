@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
@@ -12,12 +13,12 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type TransferType = "Envoi" | "EnvoiOM" | "ReceptionOM";
 
 export default function TransfertOption() {
-
+  const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>National</Text>
+      <Text style={styles.sectionTitle}>{t('transfer.national')}</Text>
       
       <View style={styles.row}>
         <TouchableOpacity 
@@ -33,8 +34,8 @@ export default function TransfertOption() {
               style={styles.logo}
             />
           </View>
-          <Text style={styles.cardTitle}>Cash Moov</Text>
-          <Text style={styles.cardDescription}>Instantané</Text>
+          <Text style={styles.cardTitle}>{t('transfer.cashMoov')}</Text>
+          <Text style={styles.cardDescription}>{t('transfer.instantaneous')}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity 
@@ -50,8 +51,8 @@ export default function TransfertOption() {
               style={styles.logo}
             />
           </View>
-          <Text style={styles.cardTitle}>Envoyez vers</Text>
-          <Text style={styles.cardDescription}>Orange Money</Text>
+          <Text style={styles.cardTitle}>{t('transfer.sendToOM')}</Text>
+          <Text style={styles.cardDescription}>{t('transfer.orangeMoney')}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity 
@@ -67,12 +68,12 @@ export default function TransfertOption() {
               style={styles.logo}
             />
           </View>
-          <Text style={styles.cardTitle}>Récevez depuis</Text>
-          <Text style={styles.cardDescription}>Orange Money</Text>
+          <Text style={styles.cardTitle}>{t('transfer.receiveFromOM')}</Text>
+          <Text style={styles.cardDescription}>{t('transfer.orangeMoney')}</Text>
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.sectionTitle}>International</Text>
+      <Text style={styles.sectionTitle}>{t('transfer.international')}</Text>
 
       <TouchableOpacity 
         style={styles.internationalCard} 
@@ -83,8 +84,8 @@ export default function TransfertOption() {
           <Ionicons name="globe" size={moderateScale(32)} color={COLORS.primary}/>
         </View>
         <View style={styles.cardContent}>
-          <Text style={styles.cardTitle}>International</Text>
-          <Text style={styles.cardDescription}>Envoi vers l'étranger • 24-48h</Text>
+          <Text style={styles.cardTitle}>{t('transfer.international')}</Text>
+          <Text style={styles.cardDescription}>{t('transfer.sendAbroad24h')}</Text>
         </View>
         <Ionicons name="chevron-forward" size={moderateScale(24)} color={COLORS.textSecondary}/>
       </TouchableOpacity>

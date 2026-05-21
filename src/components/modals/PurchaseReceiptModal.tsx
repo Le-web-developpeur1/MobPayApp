@@ -5,6 +5,7 @@ import React, { useRef } from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
+import { copyTransactionId } from '@/src/utils/clipboard';
 
 interface PurchaseReceiptModalProps {
   visible: boolean;
@@ -137,7 +138,7 @@ export default function PurchaseReceiptModal({
 
           {/* Actions EN DEHORS de la capture */}
           <View style={styles.actions}>
-            <TouchableOpacity style={styles.buttonOutline}>
+            <TouchableOpacity style={styles.buttonOutline} onPress={() => copyTransactionId(transactionId)}>
               <Feather name="copy" size={scale(20)} color={COLORS.primary} />
               <Text style={styles.buttonOutlineText}>Copier l'ID</Text>
             </TouchableOpacity>

@@ -1,6 +1,7 @@
 import { COLORS } from '@/src/constants';
 import React, { useState } from 'react';
-import { FlatList, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
+import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 export interface Country {
@@ -82,6 +83,7 @@ interface CountryCodePickerProps {
 }
 
 export default function CountryCodePicker({ selectedCountry, onSelectCountry }: CountryCodePickerProps) {
+  const { t } = useTranslation();
   const [modalVisible, setModalVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -135,7 +137,7 @@ export default function CountryCodePicker({ selectedCountry, onSelectCountry }: 
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Sélectionner un pays</Text>
+              <Text style={styles.modalTitle}>{t('auth.selectCountry')}</Text>
               <TouchableOpacity onPress={() => setModalVisible(false)}>
                 <Text style={styles.closeButton}>✕</Text>
               </TouchableOpacity>
@@ -148,7 +150,7 @@ export default function CountryCodePicker({ selectedCountry, onSelectCountry }: 
               showsVerticalScrollIndicator={false}
               ListEmptyComponent={
                 <View style={styles.emptyContainer}>
-                  <Text style={styles.emptyText}>Aucun pays trouvé</Text>
+                  <Text style={styles.emptyText}>{t('transfer.noServiceAvailable')}</Text>
                 </View>
               }
             />

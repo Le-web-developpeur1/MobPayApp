@@ -1,10 +1,10 @@
 import { COLORS } from '@/src/constants';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import CreditCodeModal from './CreditCodeModal';
-import { useTranslation } from 'react-i18next';
 
 interface CreditConfirmModalProps {
   visible: boolean;
@@ -49,8 +49,8 @@ export function CreditConfirmModal({
             {/* Header */}
             <View style={styles.header}>
               <View>
-                <Text style={styles.title}>Confirmer l'achat</Text>
-                <Text style={styles.subtitle}>Vérifiez les informations avant de valider</Text>
+                <Text style={styles.title}>{t('credit.confirmPurchase')}</Text>
+                <Text style={styles.subtitle}>{t('transfer.verifyBeforeValidating')}</Text>
               </View>
               <TouchableOpacity style={styles.closeButton} onPress={onClose}>
                 <Ionicons name="close" size={scale(24)} color={COLORS.textPrimary} />
@@ -127,7 +127,7 @@ export function CreditConfirmModal({
                   <Text style={styles.backText}>Retour</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
-                  <Text style={styles.confirmText}>Confirmer</Text>
+                  <Text style={styles.confirmText}>{t('common.confirm')}</Text>
                   <Feather name="arrow-right" size={scale(20)} color={COLORS.primary} />
                 </TouchableOpacity>
               </View>

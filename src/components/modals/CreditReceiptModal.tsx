@@ -1,4 +1,5 @@
 import { COLORS } from '@/src/constants';
+import { copyTransactionId } from '@/src/utils/clipboard';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as Sharing from "expo-sharing";
 import React, { useRef } from 'react';
@@ -135,7 +136,7 @@ export default function CreditReceiptModal({
 
           {/* Actions */}
           <View style={styles.actions}>
-              <TouchableOpacity style={styles.buttonOutline}>
+              <TouchableOpacity style={styles.buttonOutline} onPress={() => copyTransactionId(transactionId)}>
                 <Feather name="copy" size={scale(20)} color={COLORS.primary} />
                 <Text style={styles.buttonOutlineText}>Copier l'ID</Text>
               </TouchableOpacity>

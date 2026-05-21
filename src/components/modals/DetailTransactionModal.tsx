@@ -1,7 +1,9 @@
 import { COLORS } from '@/src/constants';
+import { copyTransactionId } from '@/src/utils/clipboard';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as Sharing from "expo-sharing";
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Modal, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
@@ -53,6 +55,8 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
 
   const vieWShotRef = useRef(null);
 
+  const { t } = useTranslation();
+
   const captureAndShare = async () => {
     try {
       const uri = await captureRef(vieWShotRef, {
@@ -76,7 +80,7 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
 
           <View style={styles.header}>
             <Text style={styles.title}>
-              {isInternational ? 'Transfert International' : 'Détails de la transaction'}
+              {isInternational ? t('transfer.internationalTransfer') : t('transactions.details')}
             </Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
               <Ionicons name="close" size={scale(24)} color={COLORS.textPrimary} />
@@ -90,7 +94,7 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
                 <View style={styles.statusIcon}>
                   <Ionicons name="checkmark-circle" size={scale(60)} color={COLORS.success} />
                 </View>
-                <Text style={styles.statusText}>Transaction réussie</Text>
+                <Text style={styles.statusText}>{t('transactions.transactionSuccess')}</Text>
               </View>
 
               {/* Amount */}
@@ -103,26 +107,26 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
 
               {/* Transaction Details Card */}
               <View style={styles.detailsCard}>
-                <Text style={styles.sectionTitle}>Informations</Text>
+                <Text style={styles.sectionTitle}>{t('transactions.information')}</Text>
                 
                 {isInternational && country && (
-                  <RowItem label="Pays" value={country} icon="globe-outline" />
+                  <RowItem label={t('transfer.country')} value={country} icon="globe-outline" />
                 )}
-                <RowItem label="Bénéficiaire" value={name || "N/A"} icon="person-outline" />
-                <RowItem label="Numéro" value={number || "N/A"} icon="call-outline" />
-                <RowItem label="Date" value={date || "N/A"} icon="calendar-outline" />
-                <RowItem label="ID Transaction" value={transactionId || "N/A"} icon="receipt-outline" />
+                <RowItem label={t('transfer.beneficiary')} value={name || "N/A"} icon="person-outline" />
+                <RowItem label={t('transfer.number')} value={number || "N/A"} icon="call-outline" />
+                <RowItem label={t('common.date')} value={date || "N/A"} icon="calendar-outline" />
+                <RowItem label={t('transactions.transactionId')} value={transactionId || "N/A"} icon="receipt-outline" />
                 {isInternational && exchangeRate && (
-                  <RowItem label="Taux de change" value={exchangeRate} icon="swap-horizontal-outline" />
+                  <RowItem label={t('transfer.exchangeRate')} value={exchangeRate} icon="swap-horizontal-outline" />
                 )}
-                <RowItem label="Frais" value={fees + " GNF" || "0 GNF"} icon="cash-outline" />
-                {note && <RowItem label="Note" value={note} icon="document-text-outline" />}
+                <RowItem label={t('transactions.fees')} value={fees + " GNF" || "0 GNF"} icon="cash-outline" />
+                {note && <RowItem label={t('transactions.note')} value={note} icon="document-text-outline" />}
               </View>
             </View>
           </ScrollView>
           {/* Actions EN DEHORS de la capture */}
           <View style={styles.actions}>
-              <TouchableOpacity style={styles.buttonOutline}>
+              <TouchableOpacity style={styles.buttonOutline} onPress={() => copyTransactionId(transactionId)}>
                 <Feather name="copy" size={scale(20)} color={COLORS.primary} />
                 <Text style={styles.buttonOutlineText}>Copier l'ID</Text>
               </TouchableOpacity>

@@ -3,11 +3,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
-import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -24,7 +24,7 @@ export default function CreatePinScreen() {
 
   const handleCreatePin = () => {
     if (!pin || !confirmPin) {
-      Alert.alert(t('common.error'), 'Veuillez remplir tous les champs');
+      Alert.alert(t('common.error'), t('auth.fillAllFields'));
       return;
     }
 
@@ -43,7 +43,7 @@ export default function CreatePinScreen() {
     // Simulation de création de compte
     Alert.alert(
       t('common.success'),
-      'Votre compte a été créé avec succès',
+      t('auth.accountCreatedSuccess'),
       [
         {
           text: t('common.ok'),

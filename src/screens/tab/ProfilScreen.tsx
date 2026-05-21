@@ -25,13 +25,13 @@ export default function ProfileScreen() {
         try {
             if (Platform.OS === "android") {
                 await Share.share({
-                message: 'Télécharge CashMoov, la meilleure application de transfert d\'argent et de paiement mobile en Guinée ! https://play.google.com/store/apps/details?id=com.estel.cashmoovsubscriberapp',
-                title: 'Recommander CashMoov',
+                message: t('profile.shareMessage'),
+                title: t('profile.shareTitle'),
             });
             } else {
                 await Share.share({
-                message: 'Télécharge CashMoov, la meilleure application de transfert d\'argent et de paiement mobile en Guinée ! https://apps.apple.com/us/app/cashmoov-client/id6642668233?l=fr-FR',
-                title: 'Recommander CashMoov',
+                message: t('profile.shareMessage'),
+                title: t('profile.shareTitle'),
             });
             }
         } catch (error) {
@@ -43,7 +43,7 @@ export default function ProfileScreen() {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         
         if (status !== 'granted') {
-            Alert.alert('Permission refusée', 'Nous avons besoin de votre permission pour accéder à vos photos.');
+            Alert.alert(t('profile.permissionDenied'), t('profile.permissionMessage'));
             return;
         }
 

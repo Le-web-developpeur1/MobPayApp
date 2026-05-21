@@ -2,6 +2,7 @@ import { COLORS, ROUTES } from '@/src/constants';
 import { RootStackParamList } from '@/src/navigation/types';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -9,37 +10,38 @@ import HeaderScreen from '../../components/ui/HeaderScreen';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
+const getPaiementService = (t: any) => [
+  { 
+    label: t('purchase.eSimGlobal'), 
+    img: require("@/assets/images/paiement/esim.jpg"), 
+    typeEsim: "Global",
+    description: t('purchase.eSimGlobalDesc')
+  },
+  { 
+    label: t('purchase.eSimEurope'), 
+    img: require("@/assets/images/paiement/esim.jpg"), 
+    typeEsim: "Europe",
+    description: t('purchase.eSimEuropeDesc')
+  },
+];
 
 export default function EsimDetail() {
+    const { t } = useTranslation();
     const navigation = useNavigation<NavigationProp>();
     const route = useRoute();
 
     const { type } = route.params as { type: string };
     
-    const title = type === 'esim' ? 'Achat E-Sim' : 'Gift Card';
-
-    const paiementService = [
-        { 
-            label: "e-Sim Global", 
-            img: require("@/assets/images/paiement/esim.jpg"), 
-            typeEsim: "Global",
-            description: "Achetez les forfaits eSIM Global et rester connecté partout dans le monde"
-        },
-        { 
-            label: "e-Sim Europe", 
-            img: require("@/assets/images/paiement/esim.jpg"), 
-            typeEsim: "Europe",
-            description: "Achetez les forfaits eSIM Europe et rester connecté dans tous les pays d'Europe"
-        },
-    ];
+    const title = type === 'esim' ? t('purchase.eSimPurchase') : t('purchase.giftCard');
+    const paiementService = getPaiementService(t);
 
   return (
     <SafeAreaView style={styles.safeArea}>
         <HeaderScreen title={title}/>
         <View style={styles.container}>
             <View style={styles.infoBox}>
-                <Text style={styles.infoText}>Veuillez choisir un type E-Sim selon votre besoin</Text>
-                <Text style={styles.infoText}>Ou choisissez un pays spécifique</Text>
+                <Text style={styles.infoText}>{t('purchase.chooseESimType')}</Text>
+                <Text style={styles.infoText}>{t('purchase.orChooseCountry')}</Text>
             </View>
             <View style={styles.grid}>
                 {paiementService.map((service, index) => (
@@ -68,7 +70,7 @@ export default function EsimDetail() {
                     style={styles.button}
                     onPress={() => navigation.navigate(ROUTES.COUNTRY_SELECTOR, {type: type as any})}
                 >
-                    <Text style={styles.buttonText}> Choisir un pays</Text>
+                    <Text style={styles.buttonText}>{t('purchase.chooseCountry')}</Text>
                 </TouchableOpacity>
             </View>
         </View>
