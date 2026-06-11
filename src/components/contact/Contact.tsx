@@ -13,9 +13,10 @@ type ContactProps = {
   searchExterne?: string;   // valeur de recherche externe (ex: TransfertProgramme)
   showSearchBar?: boolean;  // afficher ou non la SearchBar interne
   onSelectContact?: (contact: Contacts.Contact) => void;
+  useSafeArea?: boolean;    // utiliser SafeAreaView ou non (par défaut: true)
 };
 
-export default function Contact({ searchExterne = "", showSearchBar = true , onSelectContact }: ContactProps) {
+export default function Contact({ searchExterne = "", showSearchBar = true, onSelectContact, useSafeArea = true }: ContactProps) {
   const { t } = useTranslation();
   const [contacts, setContacts] = useState<Contacts.Contact[]>([]);
   const [search, setSearch] = useState("");
@@ -44,8 +45,10 @@ export default function Contact({ searchExterne = "", showSearchBar = true , onS
         contact.phoneNumbers?.some(p => p?.number?.includes(activeSearch))
       );
 
+  const Wrapper = useSafeArea ? SafeAreaView : View;
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
+    <Wrapper style={{ flex: 1, backgroundColor: COLORS.primary }}>
       {showSearchBar && <HeaderScreen title={t('contacts.title')} />}
       <View 
         style={[
@@ -70,7 +73,7 @@ export default function Contact({ searchExterne = "", showSearchBar = true , onS
           onSelectContact={onSelectContact}
         />
       </View>
-    </SafeAreaView>
+    </Wrapper>
   );
 }
 

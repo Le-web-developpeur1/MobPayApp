@@ -34,9 +34,9 @@ export default function TransfertProgramme({ type } : Programme) {
                 label="Saisissez un numéro"
                 theme={{
                     colors: {
-                    placeholder: COLORS.white, // couleur du label quand il est en mode placeholder
-                    text: COLORS.textPrimary,      // couleur du texte saisi
-                    primary: COLORS.primary,       // couleur de la bordure et du label actif
+                    placeholder: COLORS.white,
+                    text: COLORS.textPrimary,
+                    primary: COLORS.primary,
                     },
                 }}
                 value={phone}
@@ -45,20 +45,21 @@ export default function TransfertProgramme({ type } : Programme) {
             />
             </View>
         </View>
+        
         {showForm ? (
             <AutoDebitForm/>
-        ): (
-
-        <View style={styles.container}>
-            <Contact 
-                searchExterne={phone} 
-                showSearchBar={false} 
-                onSelectContact={(contact) => {
-                    setPhone(contact.phoneNumbers?.[0]?.number || "");
-                    setShowForm(true);
-                }}
-            />
-        </View>
+        ) : (
+            <View style={styles.container}>
+                <Contact 
+                    searchExterne={phone} 
+                    showSearchBar={false}
+                    useSafeArea={false}
+                    onSelectContact={(contact) => {
+                        setPhone(contact.phoneNumbers?.[0]?.number || "");
+                        setShowForm(true);
+                    }}
+                />
+            </View>
         )}
     </View>
   )

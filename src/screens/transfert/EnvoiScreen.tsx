@@ -44,6 +44,8 @@ export default function Envoi() {
         ? t('transfer.sendOMInfo')
         : t('transfer.receiveOMInfo');
 
+        let limite = type === "Envoi" ? "10 000 GNF - 50 000 000 GNF" : type === "EnvoiOM" ? "1 000 GNF - 15 000 000 GNF" : "10 000 GNF - 20 000 000 GNF";
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary}}>
             <View style={{ flex: 1, backgroundColor: COLORS.background}}>
@@ -87,6 +89,10 @@ export default function Envoi() {
                             onChangeText={setAmount}
                         />
                         <Text style={styles.icon}>GNF</Text>
+                    </View>
+                    <View style={styles.limite}>
+                        <Text style={styles.limiteText}>Entre </Text>
+                        <Text style={styles.limiteAmount}>{limite}</Text>
                     </View>
 
                     <View style={styles.infoBox}>
@@ -179,4 +185,16 @@ const styles = StyleSheet.create({
         fontSize: moderateScale(14),
         lineHeight: moderateScale(20),
     },
+    limite: {
+        paddingHorizontal: scale(5), 
+        marginVertical: verticalScale(8),
+        flexDirection: 'row',
+    },
+    limiteText: {
+        fontSize: moderateScale(17),
+    },
+    limiteAmount: {
+        fontSize: moderateScale(18),
+        color: COLORS.primary,
+    }
 });
