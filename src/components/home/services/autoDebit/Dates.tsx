@@ -5,10 +5,14 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { COLORS } from "@/src/constants";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
-export default function Dates() {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
+interface DatesProps {
+  startDate: Date | null;
+  endDate: Date | null;
+  onStartDateChange: (date: Date | null) => void;
+  onEndDateChange: (date: Date | null) => void;
+}
 
+export default function Dates({ startDate, endDate, onStartDateChange, onEndDateChange }: DatesProps) {
   const [showStartPicker, setShowStartPicker] = useState(false);
   const [showEndPicker, setShowEndPicker] = useState(false);
 
@@ -43,7 +47,7 @@ export default function Dates() {
           display={Platform.OS === "ios" ? "spinner" : "default"}
           onChange={(event, date) => {
             setShowStartPicker(false);
-            if (date) setStartDate(date);
+            if (date) onStartDateChange(date);
           }}
         />
       )}
@@ -72,7 +76,7 @@ export default function Dates() {
           display={Platform.OS === "ios" ? "spinner" : "default"}
           onChange={(event, date) => {
             setShowEndPicker(false);
-            if (date) setEndDate(date);
+            if (date) onEndDateChange(date);
           }}
         />
       )}

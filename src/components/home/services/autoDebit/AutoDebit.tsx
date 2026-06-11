@@ -1,5 +1,5 @@
 import { COLORS } from '@/src/constants';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -10,9 +10,17 @@ import { useRoute } from '@react-navigation/native';
 
 export default function AutoDebit() {
     const [activeTab, setActivTab] = useState<"transfert" | "historique">("transfert");
+    const [refreshKey, setRefreshKey] = useState(0);
     const route = useRoute();
 
-    const { type } = route.params as { type: string}
+    const { type = "programme" } = (route.params || {}) as { type?: string }
+
+    // Rafraîchir l'historique quand on change d'onglet vers "historique"
+    useEffect(() => {
+        if (activeTab === "historique") {
+            setRefreshKey(prev => prev + 1);
+        }
+    }, [activeTab]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -55,7 +63,7 @@ export default function AutoDebit() {
                 {activeTab === "transfert" ? (
                         <TransfertProgramme type={type}/>
                     ) : (
-                        <HistoriqueDebit/>
+                        <HistoriqueDebit key={refreshKey}/>
                     )}
         </View>
     </SafeAreaView>

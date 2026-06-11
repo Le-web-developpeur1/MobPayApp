@@ -24,6 +24,8 @@ export default function Favorites() {
     { name: "Envoi OM", route: ROUTES.CONTACT, params: { type: "EnvoiOM" }, icon: "send" },
     { name: "Réception OM", route: ROUTES.CONTACT, params: { type: "ReceptionOM" }, icon: "download" },
     { name: "Historique", route: ROUTES.HISTORIQUE, icon: "time" },
+    { name: "Auto-Débit", route: ROUTES.AUTO_DEBIT, params: { type: "programme" }, icon: "calendar-sharp" },
+
   ];
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function Favorites() {
             style={styles.favItem}
             onPress={() => navigation.navigate(fav.route, fav.params)}
           >
-            <Ionicons name={fav.icon} size={scale(28)} color="#2A4793" />
+            <Ionicons name={fav.icon as any} size={scale(28)} color="#2A4793" />
             <Text style={styles.favText}>{fav.name}</Text>
           </TouchableOpacity>
         ))}
@@ -84,7 +86,7 @@ export default function Favorites() {
                   onPress={() => toggleFavorite(item)}
                 >
                   <Ionicons 
-                    name={item.icon}
+                    name={item.icon as any}
                     size={scale(28)}
                     color={favorites.find((f) => f.name === item.name) ? "#2A4793" : "#999"}
                   />

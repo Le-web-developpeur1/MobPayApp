@@ -85,6 +85,12 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
                     setTimeout(() => {
                         setShowLoader(false); // Cache le loader
                         Alert.alert(t('transactions.transactionSuccess'));
+                        
+                        // Appeler onSuccess si fourni
+                        if (onSuccess) {
+                            onSuccess();
+                        }
+                        
                         setShowModal(true); // Affiche DetailTransaction
                     }, 2000); // Loader pendant 2 secondes
                 }, 300);
@@ -124,6 +130,12 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
                 setTimeout(() => {
                     setShowLoader(false); // Cache le loader
                     Alert.alert(t('transactions.transactionSuccess'));
+                    
+                    // Appeler onSuccess si fourni
+                    if (onSuccess) {
+                        onSuccess();
+                    }
+                    
                     setShowModal(true); // Affiche DetailTransaction
                 }, 2000); // Loader pendant 2 secondes
             }, 300);

@@ -168,8 +168,8 @@ export type RootStackParamList = {
     } | undefined;
     Merecharger: undefined;
     TransertNational: undefined;
-    AutoDebit: {
-        type: string;
+    AutoDebit?: {
+        type?: string;
     };
 };
 
