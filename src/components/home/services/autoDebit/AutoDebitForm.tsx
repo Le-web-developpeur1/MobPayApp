@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from "react-native";
 import { TextInput } from "react-native-paper";
 import DropDownPicker from "react-native-dropdown-picker";
 import { COLORS } from "@/src/constants";
@@ -27,71 +27,75 @@ export default function AutoDebitForm() {
   ];
 
   return (
-    <View style={styles.container}>
-      <Text>
-        Fréquence <Text style={{ color: "red" }}>*</Text>
-      </Text>
-
-      {/* 👇 Dropdown Picker */}
-      <DropDownPicker
-        open={open}
-        value={frequency}
-        items={frequencyOptions}
-        setOpen={setOpen}
-        setValue={setFrequency}
-        style={styles.picker}
-        dropDownContainerStyle={styles.dropdownContainer}
-        placeholder="Choisir une fréquence"
-      />
-
-      <TextInput
-        label="Entrez un montant *"
-        value={amount}
-        onChangeText={setAmount}
-        keyboardType="numeric"
-        mode="outlined"
-        style={styles.input}
-        theme={{
-          colors: {
-            text: COLORS.textPrimary,
-            primary: COLORS.primary,
-          },
-        }}
-      />
-
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text>Entre </Text>
-        <Text style={{ color: COLORS.primary, fontSize: moderateScale(16) }}>
-          10 000 GNF - 10 000 000 GNF
+    <ScrollView
+      contentContainerStyle={{flex: 1, paddingBottom: verticalScale(20)}}
+    >
+      <View style={styles.container}>
+        <Text style={{paddingBottom: verticalScale(5)}}>
+          Fréquence <Text style={{ color: "red" }}>*</Text>
         </Text>
-      </View>
 
-      <View style={styles.prixSection}>
-        {credit.map((c, i) => (
-          <TouchableOpacity
-            key={i}
-            style={[
-              styles.card,
-              activePrice === String(c.prix) && styles.activeCard,
-            ]}
-            onPress={() => {
-              setActivePrice(String(c.prix));
-              setAmount(String(c.prix));
-            }}
-            activeOpacity={0.7}
-          >
-            <Text
+        {/* 👇 Dropdown Picker */}
+        <DropDownPicker
+          open={open}
+          value={frequency}
+          items={frequencyOptions}
+          setOpen={setOpen}
+          setValue={setFrequency}
+          style={styles.picker}
+          dropDownContainerStyle={styles.dropdownContainer}
+          placeholder="Choisir une fréquence"
+        />
+
+        <TextInput
+          label="Entrez un montant *"
+          value={amount}
+          onChangeText={setAmount}
+          keyboardType="numeric"
+          mode="outlined"
+          style={styles.input}
+          theme={{
+            colors: {
+              text: COLORS.textPrimary,
+              primary: COLORS.primary,
+            },
+          }}
+        />
+
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text>Entre </Text>
+          <Text style={{ color: COLORS.primary, fontSize: moderateScale(16) }}>
+            10 000 GNF - 10 000 000 GNF
+          </Text>
+        </View>
+
+        <View style={styles.prixSection}>
+          {credit.map((c, i) => (
+            <TouchableOpacity
+              key={i}
               style={[
-                styles.cardGnf,
-                activePrice === String(c.prix) && styles.activeCardText,
+                styles.card,
+                activePrice === String(c.prix) && styles.activeCard,
               ]}
+              onPress={() => {
+                setActivePrice(String(c.prix));
+                setAmount(String(c.prix));
+              }}
+              activeOpacity={0.7}
             >
-              {c.prix} GNF
-            </Text>
-          </TouchableOpacity>
-        ))}
+              <Text
+                style={[
+                  styles.cardGnf,
+                  activePrice === String(c.prix) && styles.activeCardText,
+                ]}
+              >
+                {c.prix} GNF
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: moderateScale(8),
     marginTop: verticalScale(10),
+    gap: scale(5),
   },
   picker: {
     borderColor: COLORS.primary,

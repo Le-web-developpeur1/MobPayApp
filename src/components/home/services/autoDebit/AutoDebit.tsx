@@ -51,6 +51,7 @@ export default function AutoDebit() {
                         </Text>
                     </TouchableOpacity>
                 </View>
+                
                 {activeTab === "transfert" ? (
                         <TransfertProgramme type={type}/>
                     ) : (
@@ -71,6 +72,7 @@ const styles = StyleSheet.create({
         backgroundColor: COLORS.background,
         paddingHorizontal: scale(20),
         paddingTop: verticalScale(10),
+        gap: scale(8)
     },
     scrollContent: {
         paddingBottom: verticalScale(20),
@@ -88,13 +90,14 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         color: COLORS.primary,
         paddingHorizontal: scale(12),
-        paddingVertical: verticalScale(6),
+        paddingVertical: verticalScale(12),
         textAlign: "center",
 
     },
     activeTab: {
         color: COLORS.white, 
         fontWeight: "700", 
-        backgroundColor: COLORS.primary, 
+        backgroundColor: COLORS.primary,
+        paddingVertical: verticalScale(12)
     },
 })

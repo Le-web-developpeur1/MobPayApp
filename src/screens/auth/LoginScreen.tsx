@@ -66,7 +66,7 @@ export default function LoginScreen() {
                   placeholder={t('auth.phonePlaceholder')}
                   placeholderTextColor={COLORS.textSecondary}
                   keyboardType="phone-pad"
-                  maxLength={12}
+                  maxLength={9}
                   autoCorrect={false}
                   autoComplete="off"
                 />
@@ -147,9 +147,11 @@ const styles = StyleSheet.create({
   phoneInput: {
     flex: 1,
     paddingHorizontal: scale(15),
-    paddingVertical: verticalScale(16),
+    paddingVertical: verticalScale(10),
     fontSize: moderateScale(16),
     color: COLORS.textPrimary,
+    borderLeftWidth: scale(1),
+    borderLeftColor: COLORS.border,
   },
   button: {
     backgroundColor: COLORS.primary,

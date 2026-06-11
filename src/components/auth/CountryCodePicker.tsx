@@ -168,9 +168,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: scale(12),
-    paddingVertical: verticalScale(16),
-    borderRightWidth: scale(1),
-    borderRightColor: COLORS.border,
+    paddingVertical: verticalScale(10),
     gap: scale(6),
   },
   flag: {
