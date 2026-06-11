@@ -1,21 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View, } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { COLORS } from '../../constants';
-import { RootStackParamList } from '../../navigation/types';
+import QrCode from "react-native-qrcode-svg";
 
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function BalanceCard() {
     const { t } = useTranslation();
     const [visible, setVisible] = useState(true);
-    const navigation = useNavigation<NavigationProp>();
     
-    const type = "Envoi"
 
     return (
         <View style={{ paddingHorizontal: scale(20)}}>
@@ -44,12 +39,14 @@ export default function BalanceCard() {
                                 <View>
                                     <Text style={{ color: COLORS.textPrimary }}>•••••</Text>
                                 </View>
-                            ) : (
-                                <View>
-                                    <Text style={{ color: COLORS.textPrimary }}>14 580 260 GNF</Text>
-                                </View>
-                            )}
+                                ) : (
+                                    <View>
+                                        <Text style={{ color: COLORS.textPrimary }}>14 580 260 GNF</Text>
+                                    </View>
+                                )
+                            }
                         </View>
+
                     </View>
                     <View style={styles.iconeView}>
                         <TouchableOpacity 
@@ -60,15 +57,16 @@ export default function BalanceCard() {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={styles.boutonView}>
-                    {/* <TouchableOpacity
-                        style={styles.bouton}
-                        onPress={() => navigation.navigate(ROUTES.CONTACT, {type})}
-                    >
-                        <Feather name="send" size={scale(18)} color={COLORS.white}/>
-                        <Text style={styles.text}>Envoyer</Text>
-                    </TouchableOpacity> */}
-                </View>
+                {visible && (
+                    <View style={styles.qrContainer}>
+                        <QrCode
+                            value="626058033"
+                            size={scale(70)}
+                            color={COLORS.primary}
+                            backgroundColor={COLORS.white}
+                        />
+                    </View>
+                )}
             </View>
         </View>
     );
@@ -79,6 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         backgroundColor: COLORS.primary,
         borderRadius: moderateScale(10),
+        paddingBottom: verticalScale(22)
     },
     container: {
         flexDirection: "row",
@@ -125,12 +124,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    boutonView: {
-        justifyContent: "center",
-        alignItems: "center",
-        paddingHorizontal: scale(45),
-        paddingVertical: verticalScale(8),
-    },
     bouton: {
         flexDirection: "row",
         backgroundColor: "#ffffff90",
@@ -145,5 +138,15 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: moderateScale(18),
         color: COLORS.white,
-    }
+    },
+    qrContainer: {
+        position: "absolute",          
+        justifyContent:"center",
+        alignItems: "center",
+        padding: scale(6),
+        borderRadius: moderateScale(8),
+        top: verticalScale(55),
+        right: scale(15),
+        backgroundColor: "#ffffff30",
+    },
 });

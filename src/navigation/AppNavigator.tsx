@@ -1,11 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import Contact from '../components/contact/Contact';
+import AutoDebit from '../components/home/services/autoDebit/AutoDebit';
 import { Confirm } from '../components/modals/ConfirmModal';
 import TransfertNational from '../components/tab/services/TransfertNational';
 import TransactionEncours from '../components/Transactions/TransactionEncours';
 import { ROUTES } from '../constants';
 import CreatePinScreen from '../screens/auth/CreatePinScreen';
+import LoginPinScreen from '../screens/auth/LoginPinScreen';
 import LoginScreen from '../screens/auth/LoginScreen';
 import OnboardingScreen from '../screens/auth/OnboardingScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
@@ -35,6 +37,7 @@ import PaiementProduitScreen from '../screens/quickActions/PaiementProduitScreen
 import ProductDetailScreen from '../screens/quickActions/ProductDetailScreen';
 import RetraitsScreen from '../screens/quickActions/RetraitsScreen';
 import ServiceSelectorScreen from '../screens/quickActions/ServiceSelectorScreen';
+import SearchScreen from '../screens/SearchScreen';
 import HistoriqueScreen from '../screens/tab/HistoriqueScreen';
 import QrScannerScreen from '../screens/tab/QrScannerScreen';
 import ServiceScreen from '../screens/tab/ServiceScreen';
@@ -47,7 +50,6 @@ import TransactionsScreen from '../screens/transfert/TransactionScreen';
 import WebScreen from '../screens/WebScreen';
 import TabNavigator from './TabNavigator';
 import { RootStackParamList } from './types';
-import LoginPinScreen from '../screens/auth/LoginPinScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -69,9 +71,10 @@ export default function AppNavigator() {
         options={{ headerShown: false }}
       />
       {/** Écrans Tab : notification, services */}
+      <Stack.Screen name={ROUTES.SEARCH} component={SearchScreen} options={{ headerShown: false}} />
       <Stack.Screen name={ROUTES.NOTIFICATION} component={NotificationScreen} options={{ headerShown: false}} />
       <Stack.Screen name={ROUTES.SERVICES} component={ServiceScreen} options={{ headerShown: false}} />
-      <Stack.Screen name={ROUTES.HISTORIQUE} component={HistoriqueScreen} />
+      <Stack.Screen name={ROUTES.HISTORIQUE} component={HistoriqueScreen} options={{ headerShown: false}} />
       <Stack.Screen name={ROUTES.TRANSFERT_NATIONAL} component={TransfertNational} options={{ headerShown: false}}/>
 
       {/** Écrans de profil */}
@@ -117,6 +120,7 @@ export default function AppNavigator() {
       <Stack.Screen name={ROUTES.NATIONAL} component={NationalScreen} options={{ headerShown: false}}/>
       <Stack.Screen name={ROUTES.INTERNATIONAL} component={InternationalScreen} options={{ headerShown: false}}/>
       <Stack.Screen name={ROUTES.TRANSACTIONS_ENCOURS} component={TransactionEncours} options={{ headerShown: false}} />
+      <Stack.Screen name={ROUTES.AUTO_DEBIT} component={AutoDebit} options={{ headerShown: false}} />
 
       {/** Transfert international */}
       <Stack.Screen name={ROUTES.OPTION_TRANSFERT} component={OptionTransfert} options={{ headerShown: false}}/>

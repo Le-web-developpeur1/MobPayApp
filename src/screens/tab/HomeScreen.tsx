@@ -8,6 +8,7 @@ import QuickActions from '../../components/home/services/QuickActions';
 import RecentesTransaction from '../../components/Transactions/RecentesTrans';
 import { COLORS } from '../../constants';
 import Services from '@/src/components/home/services/Services';
+import Favorites from '@/src/components/home/services/Favorites';
 
 export default function HomeScreen() {
   return (
@@ -20,7 +21,8 @@ export default function HomeScreen() {
               >
             <BalanceCard/>
               <QuickActions/>
-              <Services/>
+              <Favorites/>
+              {/* <Services/> */}
               <CarteInfo/>
               <RecentesTransaction/>
           </ScrollView>

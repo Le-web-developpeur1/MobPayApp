@@ -15,6 +15,7 @@ export type RootStackParamList = {
         phone: string;
     };
     Notification: undefined;
+    Search: undefined;
     ServiceScreen: undefined;
     SecuriteScreen: undefined;
     PreferenceNotif: undefined;
@@ -38,10 +39,10 @@ export type RootStackParamList = {
         name: string;
         amount: string;
     };
-    Contact: { 
-        type?: "EnvoiOM" | "ReceptionOM" | "Envoi" | "International" | "CreditDetail";
+    Contact?: { 
+        type?: "EnvoiOM" | "ReceptionOM" | "Envoi" | "International" | "CreditDetail" | "programme";
         country?: string;
-    } | undefined;
+    };
     EnvoiOM: {
         name?: string;
         phone: string;
@@ -167,6 +168,9 @@ export type RootStackParamList = {
     } | undefined;
     Merecharger: undefined;
     TransertNational: undefined;
+    AutoDebit: {
+        type: string;
+    };
 };
 
 export interface Beneficiaire {

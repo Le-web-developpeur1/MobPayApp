@@ -18,6 +18,7 @@ export const ROUTES = {
   
   // Notifications
   NOTIFICATION: 'Notification',
+  SEARCH: 'Search',
   
   // Profil
   SECURITE_SCREEN: 'SecuriteScreen',
@@ -74,18 +75,13 @@ export const ROUTES = {
   ESIM_BENEF : "EsimBenef",
   GIFTCARD_BENEF : "GiftCardBenef",
 
-  // Credits
+  //Services
   CREDIT_DETAIL: "CreditDetail",
   CREDIT_CONFIRM: "CreditConfirm",
-
-  // Marchands
   DETAIL_MARCHAND: "DetailMarchand",
-
-  // Retraits
   DETAIL_RETRAIT: "DetailRetrait",
-
-  //Merecharger
   ME_RECHARGER: "Merecharger",
+  AUTO_DEBIT: "AutoDebit"
 
 } as const;
 
