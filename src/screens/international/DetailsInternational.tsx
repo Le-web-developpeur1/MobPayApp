@@ -3,7 +3,7 @@ import { RootStackParamList } from '@/src/navigation/types';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -28,7 +28,6 @@ export default function DetailsInternational() {
   const [fraisValue, setFraisValue] = useState(0);
   const [taxeValue, setTaxeValue] = useState(0);
   const [montantFacturer, setMontantFacturer] = useState(0);
-  const [calcul, setCalcul] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const tauxValue = 0.5;
@@ -57,7 +56,7 @@ export default function DetailsInternational() {
     }
   };
 
-  const handleCalcul = () => {
+  useEffect(() => {
     const recu = Number(gnf);
     const frais = recu * 0.01;
     const taxe = 0;
@@ -65,8 +64,18 @@ export default function DetailsInternational() {
     setFraisValue(frais);
     setTaxeValue(taxe);
     setMontantFacturer(facturer);
-    setCalcul(true);
-  };
+  }, [gnf, xof])
+
+  // const handleCalcul = () => {
+  //   const recu = Number(gnf);
+  //   const frais = recu * 0.01;
+  //   const taxe = 0;
+  //   const facturer = recu + taxe + frais;
+  //   setFraisValue(frais);
+  //   setTaxeValue(taxe);
+  //   setMontantFacturer(facturer);
+  //   setCalcul(true);
+  // };
 
   const formatNumber = (num: number) => {
     return new Intl.NumberFormat('fr-FR').format(num);
@@ -146,7 +155,6 @@ export default function DetailsInternational() {
               <Text style={styles.currency}>XOF</Text>
             </View>
 
-            {calcul && (
               <View style={styles.fraisCard}>
                 <View style={styles.fraisRow}>
                   <Text style={styles.fraisLabel}>{t('transfer.exchangeRate')}</Text>
@@ -167,13 +175,7 @@ export default function DetailsInternational() {
                   <Text style={styles.totalValue}>{formatNumber(montantFacturer)} GNF</Text>
                 </View>
               </View>
-            )}
-
-            {!calcul ? (
-              <TouchableOpacity style={styles.button} onPress={handleCalcul} activeOpacity={0.8}>
-                <Text style={styles.buttonText}>{t('transfer.calculate')}</Text>
-              </TouchableOpacity>
-            ) : (
+           
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => setVisible(true)}
@@ -181,7 +183,7 @@ export default function DetailsInternational() {
               >
                 <Text style={styles.buttonText}>{t('common.next')}</Text>
               </TouchableOpacity>
-            )}
+            
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

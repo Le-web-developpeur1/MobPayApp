@@ -6,6 +6,7 @@ import { COLORS, ROUTES } from "@/src/constants";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@/src/navigation/types";
+import { Country } from '../auth/CountryCodePicker';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -17,7 +18,12 @@ type ContactListSectionProps = {
   titleAll: string;
   titleSearch: string;
   onSelectContact?: (contact: any) => void;
+  selectedCountry?: Country;
 };
+
+const isPhoneNumber = (text: string): boolean => {
+  return /\d{3,}/.test(text);
+}
 
 export default function ContactListSection({
   contacts,
@@ -27,10 +33,24 @@ export default function ContactListSection({
   titleAll,
   titleSearch,
   onSelectContact,
+  selectedCountry,
 }: ContactListSectionProps) {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
   const { type, country } = route.params as { type: string; country: string };
+
+  const virtualContact = 
+    search !== "" && filteredContacts.length === 0 && isPhoneNumber(search)
+      ? {
+          id: "virtual",
+          name: search,
+          phoneNumbers: [{ number: search, label: "mobile" }]
+        }
+      : null;
+
+  const displayContacts = virtualContact
+        ? [...filteredContacts, virtualContact]
+        : filteredContacts;
 
   return (
     <SectionList
@@ -40,7 +60,7 @@ export default function ContactListSection({
               { title: titleRecent, data: contacts.slice(0, 5) },
               { title: titleAll, data: contacts.slice(5) },
             ]
-          : [{ title: titleSearch, data: filteredContacts }]
+          : [{ title: titleSearch, data: displayContacts }]
       }
       keyExtractor={(item, index) => item.id + index}
       renderItem={({ item }) => (
@@ -49,7 +69,16 @@ export default function ContactListSection({
           onPress={() => {
             if (onSelectContact) {
               onSelectContact(item);
-            } else if (type === "International") {
+            }
+            // Vérifier si un pays est sélectionné et si ce n'est pas la Guinée
+            else if (selectedCountry && selectedCountry.dialCode !== '+224') {
+              navigation.navigate(ROUTES.DETAILINTERNATIONAL, {
+                name: item.name || "",
+                phone: item.phoneNumbers?.[0]?.number || "",
+                country: selectedCountry.name,
+              });
+            }
+             else if (type === "International") {
               navigation.navigate(ROUTES.DETAILINTERNATIONAL, {
                 name: item.name || "",
                 phone: item.phoneNumbers?.[0]?.number || "",

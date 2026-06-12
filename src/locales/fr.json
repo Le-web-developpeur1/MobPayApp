@@ -418,7 +418,11 @@
     "searchContact": "Rechercher un contact",
     "favorites": "Favoris",
     "recent": "Récents",
-    "all": "Tous"
+    "all": "Tous",
+    "recentContacts": "Contacts récents",
+    "allContacts": "Tous les contacts",
+    "searchResults": "Résultats de recherche",
+    "enterPhoneNumber": "Saisissez un numéro"
   },
   "notifications": {
     "title": "Notifications",
