@@ -23,8 +23,12 @@ export default function Header() {
     return (
       <>
         <View style={styles.container}>
-          <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center"}}>
-              <Ionicons name="call" size={19} color="#2A4793" style={{ marginRight: 5 }} />
+          <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center", gap: scale(8)}}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate(ROUTES.PROFILE)}
+              >
+                <Ionicons name="menu" size={25} color="#2A4793" style={{ marginRight: 5 }} />
+              </TouchableOpacity>
             <TouchableOpacity onPress={() => setVisible(true)}>
                <Text style={styles.number}>{selectedNumber} ▼</Text>
             </TouchableOpacity>

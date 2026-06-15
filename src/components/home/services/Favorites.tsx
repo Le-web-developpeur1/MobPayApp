@@ -19,12 +19,12 @@ export default function Favorites() {
     { name: "Transfert", route: ROUTES.TRANSFERT, icon: "swap-horizontal" },
     { name: "Factures", route: ROUTES.FACTURES, icon: "document-text" },
     { name: "Crédits", route: ROUTES.CREDITS, icon: "phone-portrait" },
-    { name: "Marchands", route: ROUTES.MARCHANDS, icon: "storefront" },
     { name: "Retraits", route: ROUTES.RETRAITS, icon: "cash" },
     { name: "Envoi OM", route: ROUTES.CONTACT, params: { type: "EnvoiOM" }, icon: "send" },
     { name: "Réception OM", route: ROUTES.CONTACT, params: { type: "ReceptionOM" }, icon: "download" },
     { name: "Historique", route: ROUTES.HISTORIQUE, icon: "time" },
     { name: "Auto-Débit", route: ROUTES.AUTO_DEBIT, params: { type: "programme" }, icon: "calendar-sharp" },
+    { name: "Marchands", route: ROUTES.DETAIL_MARCHAND, icon: "storefront" },
 
   ];
 

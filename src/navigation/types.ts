@@ -14,6 +14,7 @@ export type RootStackParamList = {
     CreatePin: {
         phone: string;
     };
+    Profile: undefined;
     Notification: undefined;
     Search: undefined;
     ServiceScreen: undefined;

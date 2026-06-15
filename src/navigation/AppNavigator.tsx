@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
+
 import Contact from '../components/contact/Contact';
 import AutoDebit from '../components/home/services/autoDebit/AutoDebit';
 import { Confirm } from '../components/modals/ConfirmModal';
@@ -50,12 +51,15 @@ import TransactionsScreen from '../screens/transfert/TransactionScreen';
 import WebScreen from '../screens/WebScreen';
 import TabNavigator from './TabNavigator';
 import { RootStackParamList } from './types';
+import ProfileScreen from '../screens/tab/ProfilScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+
+
 export default function AppNavigator() {
   return (
-    <Stack.Navigator initialRouteName={ROUTES.ONBOARDING}>
+    <Stack.Navigator initialRouteName={ROUTES.ONBOARDING} screenOptions={{ animation: 'none', gestureEnabled: false}}>
       {/** Écrans d'authentification */}
       <Stack.Screen name={ROUTES.ONBOARDING} component={OnboardingScreen} options={{ headerShown: false }} />
       <Stack.Screen name={ROUTES.LOGIN} component={LoginScreen} options={{ headerShown: false }} />
@@ -78,6 +82,7 @@ export default function AppNavigator() {
       <Stack.Screen name={ROUTES.TRANSFERT_NATIONAL} component={TransfertNational} options={{ headerShown: false}}/>
 
       {/** Écrans de profil */}
+      <Stack.Screen name={ROUTES.PROFILE} component={ProfileScreen} options={{ headerShown: false }}/>
       <Stack.Screen name={ROUTES.SECURITE_SCREEN} component={SecuriteScreen} options={{ headerShown: false}}/>
       <Stack.Screen name={ROUTES.PREFERENCE_NOTIF} component={PreferenceNScreen} options={{ headerShown: false}} />
       <Stack.Screen name={ROUTES.LIMITE} component={LimiteScreen} options={{ headerShown: false}}/>

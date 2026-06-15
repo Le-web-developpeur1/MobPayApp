@@ -9,7 +9,8 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import { COLORS, ROUTES } from '../constants';
 import HistoriqueScreen from '../screens/tab/HistoriqueScreen';
 import HomeScreen from '../screens/tab/HomeScreen';
-import ProfileScreen from '../screens/tab/ProfilScreen';
+import ShoppingScreen from '../screens/tab/ShoppingScreen';
+
 import QrScannerScreen from '../screens/tab/QrScannerScreen';
 import ServiceScreen from '../screens/tab/ServiceScreen';
 import { RootStackParamList } from './types';
@@ -43,8 +44,8 @@ export default function TabNavigator() {
 
           if (route.name === ROUTES.HOME) {
             iconName = 'home';
-          } else if (route.name === ROUTES.PROFILE) {
-            iconName = 'person';
+          } else if (route.name === ROUTES.SHOPPING) {
+            iconName = 'shopping-cart';
           } else if (route.name === ROUTES.HISTORIQUE) {
             iconName = 'history';
           } else if (route.name === ROUTES.SERVICES) {
@@ -78,7 +79,7 @@ export default function TabNavigator() {
             <View style={styles.scanButtonContainer}>
               <View style={styles.scanButton}
               >
-                <MaterialIcons name="qr-code-scanner" size={scale(28)} color={COLORS.secondary} />
+                <MaterialIcons name="qr-code-scanner" size={scale(30)} color={COLORS.secondary} />
               </View>
             </View>
           ),
@@ -90,9 +91,9 @@ export default function TabNavigator() {
         options={{ title: t('services.title') || 'Services' }} 
       />
       <Tab.Screen 
-        name={ROUTES.PROFILE} 
-        component={ProfileScreen} 
-        options={{ title: t('profile.title') || 'Profil' }} 
+        name={ROUTES.SHOPPING} 
+        component={ShoppingScreen} 
+        options={{ title: t('shopping.title') || 'E-Com' }} 
       />
     </Tab.Navigator>
   );

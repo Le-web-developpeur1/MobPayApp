@@ -18,7 +18,6 @@ export default function TransfertOption() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>{t('transfer.national')}</Text>
       
       <View style={styles.row}>
         <TouchableOpacity 

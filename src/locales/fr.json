@@ -243,6 +243,12 @@
     "realTimeTransfers": "Transferts en temps réel",
     "instantNotifications": "Notifications instantanées"
   },
+  "shopping": {
+    "title": "E-Commerce",
+    "notAvailable": "Service non disponible",
+    "description": "Notre service e-commerce est actuellement en cours de développement.\nRevenez bientôt pour découvrir nos produits !",
+    "comingSoon": "Disponible prochainement"
+  },
   "profile": {
     "title": "Profil",
     "name": "Boubacar Bah",

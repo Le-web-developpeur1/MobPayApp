@@ -6,6 +6,9 @@ export const ROUTES = {
   HISTORIQUE: 'Historique',
   QRSCAN: 'QrScan',
   SERVICES: 'ServiceScreen',
+  SHOPPING: "Shopping",
+
+
   PROFILE: 'Profile',
   
   // Auth

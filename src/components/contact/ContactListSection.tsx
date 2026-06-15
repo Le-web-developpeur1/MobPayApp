@@ -37,7 +37,7 @@ export default function ContactListSection({
 }: ContactListSectionProps) {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
-  const { type, country } = route.params as { type: string; country: string };
+  const { type, country } = (route.params || {}) as { type?: string; country?: string };
 
   const virtualContact = 
     search !== "" && filteredContacts.length === 0 && isPhoneNumber(search)
