@@ -172,9 +172,8 @@ export default function CarteInfo() {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    paddingHorizontal: scale(20),
-    paddingVertical: verticalScale(15),
+    paddingHorizontal: scale(10),
+    paddingVertical: verticalScale(40),
     gap: scale(15),
     justifyContent: "space-between",
     backgroundColor: COLORS.primary,
@@ -193,13 +192,12 @@ const styles = StyleSheet.create({
     flex: 3,
     gap: scale(6),
     justifyContent: "center",
-    alignItems: "flex-start", 
   },
   title: {
     color: COLORS.white,
     fontWeight: "700",
     fontSize: moderateScale(16),
-    marginBottom: scale(4),
+    marginBottom: scale(0),
   },
   text: {
     color: COLORS.white,

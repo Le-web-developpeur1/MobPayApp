@@ -72,10 +72,10 @@ export default function TransfertOption() {
         </TouchableOpacity>
       </View>
 
-      {/* <Text style={styles.sectionTitle}>{t('transfer.international')}</Text>
+      <Text style={styles.sectionTitle}>{t('transfer.international')}</Text>
 
       <TouchableOpacity 
-        style={styles.internationalCard} 
+        style={styles.internationalCard}
         activeOpacity={0.7}
         onPress={() => navigation.navigate(ROUTES.INTERNATIONAL)}
       >
@@ -87,7 +87,7 @@ export default function TransfertOption() {
           <Text style={styles.cardDescription}>{t('transfer.sendAbroad24h')}</Text>
         </View>
         <Ionicons name="chevron-forward" size={moderateScale(24)} color={COLORS.textSecondary}/>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   )
 }

@@ -5,7 +5,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as Haptics from 'expo-haptics';
 import * as LocalAuthentication from 'expo-local-authentication';
 import React, { useEffect, useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -81,7 +81,7 @@ export default function CreditCodeModal({
           setShowLoader(true);
           setTimeout(() => {
             setShowLoader(false);
-            Alert.alert(t('credit.purchaseSuccess'));
+            // Alert.alert(t('credit.purchaseSuccess'));
             setShowReceipt(true);
           }, 2000);
         }, 300);
@@ -120,7 +120,7 @@ export default function CreditCodeModal({
         setShowLoader(true);
         setTimeout(() => {
           setShowLoader(false);
-          Alert.alert(t('credit.purchaseSuccess'));
+          // Alert.alert(t('credit.purchaseSuccess'));
           setShowReceipt(true);
         }, 2000);
       }, 300);
@@ -132,7 +132,9 @@ export default function CreditCodeModal({
 
   const handleReceiptClose = () => {
     setShowReceipt(false);
-    navigation.navigate(ROUTES.MAIN);
+    setTimeout(() => {
+      navigation.navigate(ROUTES.MAIN);
+    }, 300);
   };
 
   return (

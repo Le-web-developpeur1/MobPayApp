@@ -2,7 +2,7 @@ import { COLORS } from '@/src/constants';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as Sharing from "expo-sharing";
 import React, { useRef } from 'react';
-import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View, Linking } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
 import { copyTransactionId } from '@/src/utils/clipboard';
@@ -78,6 +78,10 @@ export default function PurchaseReceiptModal({
     }
   };
 
+  const handleContactSupport = () => {
+    Linking.openURL('tel:+224622000000');
+  };
+
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.overlay}>
@@ -148,6 +152,12 @@ export default function PurchaseReceiptModal({
               <Text style={styles.buttonPrimaryText}>Partager</Text>
             </TouchableOpacity>
           </View>
+
+          {/* Contact Support */}
+          <TouchableOpacity style={styles.buttonSupport} onPress={handleContactSupport}>
+            <Ionicons name="call-outline" size={scale(20)} color={COLORS.white} />
+            <Text style={styles.buttonSupportText}>Contacter le support</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -298,5 +308,20 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(15),
     fontWeight: '600',
     color: COLORS.primary,
+  },
+  buttonSupport: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: verticalScale(14),
+    borderRadius: moderateScale(12),
+    gap: scale(8),
+    backgroundColor: COLORS.primary,
+    marginTop: verticalScale(10),
+  },
+  buttonSupportText: {
+    fontSize: moderateScale(15),
+    fontWeight: '600',
+    color: COLORS.white,
   },
 });
