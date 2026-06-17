@@ -1,4 +1,4 @@
-import { COLORS, ROUTES } from "@/src/constants";
+import { COLORS } from "@/src/constants";
 import { CodeModalProps, RootStackParamList } from "@/src/navigation/types";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -6,11 +6,10 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import * as Haptics from "expo-haptics";
 import * as LocalAuthentication from "expo-local-authentication";
 import React, { useEffect, useState } from "react";
-import { Alert, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
+import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from "react-native-reanimated";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
-import DetailTransaction from "./DetailTransactionModal";
-import { useTranslation } from "react-i18next";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -18,7 +17,6 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
     const { t } = useTranslation();
     const [code, setCode] = useState<number[]>([]);
     const codeLength = Array(4).fill(0);
-    const [showModal, setShowModal] = useState(false);
     const [showLoader, setShowLoader] = useState(false);
 
     const navigation = useNavigation<NavigationProp>();
@@ -79,19 +77,19 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
     useEffect(() => {
         if (code.length === 4) {
             if (code.join("") === "1234") {
-                onClose(); // Ferme CodeModal
+                // Ne pas fermer immédiatement, masquer le clavier PIN d'abord
                 setTimeout(() => {
                     setShowLoader(true); // Affiche le loader
                     setTimeout(() => {
                         setShowLoader(false); // Cache le loader
-                        Alert.alert(t('transactions.transactionSuccess'));
                         
-                        // Appeler onSuccess si fourni
+                        // Appeler onSuccess qui va gérer l'affichage du reçu
                         if (onSuccess) {
                             onSuccess();
                         }
                         
-                        setShowModal(true); // Affiche DetailTransaction
+                        // Fermer le CodeModal
+                        onClose();
                     }, 2000); // Loader pendant 2 secondes
                 }, 300);
                 setCode([]);
@@ -124,19 +122,19 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
     const onBiometricPress = async () => {
         const { success } = await LocalAuthentication.authenticateAsync();
         if (success) {
-            onClose(); // Ferme CodeModal
+            // Ne pas fermer immédiatement, masquer le clavier PIN d'abord
             setTimeout(() => {
                 setShowLoader(true); // Affiche le loader
                 setTimeout(() => {
                     setShowLoader(false); // Cache le loader
-                    Alert.alert(t('transactions.transactionSuccess'));
                     
-                    // Appeler onSuccess si fourni
+                    // Appeler onSuccess qui va gérer l'affichage du reçu
                     if (onSuccess) {
                         onSuccess();
                     }
                     
-                    setShowModal(true); // Affiche DetailTransaction
+                    // Fermer le CodeModal
+                    onClose();
                 }, 2000); // Loader pendant 2 secondes
             }, 300);
             setCode([]);
@@ -145,16 +143,11 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
         }
     };
 
-    const handleDetailClose = () => {
-        setShowModal(false);
-        navigation.navigate(ROUTES.MAIN);
-    };
-
   return (
     <>
         <Modal visible={visible} transparent animationType="slide">
             <View style={styles.modalView}>
-                <View style={styles.modalContent}>
+                <View style={[styles.modalContent, { display: showLoader ? 'none' : 'flex' }]}>
                 <Text style={{ textAlign: "center", fontSize: moderateScale(22), color: COLORS.textPrimary}}>{t('auth.enterPin')}</Text>
                 <Animated.View style={[styles.codeView, style]}>
                     {codeLength.map((_, index) => (
@@ -249,23 +242,6 @@ export default function CodeModal({ visible, onClose, onSuccess, amount, number,
                 </View>
             </View>
         </Modal>
-        
-        <DetailTransaction
-            visible={showModal}
-            onClose={handleDetailClose}
-            amount={amount}
-            status={status}
-            name={name}
-            date={date}
-            transactionId={transactionId}
-            fees={fees}
-            number={number}
-            note={getTransactionNote()}
-            isInternational={isInternational}
-            country={country}
-            amountReceived={amountReceived}
-            exchangeRate={exchangeRate}
-        /> 
     </>
   )
 }

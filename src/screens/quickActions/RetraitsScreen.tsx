@@ -34,7 +34,7 @@ export default function RetraitsScreen() {
   }, [route.params]);
 
   const handleScanPress = () => {
-    navigation.navigate(ROUTES.QRSCAN, { returnScreen: ROUTES.DETAIL_RETRAIT });
+    navigation.navigate(ROUTES.QRSCAN, { returnScreen: ROUTES.RETRAITS });
   };
 
   const handleWithdrawPress = () => {

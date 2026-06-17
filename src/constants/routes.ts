@@ -42,9 +42,7 @@ export const ROUTES = {
   TRANSFERT: 'TransfertScreen',
   FACTURES: 'Factures',
   CREDITS: 'Credits',
-  MARCHANDS: 'Marchands',
   RETRAITS: 'Retraits',
-  PLUS: 'Plus',
 
   //Transactions
   NATIONAL: 'National',
@@ -57,7 +55,6 @@ export const ROUTES = {
 
   // Transactions CashMoov
   ENVOI: 'Envoi',
-  CONFIRMATION: 'Confirmation',
   CONFIRM: 'Confirm',
   
   // Transactions Orange Money
@@ -80,9 +77,7 @@ export const ROUTES = {
 
   //Services
   CREDIT_DETAIL: "CreditDetail",
-  CREDIT_CONFIRM: "CreditConfirm",
   DETAIL_MARCHAND: "DetailMarchand",
-  DETAIL_RETRAIT: "DetailRetrait",
   ME_RECHARGER: "Merecharger",
   AUTO_DEBIT: "AutoDebit"
 

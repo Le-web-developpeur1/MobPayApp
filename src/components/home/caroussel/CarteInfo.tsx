@@ -1,7 +1,7 @@
 import { COLORS } from "@/src/constants";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Dimensions, FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, Text, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
 const { width } = Dimensions.get('window');
@@ -11,7 +11,7 @@ const AUTO_SCROLL_INTERVAL = 3000; // 3 secondes
 
 interface CarteData {
   id: string;
-  emoji: string;
+  image: any; // Type pour les images require()
   titleKey: string;
   descriptionKeys: string[];
 }
@@ -22,7 +22,7 @@ export default function CarteInfo() {
   const cartesData: CarteData[] = [
     {
       id: '1',
-      emoji: '💳',
+      image: require('@/assets/OIP.webp'), // Remplace par ton image
       titleKey: 'carousel.internationalTransfers',
       descriptionKeys: [
         'carousel.sendMoney63Countries',
@@ -31,7 +31,7 @@ export default function CarteInfo() {
     },
     {
       id: '2',
-      emoji: '🔒',
+      image: require('@/assets/OIP.webp'), // Remplace par ton image
       titleKey: 'carousel.guaranteedSecurity',
       descriptionKeys: [
         'carousel.bankLevelEncryption',
@@ -40,7 +40,7 @@ export default function CarteInfo() {
     },
     {
       id: '3',
-      emoji: '⚡',
+      image: require('@/assets/OIP.webp'), // Remplace par ton image
       titleKey: 'carousel.instant',
       descriptionKeys: [
         'carousel.realTimeTransfers',
@@ -122,7 +122,11 @@ export default function CarteInfo() {
   const renderItem = ({ item }: { item: CarteData }) => (
     <View style={styles.container}>
       <View style={styles.imageBox}>
-        <Text style={styles.imageText}>{item.emoji}</Text>
+        <Image 
+          source={item.image} 
+          style={styles.image}
+          resizeMode="cover"
+        />
       </View>
 
       <View style={styles.card}>
@@ -172,8 +176,6 @@ export default function CarteInfo() {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: scale(10),
-    paddingVertical: verticalScale(40),
     gap: scale(15),
     justifyContent: "space-between",
     backgroundColor: COLORS.primary,
@@ -181,17 +183,20 @@ const styles = StyleSheet.create({
     width: CARD_WIDTH,
   },
   imageBox: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    width: '100%',
+    height: verticalScale(150),
+    overflow: 'hidden',
+    borderTopRightRadius: moderateScale(8),
+    borderTopLeftRadius: moderateScale(8),
   },
-  imageText: {
-    fontSize: moderateScale(40),
+  image: {
+    width: '100%',
+    height: '100%',
   },
   card: {
-    flex: 3,
     gap: scale(6),
-    justifyContent: "center",
+    paddingVertical: verticalScale(10),
+    paddingHorizontal: scale(10)
   },
   title: {
     color: COLORS.white,

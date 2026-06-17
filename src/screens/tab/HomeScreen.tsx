@@ -5,7 +5,7 @@ import BalanceCard from '../../components/home/BalanceCard';
 import CarteInfo from '../../components/home/caroussel/CarteInfo';
 import Header from '../../components/home/Header';
 import QuickActions from '../../components/home/services/QuickActions';
-import RecentesTransaction from '../../components/Transactions/RecentesTrans';
+import RecentesTransaction from '../../components/transactions/RecentesTrans';
 import { COLORS } from '../../constants';
 import Services from '@/src/components/home/services/Services';
 import Favorites from '@/src/components/home/services/Favorites';

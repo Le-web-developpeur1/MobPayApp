@@ -156,9 +156,9 @@
     "sendOrangeMoney": "Envoyer Orange Money",
     "receiveOrangeMoney": "Recevoir Orange Money",
     "cashMoovTransfer": "Transfert Cash Moov",
-    "cashMoovInfo": "Vous êtes sur le point d'effectuer un transfert CashMoov. Le bénéficiaire recevra l'argent instantanément.",
-    "sendOMInfo": "Vous êtes sur le point d'envoyer de l'argent vers un compte Orange Money",
-    "receiveOMInfo": "Vous êtes sur le point de recevoir de l'argent depuis un compte Orange Money. Après la soumission, demandez à votre contact de confirmer le retrait.",
+    "cashMoovInfo": "Vous êtes sur le point d'effectuer un transfert vers un compte CashMoov. Le bénéficiaire recevra l'argent instantanément.",
+    "sendOMInfo": "Vous êtes sur le point de retirer de votre compte CashMoov pour alimenter un compte Orange Money",
+    "receiveOMInfo": "Vous êtes sur le point d'alimenter votre compte CashMoov depuis un compte Orange Money. Après la soumission, confirmez ou demandez à votre contact de confirmer le retrait.",
     "beneficiaryDetails": "Détails du bénéficiaire",
     "guinea": "Guinée",
     "beneficiaryNumber": "Numéro du bénéficiaire",
@@ -447,5 +447,14 @@
     "insufficientBalance": "Solde insuffisant",
     "transactionFailed": "Transaction échouée",
     "tryAgain": "Réessayer"
+  },
+  "support": {
+    "needHelp": "Besoin d'aide ?",
+    "contactUs": "Contactez notre support client",
+    "contactSupport": "Contacter le support",
+    "callMessage": "Appeler le {{number}} pour obtenir de l'aide ?",
+    "call": "Appeler",
+    "error": "Erreur",
+    "cannotCall": "Impossible de passer l'appel"
   }
 }

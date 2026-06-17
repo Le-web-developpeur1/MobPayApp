@@ -99,7 +99,7 @@ export default function MarchandsScreen() {
                             <View style={styles.option}>
                                 <TouchableOpacity 
                                     style={styles.iconWrapper}
-                                    onPress={() => navigation.navigate(ROUTES.QRSCAN, { returnScreen: ROUTES.MARCHANDS })}
+                                    onPress={() => navigation.navigate(ROUTES.QRSCAN, { returnScreen: ROUTES.DETAIL_MARCHAND })}
                                 >
                                     <MaterialIcons name="qr-code-scanner" size={moderateScale(80)} color="#2A4793"/>
                                 </TouchableOpacity>

@@ -441,5 +441,14 @@
     "insufficientBalance": "Insufficient balance",
     "transactionFailed": "Transaction failed",
     "tryAgain": "Try again"
+  },
+  "support": {
+    "needHelp": "Need help?",
+    "contactUs": "Contact our customer support",
+    "contactSupport": "Contact support",
+    "callMessage": "Call {{number}} to get help?",
+    "call": "Call",
+    "error": "Error",
+    "cannotCall": "Unable to make the call"
   }
 }

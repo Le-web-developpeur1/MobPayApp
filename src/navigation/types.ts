@@ -35,11 +35,6 @@ export type RootStackParamList = {
         name?: string;
         type?: string;
     };
-    Confirmation: {
-        phone: string;
-        name: string;
-        amount: string;
-    };
     Contact?: { 
         type?: "EnvoiOM" | "ReceptionOM" | "Envoi" | "International" | "CreditDetail" | "programme";
         country?: string;
@@ -62,9 +57,7 @@ export type RootStackParamList = {
     TransfertScreen: undefined;
     Factures: undefined;
     Credits: undefined;
-    Marchands: undefined;
     Retraits: undefined;
-    Plus: undefined;
     National: undefined;
     International: undefined;
     OptionTransfert: {
@@ -118,45 +111,11 @@ export type RootStackParamList = {
         country: string;
         name: string;
     };
-    EsimConfirm: {
-        euro: string;
-        gnf: string;
-        name: string;
-        nom: string;
-        email: string;
-    };
-    GiftCardConfirm: {
-        euro?: string;
-        gnf?: string;
-        euroValue?: string;
-        gnfValue?: string;
-        name: string;
-        nom: string;
-        email: string;
-    };
     CreditDetail: {
         typeCredit: string;
         phone?: string;
     };
-    CreditConfirm: {
-        phone: string;
-        amount: string;
-    };
    
-    ConfirmMarchand: {
-        phone: string;
-        name: string;
-        amount: string;
-    };
-    DetailRetrait?: {
-        phone: string;
-        name: string;
-    };
-    ConfirmRetrait: {
-        phone: string;
-        name: string;
-        amount: string;
-    };
     DetailFacture: {
         typeFacture: "postpaye" | "prepaye";
     };

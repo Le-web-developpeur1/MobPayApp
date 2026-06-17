@@ -4,7 +4,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import * as Sharing from "expo-sharing";
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Modal, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert, Linking } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
 
@@ -71,6 +71,32 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
     }
   };
 
+  const handleCallSupport = () => {
+    const supportNumber = '+224621640000'; // Remplace par ton vrai numéro de support
+    
+    Alert.alert(
+      t('support.contactSupport') || 'Contacter le support',
+      t('support.callMessage', { number: supportNumber }) || `Appeler le ${supportNumber} pour obtenir de l'aide ?`,
+      [
+        {
+          text: t('common.cancel') || 'Annuler',
+          style: 'cancel',
+        },
+        {
+          text: t('support.call') || 'Appeler',
+          onPress: () => {
+            Linking.openURL(`tel:${supportNumber}`).catch(() => {
+              Alert.alert(
+                t('support.error') || 'Erreur',
+                t('support.cannotCall') || 'Impossible de passer l\'appel'
+              );
+            });
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.overlay}>
@@ -122,6 +148,18 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
                 <RowItem label={t('transactions.fees')} value={fees + " GNF" || "0 GNF"} icon="cash-outline" />
                 {note && <RowItem label={t('transactions.note')} value={note} icon="document-text-outline" />}
               </View>
+
+              {/* Bouton d'aide */}
+              <TouchableOpacity style={styles.helpButton} onPress={handleCallSupport}>
+                <View style={styles.helpContent}>
+                  <Ionicons name="headset-outline" size={scale(24)} color={COLORS.primary} />
+                  <View style={styles.helpTextContainer}>
+                    <Text style={styles.helpTitle}>{t('support.needHelp') || 'Besoin d\'aide ?'}</Text>
+                    <Text style={styles.helpSubtitle}>{t('support.contactUs') || 'Contactez notre support client'}</Text>
+                  </View>
+                  <Feather name="phone-call" size={scale(20)} color={COLORS.primary} />
+                </View>
+              </TouchableOpacity>
             </View>
           </ScrollView>
           {/* Actions EN DEHORS de la capture */}
@@ -289,5 +327,32 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(15),
     fontWeight: '600',
     color: COLORS.primary,
+  },
+  helpButton: {
+    backgroundColor: COLORS.background,
+    borderRadius: moderateScale(12),
+    padding: scale(15),
+    marginTop: verticalScale(10),
+    marginBottom: verticalScale(20),
+    borderWidth: 1,
+    borderColor: COLORS.primary + '30', // Transparence de 30%
+  },
+  helpContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: scale(12),
+  },
+  helpTextContainer: {
+    flex: 1,
+  },
+  helpTitle: {
+    fontSize: moderateScale(15),
+    fontWeight: '700',
+    color: COLORS.textPrimary,
+    marginBottom: verticalScale(2),
+  },
+  helpSubtitle: {
+    fontSize: moderateScale(12),
+    color: COLORS.textSecondary,
   },
 });

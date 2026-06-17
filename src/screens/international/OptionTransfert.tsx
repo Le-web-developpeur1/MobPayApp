@@ -28,7 +28,7 @@ export default function OptionTransfert() {
     "Sénégal": [
       { name: "Cash Moov", logo: require("@/assets/images/national/PNG.png"), screen: ROUTES.DETAILINTERNATIONAL},
       { name: "Orange Money", logo: require("@/assets/images/national/logo-orange.png"), screen: ROUTES.DETAILINTERNATIONAL },
-      { name: "Wave", logo: require("@/assets/images/national/logo-orange.png"), screen: ROUTES.DETAILINTERNATIONAL },
+      { name: "Wave", logo: require("@/assets/images/national/wave.png"), screen: ROUTES.DETAILINTERNATIONAL },
     ],
     "France": [
       { name: "Cash Moov", logo: require("@/assets/images/national/PNG.png"), screen: ROUTES.DETAILINTERNATIONAL },
@@ -37,12 +37,12 @@ export default function OptionTransfert() {
     "Mali": [
       { name: "Cash Moov", logo: require("@/assets/images/national/PNG.png"), screen: ROUTES.DETAILINTERNATIONAL },
       { name: "Orange Money", logo: require("@/assets/images/national/logo-orange.png"), screen: ROUTES.DETAILINTERNATIONAL },
-      { name: "Wave", logo: require("@/assets/images/national/logo-orange.png"), screen: ROUTES.DETAILINTERNATIONAL },
+      { name: "Wave", logo: require("@/assets/images/national/wave.png"), screen: ROUTES.DETAILINTERNATIONAL },
     ],
     "Afrique du Sud": [
       { name: "Cash Moov", logo: require("@/assets/images/national/PNG.png"), screen: ROUTES.DETAILINTERNATIONAL },
       { name: "Orange Money", logo: require("@/assets/images/national/logo-orange.png"), screen: ROUTES.DETAILINTERNATIONAL },
-      { name: "Wave", logo: require("@/assets/images/national/logo-orange.png"), screen: ROUTES.DETAILINTERNATIONAL },
+      { name: "Wave", logo: require("@/assets/images/national/wave.png"), screen: ROUTES.DETAILINTERNATIONAL },
     ],
   };
 

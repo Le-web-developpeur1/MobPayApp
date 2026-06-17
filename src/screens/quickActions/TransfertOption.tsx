@@ -10,7 +10,7 @@ import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
-type TransferType = "Envoi" | "EnvoiOM" | "ReceptionOM";
+type TransferType = "Envoi" | "EnvoiOM";
 
 export default function TransfertOption() {
   const { t } = useTranslation();
@@ -54,7 +54,7 @@ export default function TransfertOption() {
           <Text style={styles.cardDescription}>{t('transfer.orangeMoney')}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        {/* <TouchableOpacity 
           style={styles.card} 
           activeOpacity={0.7}
          onPress={() => {
@@ -69,7 +69,7 @@ export default function TransfertOption() {
           </View>
           <Text style={styles.cardTitle}>{t('transfer.receiveFromOM')}</Text>
           <Text style={styles.cardDescription}>{t('transfer.orangeMoney')}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <Text style={styles.sectionTitle}>{t('transfer.international')}</Text>

@@ -4,10 +4,11 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import CodeModal from "./CodeModal";
-import { useTranslation } from "react-i18next";
+import DetailTransaction from "./DetailTransactionModal";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -15,6 +16,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
   const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const [show, setShow] = useState(false);
+  const [showReceipt, setShowReceipt] = useState(false);
 
   const handleConfirm = () => {
     onClose(); // Ferme ConfirmModal d'abord
@@ -23,6 +25,18 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
 
   const handleCodeModalClose = () => {
     setShow(false);
+  };
+
+  const handleCodeSuccess = () => {
+    // Appelé après le loader, affiche le reçu
+    setTimeout(() => {
+      setShowReceipt(true);
+    }, 300);
+  };
+
+  const handleReceiptClose = () => {
+    setShowReceipt(false);
+    navigation.navigate(ROUTES.MAIN);
   };
 
   return (
@@ -152,10 +166,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
       <CodeModal
         visible={show}
         onClose={handleCodeModalClose}
-        onSuccess={() => {
-          setShow(false);
-          navigation.navigate(ROUTES.MAIN);
-        }}
+        onSuccess={handleCodeSuccess}
         amount={transaction.montant}
         status={"Envoi réussi"}
         name={beneficiaire.name}
@@ -168,6 +179,23 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
         amountReceived={amountReceived}
         exchangeRate={exchangeRate}
         transactionType={transactionType}
+      />
+
+      <DetailTransaction
+        visible={showReceipt}
+        onClose={handleReceiptClose}
+        amount={transaction.montant}
+        status={"Envoi réussi"}
+        name={beneficiaire.name}
+        date={"21/05/2026"}
+        transactionId={"256985"}
+        fees={transaction.frais}
+        number={beneficiaire.phone}
+        note={transactionType === 'orange_money_envoi' ? t('transactions.orangeMoneySend') : transactionType === 'orange_money_reception' ? t('transactions.orangeMoneyReceive') : t('transactions.cashmoovTransfer')}
+        isInternational={isInternational}
+        country={country}
+        amountReceived={amountReceived}
+        exchangeRate={exchangeRate}
       />
     </>
   );

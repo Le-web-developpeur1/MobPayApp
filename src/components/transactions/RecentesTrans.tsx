@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { moderateScale, scale, verticalScale } from "react-native-size-matters";
+import { moderateScale, s, scale, verticalScale } from "react-native-size-matters";
 import DetailTransaction from "../modals/DetailTransactionModal";
 import { useTranslation } from "react-i18next";
 
@@ -16,15 +16,19 @@ const transactionsReussies = [
         name: "Boubacar Bah",
         amount: "600 000 GNF",
         date: "01 Février 2026",
-        status: "entrant",
+        type: "entrant",
         phone: "626058033",
+        typeTransaction: "Réception OM",
+        status: "success"
     },
     {
         name: "Fodé Douno",
         amount: "849 000 GNF",
         date: "02 Février 2026",
-        status: "sortant",
+        type: "sortant",
         phone: "626058033",
+        typeTransaction: "Transfert Cash Moov",
+        status: "pending"
     },
 ];
 const transactionsEncours = [
@@ -32,15 +36,19 @@ const transactionsEncours = [
         name: "Rouguiatou Diallo",
         amount: "1 200 000 GNF",
         date: "28 Janvier 2026",
-        status: "sortant",
+        type: "sortant",
         phone: "626058033",
+        typeTransaction: "Envoi OM",
+        status: "pending"
     },
     {
         name: "Alphonse Kaman",
         amount: "599 000 GNF",
         date: "21 Décembre 2025",
-        status: "entrant",
+        type: "entrant",
         phone: "626058033",
+        typeTransaction: "Recharge Crédit",
+        status: "success"
     },
 ];
 
@@ -107,35 +115,33 @@ export default function RecentesTransaction() {
                                     }}
                                     activeOpacity={0.7}
                                 >
-                                    <View 
-                                        style={[
-                                            styles.transactionIcon,
-                                            item.status === "entrant" ? styles.iconEntrant : styles.iconSortant,
-                                        ]}
-                                    >
+                                    
                                         <Feather 
-                                            name={item.status === "sortant" ? "arrow-up-right" : "arrow-down-left"} 
-                                            color={item.status === "entrant" ? COLORS.success : COLORS.error} 
-                                            size={scale(20)}
+                                            name={item.type === "sortant" ? "arrow-up-right" : "arrow-down-left"} 
+                                            color={item.type === "entrant" ? COLORS.success : COLORS.error} 
+                                            size={scale(40)}
                                         />
-                                    </View>
                                     
                                     <View style={styles.transactionInfo}>
                                         <Text style={styles.transactionName} numberOfLines={1}>{item.name}</Text>
                                         <Text style={styles.transactionPhone}>{item.phone}</Text>
+                                        <Text style={{color: "#ccccc"}}>{item.typeTransaction}</Text>
                                     </View>
                                     
                                     <View style={styles.transactionRight}>
                                         <Text
                                             style={[
                                                 styles.transactionAmount,
-                                                { color: item.status === "entrant" ? COLORS.success : COLORS.error }
+                                                { color: item.type === "entrant" ? COLORS.success : COLORS.error }
                                             ]}
                                             numberOfLines={1}
                                         >
-                                            {item.status === "entrant" ? "+" : "-"}{item.amount}
+                                            {item.type === "entrant" ? "+" : "-"}{item.amount}
                                         </Text>
                                         <Text style={styles.transactionDate}>{item.date}</Text>
+                                        <Text style={[
+                                            item.status === "success" && styles.succes
+                                        ]}>{item.status === "success" ? "Succes" : "Encours"}</Text>
                                     </View>
                                 </TouchableOpacity>
             ))}
@@ -250,6 +256,7 @@ const styles = StyleSheet.create({
     transactionCard: {
         flexDirection: "row",
         alignItems: "center",
+        height: verticalScale(100),
         backgroundColor: COLORS.white,
         borderRadius: moderateScale(12),
         padding: scale(12),
@@ -261,8 +268,8 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     transactionIcon: {
-        width: scale(45),
-        height: scale(45),
+        width: scale(60),
+        height: scale(60),
         borderRadius: moderateScale(10),
         justifyContent: "center",
         alignItems: "center",
@@ -280,7 +287,7 @@ const styles = StyleSheet.create({
     },
     transactionInfo: {
         flex: 1,
-        marginRight: scale(8),
+        marginLeft: scale(8),
     },
     transactionName: {
         fontSize: moderateScale(15),
@@ -291,9 +298,10 @@ const styles = StyleSheet.create({
     transactionPhone: {
         fontSize: moderateScale(13),
         color: COLORS.textSecondary,
+        paddingBottom: verticalScale(10)
     },
     transactionRight: {
-        alignItems: "flex-end",
+        alignItems: "stretch"
     },
     transactionAmount: {
         fontSize: moderateScale(15),
@@ -303,5 +311,15 @@ const styles = StyleSheet.create({
     transactionDate: {
         fontSize: moderateScale(11),
         color: COLORS.textSecondary,
+        paddingBottom: verticalScale(10)
     },
+    succes: {
+        color: "#green",
+    },
+    pending: {
+        color: "#orange"
+    },
+    failled: {
+        color: "#red"
+    }
 });
