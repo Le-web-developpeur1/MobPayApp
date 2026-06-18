@@ -300,7 +300,16 @@
     "completeProfileInfo": "Add your information to access all features and secure your transactions.",
     "whyCompleteProfile": "Why complete my profile?",
     "whyCompleteProfileDesc": "This information is necessary to verify your identity and secure your transactions.",
-    "skip": "Skip"
+    "skip": "Skip",
+    "pushNotifications": "Push Notifications",
+    "realTimeAlerts": "Real-time alerts",
+    "sms": "SMS",
+    "textMessage": "Text messages",
+    "offersPromotions": "Offers and Promotions",
+    "exclusiveDeals": "Exclusive deals",
+    "securityAlertsAlways": "Security alerts are",
+    "alwaysEnabled": "always enabled",
+    "forYourProtection": "for your protection"
   },
   "payment": {
     "title": "Payment",

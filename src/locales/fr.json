@@ -306,7 +306,16 @@
     "completeProfileInfo": "Ajoutez vos informations pour accéder à toutes les fonctionnalités et sécuriser vos transactions.",
     "whyCompleteProfile": "Pourquoi compléter mon profil ?",
     "whyCompleteProfileDesc": "Ces informations sont nécessaires pour vérifier votre identité et sécuriser vos transactions.",
-    "skip": "Ignorer"
+    "skip": "Ignorer",
+    "pushNotifications": "Notifications Push",
+    "realTimeAlerts": "Alertes en temps réel",
+    "sms": "SMS",
+    "textMessage": "Messages texte",
+    "offersPromotions": "Offres et Promotions",
+    "exclusiveDeals": "Offres exclusives",
+    "securityAlertsAlways": "Les alertes de sécurité sont",
+    "alwaysEnabled": "toujours activées",
+    "forYourProtection": "pour votre protection"
   },
   "payment": {
     "title": "Paiement",

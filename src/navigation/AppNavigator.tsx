@@ -17,13 +17,13 @@ import DetailsInternational from '../screens/international/DetailsInternational'
 import OptionTransfert from '../screens/international/OptionTransfert';
 import NotificationScreen from '../screens/NotificationScreen';
 import ChangePinScreen from '../screens/profil/ChangePinScreen';
+import CompleteProfileScreen from '../screens/profil/CompleteProfileScreen';
 import ConditionScreen from '../screens/profil/ConditionScreen';
 import FraisScreen from '../screens/profil/FraisScreen';
 import LimiteScreen from '../screens/profil/LimiteScreen';
 import PointsServiceScreen from '../screens/profil/PointsServiceScreen';
 import PreferenceNotifScreen from '../screens/profil/PreferenceNotifScreen';
 import SecuriteScreen from '../screens/profil/SecuriteScreen';
-import CompleteProfileScreen from '../screens/profil/CompleteProfileScreen';
 import BeneficiaryScreen from '../screens/quickActions/BeneficiaryScreen';
 import CountrySelectorScreen from '../screens/quickActions/CountrySelectorScreen';
 import CreditDetailScreen from '../screens/quickActions/CreditDetailScreen';
@@ -53,6 +53,7 @@ import TransactionsScreen from '../screens/transfert/TransactionScreen';
 import WebScreen from '../screens/WebScreen';
 import TabNavigator from './TabNavigator';
 import { RootStackParamList } from './types';
+import ChatbotScreen from '../screens/ChatbotScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -86,6 +87,7 @@ export default function AppNavigator() {
         <Stack.Screen name={ROUTES.TRANSFERT_NATIONAL} component={TransfertNational} />
         <Stack.Screen name={ROUTES.WEB_VIEW} component={WebScreen} />
         <Stack.Screen name={ROUTES.CONTACT} component={Contact} />
+        <Stack.Screen name={ROUTES.CHATBOT} component={ChatbotScreen} />
       </Stack.Group>
 
       {/* ============== PROFIL ============== */}

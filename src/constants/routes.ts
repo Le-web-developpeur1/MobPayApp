@@ -80,7 +80,10 @@ export const ROUTES = {
   CREDIT_DETAIL: "CreditDetail",
   DETAIL_MARCHAND: "DetailMarchand",
   ME_RECHARGER: "Merecharger",
-  AUTO_DEBIT: "AutoDebit"
+  AUTO_DEBIT: "AutoDebit",
+
+  // Chatbot
+  CHATBOT: "Chatbot"
 
 } as const;
 

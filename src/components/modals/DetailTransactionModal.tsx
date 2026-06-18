@@ -22,7 +22,7 @@ interface DetailTransactionProps {
   // Props pour transfert international
   isInternational?: boolean;
   country?: string;
-  amountReceived?: string; // Montant en XOF ou autre devise
+  amountReceived?: string; 
   exchangeRate?: string;
 }
 
@@ -72,7 +72,7 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
   };
 
   const handleCallSupport = () => {
-    const supportNumber = '+224621640000'; // Remplace par ton vrai numéro de support
+    const supportNumber = '+224621640000'; 
     
     Alert.alert(
       t('support.contactSupport') || 'Contacter le support',
@@ -162,7 +162,7 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
               </TouchableOpacity>
             </View>
           </ScrollView>
-          {/* Actions EN DEHORS de la capture */}
+
           <View style={styles.actions}>
               <TouchableOpacity style={styles.buttonOutline} onPress={() => copyTransactionId(transactionId)}>
                 <Feather name="copy" size={scale(20)} color={COLORS.primary} />

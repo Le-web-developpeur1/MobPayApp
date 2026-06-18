@@ -132,6 +132,7 @@ export type RootStackParamList = {
     AutoDebit?: {
         type?: string;
     };
+    Chatbot: undefined;
 };
 
 export interface Beneficiaire {
