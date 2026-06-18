@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: scale(30),
+    paddingHorizontal: scale(25),
   },
   header: {
     alignItems: 'center',
@@ -109,18 +109,18 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(20),
   },
   logo: {
-    fontSize: moderateScale(24),
+    fontSize: moderateScale(20),
     fontWeight: '700',
     color: COLORS.white,
   },
   title: {
-    fontSize: moderateScale(32),
+    fontSize: moderateScale(30),
     fontWeight: '700',
     color: COLORS.textPrimary,
     marginBottom: verticalScale(10),
   },
   subtitle: {
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(15),
     color: COLORS.textSecondary,
   },
   form: {

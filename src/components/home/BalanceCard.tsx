@@ -34,7 +34,7 @@ export default function BalanceCard() {
                         </View>
                         <View style={styles.soldeRes}>
                             <Ionicons name="bag-outline" size={scale(15)} color={COLORS.textPrimary}/>
-                            <Text style={{ color: COLORS.textPrimary }}>{t('home.balance')}:</Text>
+                            <Text style={{ color: COLORS.textPrimary, fontSize: moderateScale(12) }}>{t('home.balance')}:</Text>
                             {visible ? (
                                 <View>
                                     <Text style={{ color: COLORS.textPrimary }}>•••••</Text>

@@ -3,7 +3,7 @@ import { copyTransactionId } from '@/src/utils/clipboard';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as Sharing from "expo-sharing";
 import React, { useRef } from 'react';
-import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View, Linking } from 'react-native';
+import { Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
 
@@ -249,16 +249,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: verticalScale(12),
+    minHeight: verticalScale(40), // Hauteur minimum au lieu de fixe
   },
   labelContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: scale(8),
     flex: 1,
+    flexShrink: 1, // Permet de réduire si nécessaire
   },
   label: {
     color: COLORS.textSecondary,
     fontSize: moderateScale(14),
+    flexShrink: 1, // Permet le retour à la ligne
   },
   value: {
     fontSize: moderateScale(14),
@@ -266,6 +269,8 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     textAlign: 'right',
     flex: 1,
+    flexShrink: 1, // Permet le retour à la ligne
+    flexWrap: 'wrap', // Permet le retour à la ligne
   },
   divider: {
     height: 1,
