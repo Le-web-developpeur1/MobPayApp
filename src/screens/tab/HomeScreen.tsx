@@ -1,11 +1,11 @@
 import CompleteProfileBanner from '@/src/components/home/CompleteProfileBanner';
 import Favorites from '@/src/components/home/services/Favorites';
+import WelcomeModal from '@/src/components/modals/WelcomeModal';
 import { PrimaryStatusBar } from '@/src/components/ui';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
-import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { AppState, Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import BalanceCard from '../../components/home/BalanceCard';
@@ -15,42 +15,57 @@ import QuickActions from '../../components/home/services/QuickActions';
 import RecentesTransaction from '../../components/transactions/RecentesTrans';
 import { COLORS, ROUTES } from '../../constants';
 import { RootStackParamList } from '../../navigation/types';
-import WelcomeModal from '@/src/components/modals/WelcomeModal';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<NavigationProp>();
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const appState = useRef(AppState.currentState);
 
   useEffect(() => {
-    // Vérifie si c'est la première fois que l'utilisateur se connecte
-    checkFirstLogin();
+    // Affiche le modal au premier chargement
+    const timer = setTimeout(() => {
+      setShowWelcomeModal(true);
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, []);
 
-  const checkFirstLogin = async () => {
-    try {
-      const hasSeenWelcome = await AsyncStorage.getItem('hasSeenWelcome');
-      if (!hasSeenWelcome) {
-        // Première connexion - Affiche le modal après 500ms
+  useEffect(() => {
+    // Écoute les changements d'état de l'app (background/foreground)
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        // L'app revient en premier plan - Affiche le modal
         setTimeout(() => {
           setShowWelcomeModal(true);
-        }, 500);
+        }, 300);
       }
-    } catch (error) {
-      console.error('Erreur lors de la vérification du premier login:', error);
-    }
-  };
 
-  const handleCloseWelcome = async () => {
-    try {
-      // Marque comme vu
-      await AsyncStorage.setItem('hasSeenWelcome', 'true');
-      setShowWelcomeModal(false);
-    } catch (error) {
-      console.error('Erreur lors de la sauvegarde:', error);
-      setShowWelcomeModal(false);
-    }
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
+  // Affiche aussi le modal quand on revient sur cet écran depuis une autre page
+  useFocusEffect(
+    useCallback(() => {
+      const timer = setTimeout(() => {
+        setShowWelcomeModal(true);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }, [])
+  );
+
+  const handleCloseWelcome = () => {
+    setShowWelcomeModal(false);
   };
 
   return (
@@ -83,12 +98,13 @@ export default function HomeScreen() {
             />
           </TouchableOpacity>
 
-          {/* Modal de bienvenue (première connexion uniquement) */}
+          {/* Modal de bienvenue (à chaque retour dans l'app) */}
           <WelcomeModal
             visible={showWelcomeModal}
             onClose={handleCloseWelcome}
+            imageUrl={require('@/assets/images/bot-icon.png')}
             userName="Boubacar"
-            title="Bienvenue sur CashMoov !"
+            title="Content de vous revoir !"
             description="Profitez de toutes nos fonctionnalités pour gérer vos transactions facilement et en toute sécurité."
           />
       </SafeAreaView>

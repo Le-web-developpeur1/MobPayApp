@@ -19,21 +19,20 @@ interface WelcomeModalProps {
   visible: boolean;
   onClose: () => void;
   userName?: string;
-  imageUrl?: string; // URL de l'image promotionnelle
+  imageUrl?: any; // Accepte require() ou uri string
   title?: string;
   description?: string;
 }
 
 /**
  * Modal de bienvenue qui s'affiche à la première connexion
- * Style moderne avec image, titre et description
  */
 export const WelcomeModal: React.FC<WelcomeModalProps> = ({
   visible,
   onClose,
   userName = 'Utilisateur',
   imageUrl,
-  title = 'Bienvenue sur CashMoov ! 🎉',
+  title = 'Bienvenue sur CashMoov !',
   description = 'Découvrez toutes nos fonctionnalités pour gérer vos transactions facilement.',
 }) => {
   return (
@@ -43,48 +42,39 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
       animationType="fade"
       onRequestClose={onClose}
     >
-      {/* Fond avec blur */}
       <View style={styles.overlay}>
         <BlurView intensity={20} style={styles.blurContainer}>
-          {/* Contenu du modal */}
           <View style={styles.modalContainer}>
-            {/* Bouton fermer */}
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
               <View style={styles.closeButtonCircle}>
                 <Ionicons name="close" size={scale(24)} color={COLORS.white} />
               </View>
             </TouchableOpacity>
 
-            {/* Image promotionnelle (optionnelle) */}
             {imageUrl && (
               <View style={styles.imageContainer}>
                 <Image
-                  source={{ uri: imageUrl }}
+                  source={typeof imageUrl === 'string' ? { uri: imageUrl } : imageUrl}
                   style={styles.image}
-                  resizeMode="cover"
+                  resizeMode="contain"
                 />
               </View>
             )}
 
-            {/* Contenu textuel */}
             <View style={styles.content}>
-              {/* Salutation */}
               <View style={styles.greetingContainer}>
                 <H3 style={styles.greeting}>
-                  Bonjour {userName} 👋
+                  Bonjour {userName} 
                 </H3>
               </View>
 
-              {/* Titre principal */}
               <H3 style={styles.title}>{title}</H3>
 
-              {/* Description */}
               <BodyText style={styles.description}>
                 {description}
               </BodyText>
 
-              {/* Fonctionnalités */}
-              <View style={styles.featuresContainer}>
+              {/* <View style={styles.featuresContainer}>
                 <FeatureItem
                   icon="flash"
                   text="Transferts instantanés"
@@ -97,9 +87,8 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
                   icon="wallet"
                   text="Gestion simplifiée"
                 />
-              </View>
+              </View> */}
 
-              {/* Bouton d'action */}
               <TouchableOpacity
                 style={styles.button}
                 onPress={onClose}
@@ -122,7 +111,6 @@ export const WelcomeModal: React.FC<WelcomeModalProps> = ({
   );
 };
 
-// Composant pour afficher une fonctionnalité
 const FeatureItem: React.FC<{ icon: string; text: string }> = ({
   icon,
   text,

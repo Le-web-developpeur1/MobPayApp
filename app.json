@@ -8,8 +8,14 @@
     "scheme": "cashmoov",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.booba-car-92i.CashMoov"
     },
     "android": {
       "adaptiveIcon": {
@@ -43,6 +49,11 @@
     ],
     "experiments": {
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "604c7479-56bf-4182-918e-14cfda43ccd4"
+      }
     }
   }
 }
