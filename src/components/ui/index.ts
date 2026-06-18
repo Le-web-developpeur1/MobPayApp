@@ -12,3 +12,7 @@ export {
     H6, Label
 } from './AppText';
 
+export {
+    AppStatusBar, HiddenStatusBar, LightStatusBar, PrimaryStatusBar
+} from './AppStatusBar';
+

@@ -8,16 +8,15 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
-  Image
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { PrimaryStatusBar } from '../components/ui';
 
 interface Message {
   id: string;
@@ -161,7 +160,7 @@ export default function ChatbotScreen() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
+      <PrimaryStatusBar />
       <SafeAreaView style={styles.container} edges={['top']}>
         <View style={styles.header}>
           <TouchableOpacity

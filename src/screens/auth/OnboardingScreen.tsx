@@ -2,13 +2,12 @@ import { COLORS, ROUTES } from '@/src/constants';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dimensions, FlatList, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
-import { useTranslation } from 'react-i18next';
-import { StatusBar } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -20,13 +19,7 @@ export default function OnboardingScreen() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
 
-  useEffect(() => {
-    StatusBar.setHidden(true);
-
-    return () => {
-      StatusBar.setHidden(false);
-    };
-  }, []);
+  // Plus besoin de hook - StatusBar gérée dans App.js
 
   const slides = [
     {

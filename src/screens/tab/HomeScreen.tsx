@@ -1,10 +1,11 @@
 import CompleteProfileBanner from '@/src/components/home/CompleteProfileBanner';
 import Favorites from '@/src/components/home/services/Favorites';
-import { Ionicons } from '@expo/vector-icons';
+import { PrimaryStatusBar } from '@/src/components/ui';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React from 'react';
-import { Image, ScrollView, StatusBar, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import BalanceCard from '../../components/home/BalanceCard';
@@ -14,15 +15,47 @@ import QuickActions from '../../components/home/services/QuickActions';
 import RecentesTransaction from '../../components/transactions/RecentesTrans';
 import { COLORS, ROUTES } from '../../constants';
 import { RootStackParamList } from '../../navigation/types';
+import WelcomeModal from '@/src/components/modals/WelcomeModal';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+
+  useEffect(() => {
+    // Vérifie si c'est la première fois que l'utilisateur se connecte
+    checkFirstLogin();
+  }, []);
+
+  const checkFirstLogin = async () => {
+    try {
+      const hasSeenWelcome = await AsyncStorage.getItem('hasSeenWelcome');
+      if (!hasSeenWelcome) {
+        // Première connexion - Affiche le modal après 500ms
+        setTimeout(() => {
+          setShowWelcomeModal(true);
+        }, 500);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification du premier login:', error);
+    }
+  };
+
+  const handleCloseWelcome = async () => {
+    try {
+      // Marque comme vu
+      await AsyncStorage.setItem('hasSeenWelcome', 'true');
+      setShowWelcomeModal(false);
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde:', error);
+      setShowWelcomeModal(false);
+    }
+  };
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
+      <PrimaryStatusBar />
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primaryLight}} edges={["top"]}>
           <Header/>
           <ScrollView
@@ -43,17 +76,21 @@ export default function HomeScreen() {
             onPress={() => navigation.navigate(ROUTES.CHATBOT)}
             activeOpacity={0.8}
           >
-            {/* Option 1 : Avec icône (actuel)
-            <Ionicons name="chatbubble-ellipses" size={scale(26)} color={COLORS.white} />
-             */}
-            {/* Option 2 : Avec image - décommente et remplace le chemin par ton image */}
             <Image 
               source={require('@/assets/images/bot-icon.png')} 
               style={styles.chatbotImage}
               resizeMode="contain"
             />
-           
           </TouchableOpacity>
+
+          {/* Modal de bienvenue (première connexion uniquement) */}
+          <WelcomeModal
+            visible={showWelcomeModal}
+            onClose={handleCloseWelcome}
+            userName="Boubacar"
+            title="Bienvenue sur CashMoov !"
+            description="Profitez de toutes nos fonctionnalités pour gérer vos transactions facilement et en toute sécurité."
+          />
       </SafeAreaView>
     </>
   );

@@ -5,11 +5,12 @@ import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Image, Modal, Platform, ScrollView, Share, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Modal, Platform, ScrollView, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { COLORS, ROUTES } from '../../constants';
 import { RootStackParamList } from '../../navigation/types';
+import { PrimaryStatusBar } from '@/src/components/ui';
 
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -65,7 +66,7 @@ export default function ProfileScreen() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor={COLORS.primary} />
+      <PrimaryStatusBar />
       <SafeAreaView
           style={{ flex: 1, backgroundColor: COLORS.primary }}
           edges={['top']}
