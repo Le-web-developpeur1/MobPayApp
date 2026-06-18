@@ -48,18 +48,18 @@ export default function Merecharger() {
   const handleOptionPress = (option: typeof retraitOptions[number]) => {
     const label = t(option.labelKey);
     if (label === t("quickActions.atAgent")) {
-      // TODO: Implémenter la logique pour retrait chez un agent
+      
       console.log("Retrait chez un agent");
     } else if (label === t("quickActions.fromOrangeMoney")) {
       navigation.navigate(ROUTES.CONTACT, { type: "ReceptionOM" as TransferType });
     } else if (label === t("quickActions.withdrawalCode")) {
-      // TODO: Implémenter la logique pour génération de code
+      
       console.log("Retrait avec code");
     } else if (label === t("quickActions.myBank")) {
-      // TODO: Implémenter la logique pour virement bancaire
+      
       console.log("Virement bancaire");
     } else if (label === t("transfer.fromWave")) {
-      // TODO: Implémenter la logique pour Wave
+      
       console.log("Reception depuis Wave");
     }
   };

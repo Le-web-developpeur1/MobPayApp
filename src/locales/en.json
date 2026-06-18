@@ -101,7 +101,8 @@
     "recentTransactions": "Recent transactions",
     "viewAll": "View all",
     "noTransactions": "No transactions",
-    "hello": "Hello"
+    "hello": "Hello",
+    "topUpInfo": "Choose how you want to top up your CashMoov account"
   },
   "transactions": {
     "title": "Transactions",
@@ -207,7 +208,8 @@
     "receiveFromOM": "Receive from",
     "orangeMoney": "Orange Money",
     "sendAbroad24h": "Send abroad • 24-48h",
-    "noCountryFound": "No country found"
+    "noCountryFound": "No country found",
+    "fromWave": "From Wave"
   },
   "services": {
     "title": "Services",
@@ -230,7 +232,16 @@
     "credits": "Credits",
     "merchants": "Merchants",
     "withdrawals": "Withdrawals",
-    "topUp": "Top Up"
+    "topUp": "Top Up",
+    "withdrawalCode": "Withdrawal Code",
+    "atAgent": "At an agent",
+    "myBank": "My Bank",
+    "fromOrangeMoney": "From Orange Money",
+    "toOrangeMoney": "To Orange Money",
+    "forMe": "For me",
+    "forSomeoneElse": "For someone else",
+    "buyCredit": "Buy credit for my number",
+    "orChooseContact": "or choose a contact"
   },
   "carousel": {
     "internationalTransfers": "International transfers",
@@ -281,7 +292,15 @@
     "shareTitle": "Recommend CashMoov",
     "shareMessage": "Download CashMoov, the best money transfer and mobile payment app in Guinea! https://play.google.com/store/apps/details?id=com.estel.cashmoovsubscriberapp",
     "permissionDenied": "Permission denied",
-    "permissionMessage": "We need your permission to access your photos."
+    "permissionMessage": "We need your permission to access your photos.",
+    "completeProfile": "Complete my profile",
+    "completeProfileDesc": "Add your personal information",
+    "incompleteProfile": "Incomplete profile",
+    "completeYourProfile": "Complete your profile",
+    "completeProfileInfo": "Add your information to access all features and secure your transactions.",
+    "whyCompleteProfile": "Why complete my profile?",
+    "whyCompleteProfileDesc": "This information is necessary to verify your identity and secure your transactions.",
+    "skip": "Skip"
   },
   "payment": {
     "title": "Payment",
@@ -329,13 +348,24 @@
     "creditPurchase": "Credit Purchase",
     "forMe": "For me",
     "forSomeoneElse": "For someone else",
+    "beneficiary": "Beneficiary",
     "beneficiaryNumber": "Beneficiary number",
+    "amount": "Amount",
     "amountToSend": "Amount to send",
+    "quickAmounts": "Quick amounts",
     "withdrawalOptions": "Withdrawal options",
     "withdrawalCode": "Withdrawal Code",
     "atAgent": "At an agent",
     "myBank": "My Bank",
-    "confirmPurchase": "Confirm purchase"
+    "confirmPurchase": "Confirm purchase",
+    "transferAmount": "Transfer amount",
+    "chooseAmount": "Choose amount",
+    "transferReason": "Transfer reason",
+    "reason": "Reason",
+    "scheduling": "Scheduling",
+    "startDate": "Start date",
+    "frequency": "Frequency",
+    "recurringTransfer": "Recurring transfer"
   },
   "merchant": {
     "merchantPayment": "Merchant Payment",
