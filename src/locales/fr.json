@@ -101,7 +101,8 @@
     "recentTransactions": "Transactions récentes",
     "viewAll": "Voir tout",
     "noTransactions": "Aucune transaction",
-    "hello": "Bonjour"
+    "hello": "Bonjour",
+    "topUpInfo": "Choisissez comment vous souhaitez recharger votre compte CashMoov"
   },
   "transactions": {
     "title": "Transactions",
@@ -207,7 +208,8 @@
     "receiveFromOM": "Récevez depuis",
     "orangeMoney": "Orange Money",
     "sendAbroad24h": "Envoi vers l'étranger • 24-48h",
-    "noCountryFound": "Aucun pays trouvé"
+    "noCountryFound": "Aucun pays trouvé",
+    "fromWave": "Depuis Wave"
   },
   "services": {
     "title": "Services",
@@ -230,7 +232,16 @@
     "credits": "Crédits",
     "merchants": "Marchands",
     "withdrawals": "Retraits",
-    "topUp": "Me recharger"
+    "topUp": "Me recharger",
+    "withdrawalCode": "Retrait Code",
+    "atAgent": "Chez un agent",
+    "myBank": "Ma Banque",
+    "fromOrangeMoney": "Depuis Orange Money",
+    "toOrangeMoney": "Vers Orange Money",
+    "forMe": "Pour moi",
+    "forSomeoneElse": "Pour un autre",
+    "buyCredit": "Acheter du crédit pour mon numéro",
+    "orChooseContact": "ou choisir un contact"
   },
   "carousel": {
     "internationalTransfers": "Transferts internationaux",
@@ -287,7 +298,15 @@
     "shareTitle": "Recommander CashMoov",
     "shareMessage": "Télécharge CashMoov, la meilleure application de transfert d'argent et de paiement mobile en Guinée ! https://play.google.com/store/apps/details?id=com.estel.cashmoovsubscriberapp",
     "permissionDenied": "Permission refusée",
-    "permissionMessage": "Nous avons besoin de votre permission pour accéder à vos photos."
+    "permissionMessage": "Nous avons besoin de votre permission pour accéder à vos photos.",
+    "completeProfile": "Compléter mon profil",
+    "completeProfileDesc": "Ajouter vos informations personnelles",
+    "incompleteProfile": "Profil incomplet",
+    "completeYourProfile": "Complétez votre profil",
+    "completeProfileInfo": "Ajoutez vos informations pour accéder à toutes les fonctionnalités et sécuriser vos transactions.",
+    "whyCompleteProfile": "Pourquoi compléter mon profil ?",
+    "whyCompleteProfileDesc": "Ces informations sont nécessaires pour vérifier votre identité et sécuriser vos transactions.",
+    "skip": "Ignorer"
   },
   "payment": {
     "title": "Paiement",
@@ -335,13 +354,24 @@
     "creditPurchase": "Achat de crédit",
     "forMe": "Pour moi",
     "forSomeoneElse": "Pour un autre",
+    "beneficiary": "Bénéficiaire",
     "beneficiaryNumber": "Numéro du bénéficiaire",
+    "amount": "Montant",
     "amountToSend": "Montant à envoyer",
+    "quickAmounts": "Montants rapides",
     "withdrawalOptions": "Options de retrait",
     "withdrawalCode": "Retrait Code",
     "atAgent": "Chez un agent",
     "myBank": "Ma Banque",
-    "confirmPurchase": "Confirmer l'achat"
+    "confirmPurchase": "Confirmer l'achat",
+    "transferAmount": "Montant du transfert",
+    "chooseAmount": "Choisir un montant",
+    "transferReason": "Motif du transfert",
+    "reason": "Motif",
+    "scheduling": "Programmation",
+    "startDate": "Date de début",
+    "frequency": "Fréquence",
+    "recurringTransfer": "Transfert récurrent"
   },
   "merchant": {
     "merchantPayment": "Paiement marchand",

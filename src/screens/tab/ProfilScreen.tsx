@@ -97,6 +97,27 @@ export default function ProfileScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: verticalScale(20)}}
             >
+                    {/**Compléter le profil - TODO: Afficher seulement si le profil n'est pas complet */}
+                <TouchableOpacity 
+                    style={[styles.sectionParams, { backgroundColor: '#FFF8E7', borderWidth: scale(1), borderColor: '#FFE082' }]}
+                    onPress={() => navigation.navigate(ROUTES.COMPLETE_PROFILE)}
+                    activeOpacity={0.7}
+                >
+                    <View style={styles.card}>
+                        <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
+                            <View style={[styles.icon, { backgroundColor: COLORS.primary }]}>
+                                <Ionicons name='person-add-outline' size={scale(23)} color={COLORS.white}/>
+                            </View>
+                            <View>
+                                <Text style={styles.subtitle}>{t('profile.completeProfile')}</Text>
+                                <Text style={styles.parametres}>{t('profile.completeProfileDesc')}</Text>
+                            </View>
+                        </View>
+                        <View style={{ alignItems: "center", justifyContent: "center" }}>
+                            <Ionicons name="chevron-forward-sharp" size={scale(20)} color={COLORS.primary}/>
+                        </View>
+                    </View>
+                </TouchableOpacity>
                     {/**Frais */}
                 <TouchableOpacity 
                     style={styles.sectionParams}

@@ -3,12 +3,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Alert, KeyboardAvoidingView, Linking, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
-import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -24,88 +23,17 @@ export default function RegisterScreen() {
   const [prenom, setPrenom] = useState('');
   const [nom, setNom] = useState('');
   const [email, setEmail] = useState('');
-  const [adresse, setAdresse] = useState('');
-  const [numeroPiece, setNumeroPiece] = useState('');
-  const [dateNaissance, setDateNaissance] = useState('');
   const [checked, setChecked] = useState(false);
 
-  const handleDateChange = (text: string) => {
-    // Supprimer tous les caractères non numériques
-    const cleaned = text.replace(/[^0-9]/g, '');
-    
-    let formatted = '';
-    
-    if (cleaned.length <= 2) {
-      // JJ
-      formatted = cleaned;
-    } else if (cleaned.length <= 4) {
-      // JJ/MM
-      formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
-    } else {
-      // JJ/MM/AAAA
-      formatted = `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}/${cleaned.slice(4, 8)}`;
-    }
-    
-    setDateNaissance(formatted);
-  };
-
-  // Région
-  const [openRegion, setOpenRegion] = useState(false);
-  const [region, setRegion] = useState(null);
-  const [regionItems, setRegionItems] = useState([
-    { label: 'Conakry', value: 'conakry' },
-    { label: 'Kindia', value: 'kindia' },
-    { label: 'Boké', value: 'boke' },
-    { label: 'Labé', value: 'labe' },
-    { label: 'Mamou', value: 'mamou' },
-    { label: 'Faranah', value: 'faranah' },
-    { label: 'Kankan', value: 'kankan' },
-    { label: 'N\'Zérékoré', value: 'nzerekore' },
-  ]);
-
-  // Ville
-  const [openVille, setOpenVille] = useState(false);
-  const [ville, setVille] = useState(null);
-  const [villeItems, setVilleItems] = useState([
-    { label: 'Ratoma', value: 'ratoma' },
-    { label: 'Matam', value: 'matam' },
-    { label: 'Kaloum', value: 'kaloum' },
-    { label: 'Dixinn', value: 'dixinn' },
-    { label: 'Matoto', value: 'matoto' },
-  ]);
-
-  // Sexe
-  const [openSexe, setOpenSexe] = useState(false);
-  const [sexe, setSexe] = useState(null);
-  const [sexeItems, setSexeItems] = useState([
-    { label: 'Masculin', value: 'masculin' },
-    { label: 'Féminin', value: 'feminin' },
-  ]);
-
-  // Type de pièce
-  const [openPiece, setOpenPiece] = useState(false);
-  const [piece, setPiece] = useState(null);
-  const [pieceItems, setPieceItems] = useState([
-    { label: 'Carte d\'identité', value: 'cni' },
-    { label: 'Passeport', value: 'passeport' },
-    { label: 'Permis de conduire', value: 'permis' },
-  ]);
-
-  // Profession
-  const [openProfession, setOpenProfession] = useState(false);
-  const [profession, setProfession] = useState(null);
-  const [professionItems, setProfessionItems] = useState([
-    { label: 'Étudiant', value: 'etudiant' },
-    { label: 'Salarié', value: 'salarie' },
-    { label: 'Commerçant', value: 'commercant' },
-    { label: 'Fonctionnaire', value: 'fonctionnaire' },
-    { label: 'Entrepreneur', value: 'entrepreneur' },
-    { label: 'Autre', value: 'autre' },
-  ]);
-
   const handleContinue = () => {
-    if (!prenom || !nom || !region || !ville || !adresse || !sexe || !piece || !numeroPiece || !profession || !dateNaissance) {
+    if (!prenom || !nom) {
       Alert.alert(t('common.error'), 'Veuillez remplir tous les champs obligatoires');
+      return;
+    }
+
+    // Validation email si fourni
+    if (email && !email.includes('@')) {
+      Alert.alert(t('common.error'), 'Veuillez entrer une adresse email valide');
       return;
     }
 
@@ -135,6 +63,13 @@ export default function RegisterScreen() {
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
+          <View style={styles.infoContainer}>
+            <Ionicons name="information-circle-outline" size={scale(20)} color={COLORS.primary} />
+            <Text style={styles.infoText}>
+              Créez votre compte rapidement. Vous pourrez compléter votre profil après la connexion.
+            </Text>
+          </View>
+
           <TextInput
             style={[styles.input, { fontSize: moderateScale(20), fontWeight: '600' }]}
             value={phone}
@@ -169,120 +104,10 @@ export default function RegisterScreen() {
             style={styles.input}
             value={email}
             onChangeText={setEmail}
-            placeholder="Email"
+            placeholder="Email (optionnel)"
             placeholderTextColor={COLORS.textSecondary}
             keyboardType="email-address"
             autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="off"
-          />
-
-          <View style={{ zIndex: 5000 }}>
-            <DropDownPicker
-              open={openRegion}
-              value={region}
-              items={regionItems}
-              setOpen={setOpenRegion}
-              setValue={setRegion}
-              setItems={setRegionItems}
-              style={styles.dropdown}
-              placeholder="Choisissez une région*"
-              dropDownContainerStyle={styles.dropdownContainer}
-              placeholderStyle={styles.placeholderStyle}
-              listMode="SCROLLVIEW"
-            />
-          </View>
-
-          <View style={{ zIndex: 4000 }}>
-            <DropDownPicker
-              open={openVille}
-              value={ville}
-              items={villeItems}
-              setOpen={setOpenVille}
-              setValue={setVille}
-              setItems={setVilleItems}
-              style={styles.dropdown}
-              placeholder="Sélectionnez la ville*"
-              dropDownContainerStyle={styles.dropdownContainer}
-              placeholderStyle={styles.placeholderStyle}
-              listMode="SCROLLVIEW"
-            />
-          </View>
-
-          <TextInput
-            style={styles.input}
-            value={adresse}
-            onChangeText={setAdresse}
-            placeholder="Adresse*"
-            placeholderTextColor={COLORS.textSecondary}
-            autoCorrect={false}
-            autoComplete="off"
-          />
-
-          <View style={{ zIndex: 3000 }}>
-            <DropDownPicker
-              open={openSexe}
-              value={sexe}
-              items={sexeItems}
-              setOpen={setOpenSexe}
-              setValue={setSexe}
-              setItems={setSexeItems}
-              style={styles.dropdown}
-              placeholder="Sélectionnez le sexe*"
-              dropDownContainerStyle={styles.dropdownContainer}
-              placeholderStyle={styles.placeholderStyle}
-            />
-          </View>
-
-          <View style={{ zIndex: 2000 }}>
-            <DropDownPicker
-              open={openPiece}
-              value={piece}
-              items={pieceItems}
-              setOpen={setOpenPiece}
-              setValue={setPiece}
-              setItems={setPieceItems}
-              style={styles.dropdown}
-              placeholder="Sélectionnez le type de pièce*"
-              dropDownContainerStyle={styles.dropdownContainer}
-              placeholderStyle={styles.placeholderStyle}
-            />
-          </View>
-
-          <TextInput
-            style={styles.input}
-            value={numeroPiece}
-            onChangeText={setNumeroPiece}
-            placeholder="Numéro de la pièce*"
-            placeholderTextColor={COLORS.textSecondary}
-            autoCorrect={false}
-            autoComplete="off"
-          />
-
-          <View style={{ zIndex: 1000 }}>
-            <DropDownPicker
-              open={openProfession}
-              value={profession}
-              items={professionItems}
-              setOpen={setOpenProfession}
-              setValue={setProfession}
-              setItems={setProfessionItems}
-              style={styles.dropdown}
-              placeholder="Sélectionnez la profession*"
-              dropDownContainerStyle={styles.dropdownContainer}
-              placeholderStyle={styles.placeholderStyle}
-              listMode="SCROLLVIEW"
-            />
-          </View>
-
-          <TextInput
-            style={styles.input}
-            value={dateNaissance}
-            onChangeText={handleDateChange}
-            placeholder="Date de naissance* (JJ/MM/AAAA)"
-            placeholderTextColor={COLORS.textSecondary}
-            keyboardType="numeric"
-            maxLength={10}
             autoCorrect={false}
             autoComplete="off"
           />
@@ -307,6 +132,10 @@ export default function RegisterScreen() {
           <TouchableOpacity style={styles.button} onPress={handleContinue}>
             <Text style={styles.buttonText}>{t('common.continue')}</Text>
           </TouchableOpacity>
+
+          <Text style={styles.footerText}>
+            * Champs obligatoires
+          </Text>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -342,6 +171,21 @@ const styles = StyleSheet.create({
     paddingVertical: verticalScale(20),
     paddingBottom: verticalScale(40),
   },
+  infoContainer: {
+    flexDirection: 'row',
+    backgroundColor: COLORS.background,
+    padding: scale(12),
+    borderRadius: moderateScale(10),
+    marginBottom: verticalScale(20),
+    alignItems: 'center',
+  },
+  infoText: {
+    flex: 1,
+    marginLeft: scale(10),
+    fontSize: moderateScale(13),
+    color: COLORS.textSecondary,
+    lineHeight: moderateScale(18),
+  },
   input: {
     backgroundColor: COLORS.background,
     borderWidth: scale(1),
@@ -352,21 +196,6 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
     color: COLORS.textPrimary,
     marginBottom: verticalScale(15),
-  },
-  dropdown: {
-    backgroundColor: COLORS.background,
-    borderWidth: scale(1),
-    borderColor: COLORS.border,
-    borderRadius: moderateScale(12),
-    marginBottom: verticalScale(15),
-  },
-  dropdownContainer: {
-    backgroundColor: COLORS.white,
-    borderWidth: scale(1),
-    borderColor: COLORS.border,
-  },
-  placeholderStyle: {
-    color: COLORS.textSecondary,
   },
   checkboxRow: {
     flexDirection: 'row',
@@ -407,5 +236,11 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
     fontWeight: '700',
     color: COLORS.white,
+  },
+  footerText: {
+    fontSize: moderateScale(12),
+    color: COLORS.textSecondary,
+    textAlign: 'center',
+    marginTop: verticalScale(15),
   },
 });

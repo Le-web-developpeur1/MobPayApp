@@ -80,48 +80,48 @@ export default function TransactionEncours() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: verticalScale(20) }}
             >
-                 {transactionsEncours.map((item, index) => (
-                                                <TouchableOpacity
-                                                    key={index}
-                                                    style={styles.transactionCard}
-                                                    onPress={() => {
-                                                        setSelectedTransaction(item);
-                                                        setShowModal(true);
-                                                    }}
-                                                    activeOpacity={0.7}
-                                                >
-                                                    <View 
-                                                        style={[
-                                                            styles.transactionIcon,
-                                                            item.status === "entrant" ? styles.iconEntrant : styles.iconSortant,
-                                                        ]}
-                                                    >
-                                                        <Feather 
-                                                            name={item.status === "sortant" ? "arrow-up-right" : "arrow-down-left"} 
-                                                            color={item.status === "entrant" ? COLORS.success : COLORS.error} 
-                                                            size={scale(20)}
-                                                        />
-                                                    </View>
-                                                    
-                                                    <View style={styles.transactionInfo}>
-                                                        <Text style={styles.transactionName} numberOfLines={1}>{item.name}</Text>
-                                                        <Text style={styles.transactionPhone}>{item.phone}</Text>
-                                                    </View>
-                                                    
-                                                    <View style={styles.transactionRight}>
-                                                        <Text
-                                                            style={[
-                                                                styles.transactionAmount,
-                                                                { color: item.status === "entrant" ? COLORS.success : COLORS.error }
-                                                            ]}
-                                                            numberOfLines={1}
-                                                        >
-                                                            {item.status === "entrant" ? "+" : "-"}{item.amount}
-                                                        </Text>
-                                                        <Text style={styles.transactionDate}>{item.date}</Text>
-                                                    </View>
-                                                </TouchableOpacity>
-                            ))}
+                {transactionsEncours.map((item, index) => (
+                    <TouchableOpacity
+                        key={index}
+                        style={styles.transactionCard}
+                        onPress={() => {
+                            setSelectedTransaction(item);
+                            setShowModal(true);
+                        }}
+                        activeOpacity={0.7}
+                    >
+                        <View 
+                            style={[
+                                styles.transactionIcon,
+                                item.status === "entrant" ? styles.iconEntrant : styles.iconSortant,
+                            ]}
+                        >
+                            <Feather 
+                                name={item.status === "sortant" ? "arrow-up-right" : "arrow-down-left"} 
+                                color={item.status === "entrant" ? COLORS.success : COLORS.error} 
+                                size={scale(20)}
+                            />
+                        </View>
+                        
+                        <View style={styles.transactionInfo}>
+                            <Text style={styles.transactionName} numberOfLines={1}>{item.name}</Text>
+                            <Text style={styles.transactionPhone}>{item.phone}</Text>
+                        </View>
+                        
+                        <View style={styles.transactionRight}>
+                            <Text
+                                style={[
+                                    styles.transactionAmount,
+                                    { color: item.status === "entrant" ? COLORS.success : COLORS.error }
+                                ]}
+                                numberOfLines={1}
+                            >
+                                {item.status === "entrant" ? "+" : "-"}{item.amount}
+                            </Text>
+                            <Text style={styles.transactionDate}>{item.date}</Text>
+                        </View>
+                    </TouchableOpacity>
+                ))}
 
                 <DetailTransaction
                     visible={showModal}

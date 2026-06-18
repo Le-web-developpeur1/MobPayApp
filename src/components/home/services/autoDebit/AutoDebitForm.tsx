@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, TouchableOpacity, Alert } from "react-native";
-import { TextInput } from "react-native-paper";
-import DropDownPicker from "react-native-dropdown-picker";
+import { AutoDebitConfirmModal } from "@/src/components/modals/AutoDebitConfirmModal";
+import Buttons from "@/src/components/ui/Buttons";
 import { COLORS } from "@/src/constants";
+import { autoDebitStorage } from "@/src/services/autoDebitStorage";
+import React, { useState } from "react";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { TextInput } from "react-native-paper";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import Dates from "./Dates";
-import Buttons from "@/src/components/ui/Buttons";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { AutoDebitConfirmModal } from "@/src/components/modals/AutoDebitConfirmModal";
-import { autoDebitStorage } from "@/src/services/autoDebitStorage";
 
 const credit = [
   { prix: "10 000" },
@@ -110,16 +110,15 @@ export default function AutoDebitForm() {
   return (
       <View style={styles.container}>
         <KeyboardAwareScrollView 
-          contentContainerStyle={{ paddingBottom: verticalScale(20)}}
+          contentContainerStyle={{ paddingBottom: verticalScale(100)}}
           showsVerticalScrollIndicator={false}
           enableOnAndroid={true}  
-          extraScrollHeight={20}   
-          keyboardOpeningTime={0}  
+          extraScrollHeight={100}   
+          keyboardOpeningTime={0}
+          enableResetScrollToCoords={false}
+          keyboardShouldPersistTaps="handled"
         >
-          <Text style={{paddingBottom: verticalScale(5)}}>
-            Fréquence <Text style={{ color: "red" }}>*</Text>
-          </Text>
-
+          <Text style={styles.sectionTitle}>Fréquence de transfert</Text>
           <DropDownPicker
             open={open}
             value={frequency}
@@ -129,18 +128,19 @@ export default function AutoDebitForm() {
             setValue={setFrequency}
             style={styles.picker}
             dropDownContainerStyle={styles.dropdownContainer}
-            placeholder="Choisir une fréquence"
+            placeholder="Choisir une fréquence *"
             listMode="SCROLLVIEW"
             textStyle={{
-              fontSize: moderateScale(14),
+              fontSize: moderateScale(15),
               color: COLORS.textPrimary,
             }}
             labelStyle={{
-              fontSize: moderateScale(14),
-              fontWeight: '500',
+              fontSize: moderateScale(15),
+              fontWeight: '600',
             }}
           />
 
+          <Text style={styles.sectionTitle}>Montant</Text>
           <TextInput
             label="Entrez un montant *"
             value={amount}
@@ -152,17 +152,19 @@ export default function AutoDebitForm() {
               colors: {
                 text: COLORS.textPrimary,
                 primary: COLORS.primary,
+                background: COLORS.background,
               },
             }}
           />
 
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text>Entre </Text>
-            <Text style={{ color: COLORS.primary, fontSize: moderateScale(16) }}>
+          <View style={styles.rangeInfo}>
+            <Text style={styles.rangeText}>Entre </Text>
+            <Text style={styles.rangeAmount}>
               10 000 GNF - 10 000 000 GNF
             </Text>
           </View>
 
+          <Text style={styles.quickAmountsTitle}>Montants rapides</Text>
           <View style={styles.prixSection}>
             {credit.map((c, i) => (
               <TouchableOpacity
@@ -189,6 +191,7 @@ export default function AutoDebitForm() {
             ))}
           </View>
           
+          <Text style={styles.sectionTitle}>Période</Text>
           <Dates
             startDate={startDate}
             endDate={endDate}
@@ -196,16 +199,20 @@ export default function AutoDebitForm() {
             onEndDateChange={setEndDate}
           />
           
+          <Text style={styles.sectionTitle}>Motif du transfert</Text>
           <TextInput
             label="Motif *"
             value={motif}
             onChangeText={setMotif}
             mode="outlined"
-            style={styles.input}
+            multiline
+            numberOfLines={3}
+            style={[styles.input, { height: verticalScale(50) }]}
             theme={{
               colors: {
                 text: COLORS.textPrimary,
                 primary: COLORS.primary,
+                background: COLORS.background,
               },
             }}
           />
@@ -231,42 +238,77 @@ export default function AutoDebitForm() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderRadius: moderateScale(8),
-    marginTop: verticalScale(10),
-    gap: scale(5),
+    paddingTop: verticalScale(10),
+  },
+  sectionTitle: {
+    fontSize: moderateScale(16),
+    fontWeight: '700',
+    color: COLORS.textPrimary,
+    marginBottom: verticalScale(10),
+    marginTop: verticalScale(5),
   },
   picker: {
-    borderColor: COLORS.primary,
-    marginBottom: verticalScale(10),
+    backgroundColor: COLORS.background,
+    borderColor: COLORS.border,
+    borderWidth: scale(1),
+    borderRadius: moderateScale(12),
+    marginBottom: verticalScale(15),
     minHeight: verticalScale(50),
   },
   dropdownContainer: {
-    borderColor: COLORS.primary,
+    backgroundColor: COLORS.white,
+    borderColor: COLORS.border,
+    borderWidth: scale(1),
   },
   input: {
+    backgroundColor: COLORS.background,
     marginBottom: verticalScale(15),
-    height: verticalScale(45),
+    height: verticalScale(50),
+  },
+  rangeInfo: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: verticalScale(12),
+  },
+  rangeText: {
+    fontSize: moderateScale(14),
+    color: COLORS.textSecondary,
+  },
+  rangeAmount: {
+    fontSize: moderateScale(14),
+    color: COLORS.primary,
+    fontWeight: '700',
+  },
+  quickAmountsTitle: {
+    fontSize: moderateScale(14),
+    fontWeight: '600',
+    color: COLORS.textSecondary,
+    marginBottom: verticalScale(8),
   },
   prixSection: {
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginTop: verticalScale(10),
-    paddingHorizontal: scale(10),
+    marginBottom: verticalScale(15),
   },
   card: {
-    width: scale(80),
+    width: '31%',
     backgroundColor: COLORS.white,
-    borderWidth: 1,
-    borderColor: COLORS.primary,
+    borderWidth: scale(1.5),
+    borderColor: COLORS.border,
     borderRadius: moderateScale(12),
-    paddingVertical: verticalScale(12),
-    marginBottom: verticalScale(15),
+    paddingVertical: verticalScale(16),
+    marginBottom: verticalScale(12),
     alignItems: "center",
     justifyContent: "center",
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: verticalScale(2) },
+    shadowOpacity: 0.06,
+    shadowRadius: moderateScale(4),
+    elevation: 2,
   },
   cardGnf: {
-    fontSize: moderateScale(14),
+    fontSize: moderateScale(15),
     fontWeight: "700",
     color: COLORS.textPrimary,
   },

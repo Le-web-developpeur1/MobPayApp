@@ -1,7 +1,7 @@
 import HeaderScreen from "@/src/components/ui/HeaderScreen";
 import { COLORS, ROUTES } from "@/src/constants";
 import { RootStackParamList } from "@/src/navigation/types";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useTranslation } from "react-i18next";
@@ -16,84 +16,90 @@ type TransferType = "ReceptionOM";
 const retraitOptions = [
   { 
     type: 'icon',
-    label: "Retrait Code", 
-    name: "key",
+    labelKey: "quickActions.withdrawalCode",
+    icon: "key",
   },
   { 
     type: 'icon',
-    label: "Chez un agent", 
-    name: "user",
+    labelKey: "quickActions.atAgent",
+    icon: "user",
   },
   {     
     type: 'icon',
-    label: "Ma Banque", 
-    name: "building-columns",
+    labelKey: "quickActions.myBank",
+    icon: "building-columns",
   },
   {     
-    type: 'img',
-    label: "Depuis Wave", 
-    name: "@/assets/images/national/wave.png",
+    type: 'image',
+    labelKey: "transfer.fromWave",
+    image: require("@/assets/images/national/wave.png"),
   },
   { 
-    type: 'img',
-    label: "Depuis OM", 
-    name: "@/assets/images/national/logo-orange.png",
+    type: 'image',
+    labelKey: "quickActions.fromOrangeMoney",
+    image: require("@/assets/images/national/logo-orange.png"),
   },
 ] as const;
 
 export default function Merecharger() {
   const navigation = useNavigation<NavigationProp>();
-
   const { t } = useTranslation();
 
-  const handleOptionPress = (option: string) => {
-    if (option === "Chez un agent") {
-    }
-    else if (option === "Depuis OM") {
-      navigation.navigate(ROUTES.CONTACT, { type: "ReceptionOM" as TransferType })
+  const handleOptionPress = (option: typeof retraitOptions[number]) => {
+    const label = t(option.labelKey);
+    if (label === t("quickActions.atAgent")) {
+      // TODO: Implémenter la logique pour retrait chez un agent
+      console.log("Retrait chez un agent");
+    } else if (label === t("quickActions.fromOrangeMoney")) {
+      navigation.navigate(ROUTES.CONTACT, { type: "ReceptionOM" as TransferType });
+    } else if (label === t("quickActions.withdrawalCode")) {
+      // TODO: Implémenter la logique pour génération de code
+      console.log("Retrait avec code");
+    } else if (label === t("quickActions.myBank")) {
+      // TODO: Implémenter la logique pour virement bancaire
+      console.log("Virement bancaire");
+    } else if (label === t("transfer.fromWave")) {
+      // TODO: Implémenter la logique pour Wave
+      console.log("Reception depuis Wave");
     }
   };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.primary }}>
       <View style={{ flex: 1, backgroundColor: COLORS.background }}>
-        <HeaderScreen title="Options de retrait" />
+        <HeaderScreen title={t('quickActions.topUp')} />
         <View style={styles.container}>
           <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.infoCard}>
+              <Ionicons name="information-circle" size={scale(24)} color={COLORS.primary} />
+              <Text style={styles.infoText}>
+                {t('home.topUpInfo') || 'Choisissez comment vous souhaitez recharger votre compte CashMoov'}
+              </Text>
+            </View>
+
             <View style={styles.grid}>
               {retraitOptions.map((option, index) => (
                 <TouchableOpacity
                   key={index}
                   style={styles.item}
-                  onPress={() => handleOptionPress(option.label)}
+                  activeOpacity={0.7}
+                  onPress={() => handleOptionPress(option)}
                 >
-                  <View style={styles.icon}>
+                  <View style={styles.iconContainer}>
                     {option.type === "icon" ? (
-                      <FontAwesome6 name={option.name} color={COLORS.white} size={moderateScale(18)} />
+                      <FontAwesome6 name={option.icon} color={COLORS.white} size={moderateScale(24)} />
                     ) : (
-                      
-                      <Image source={option.name as any}/>
+                      <Image 
+                        source={option.image} 
+                        style={styles.logoImage}
+                        resizeMode="contain"
+                      />
                     )}
                   </View>
-                  <Text style={styles.itemText}>{option.label}</Text>
+                  <Text style={styles.itemLabel}>{t(option.labelKey)}</Text>
                 </TouchableOpacity>
               ))}
             </View>
-            {/* <TouchableOpacity 
-                      style={styles.card} 
-                      activeOpacity={0.7}
-                     onPress={() => {
-                      }}
-                    >
-                      <View style={styles.logoContainer}>
-                        <Image 
-                          source={require("@/assets/images/national/logo-orange.png")}
-                          style={styles.logo}
-                        />
-                      </View>
-                      <Text style={styles.cardTitle}>{t('transfer.receiveFromOM')}</Text>
-                      <Text style={styles.cardDescription}>{t('transfer.orangeMoney')}</Text>
-                    </TouchableOpacity> */}
           </ScrollView>
         </View>
       </View>
@@ -103,80 +109,73 @@ export default function Merecharger() {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    marginTop: verticalScale(30),
+    flex: 1,
     paddingHorizontal: scale(20),
+    paddingTop: verticalScale(20),
   },
-  icon: {
-    backgroundColor: COLORS.primary,
-    width: scale(40),
-    height: verticalScale(40),
-    borderRadius: moderateScale(20),
+  infoCard: {
+    flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-  },
-  item: {
-    paddingVertical: verticalScale(15),
-    borderColor: COLORS.primary,
-    borderWidth: moderateScale(1),
-    alignItems: "center",
-    justifyContent: "center",
-    width: scale(100),
-    height: verticalScale(100),
-    marginHorizontal: scale(5),
-    marginBottom: verticalScale(15),
+    backgroundColor: COLORS.secondary,
+    padding: scale(15),
     borderRadius: moderateScale(12),
-    backgroundColor: COLORS.white,
+    marginBottom: verticalScale(20),
+    gap: scale(12),
+    borderLeftWidth: scale(4),
+    borderLeftColor: COLORS.primary,
   },
-  itemText: {
-    paddingTop: verticalScale(10),
+  infoText: {
+    flex: 1,
     fontSize: moderateScale(13),
-    color: COLORS.primary,
-    textAlign: "center",
-    fontWeight: "600",
+    color: COLORS.textSecondary,
+    lineHeight: moderateScale(18),
   },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
   },
-  card: {
-    flex: 1,
+  item: {
     backgroundColor: COLORS.white,
     borderRadius: moderateScale(16),
-    padding: scale(12),
-    alignItems: 'center',
+    padding: scale(15),
+    alignItems: "center",
+    justifyContent: "center",
+    width: '48%',
+    marginBottom: verticalScale(15),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: verticalScale(2) },
-    shadowOpacity: 0.06,
-    shadowRadius: moderateScale(6),
-    elevation: 3,
+    shadowOpacity: 0.08,
+    shadowRadius: moderateScale(8),
+    elevation: 4,
+    borderWidth: scale(1),
+    borderColor: COLORS.border,
   },
-  logoContainer: {
+  iconContainer: {
+    backgroundColor: COLORS.primary,
     width: scale(60),
     height: scale(60),
-    borderRadius: moderateScale(14),
-    backgroundColor: COLORS.background,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: verticalScale(10),
+    borderRadius: moderateScale(30),
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: verticalScale(12),
   },
-  logo: {
-    width: scale(48),
-    height: scale(48),
-    borderRadius: moderateScale(10),
+  logoImage: {
+    width: scale(45),
+    height: scale(45),
+    borderRadius: moderateScale(8),
   },
-  cardTitle: {
-    fontSize: moderateScale(13),
-    fontWeight: '700',
+  itemLabel: {
+    fontSize: moderateScale(14),
     color: COLORS.textPrimary,
+    textAlign: "center",
+    fontWeight: "700",
     marginBottom: verticalScale(4),
-    textAlign: 'center',
   },
-  cardDescription: {
-    fontSize: moderateScale(12),
+  itemDescription: {
+    fontSize: moderateScale(11),
     color: COLORS.textSecondary,
-    textAlign: 'center',
+    textAlign: "center",
+    lineHeight: moderateScale(15),
   },
 });

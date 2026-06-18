@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import CountryCodePicker, { COUNTRIES, Country} from '@/src/components/auth/CountryCodePicker';
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
-import { COLORS } from '@/src/constants';
-import { TextInput } from "react-native-paper";
+import CountryCodePicker, { COUNTRIES, Country } from '@/src/components/auth/CountryCodePicker';
 import Contact from '@/src/components/contact/Contact';
+import { COLORS } from '@/src/constants';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { TextInput } from "react-native-paper";
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import AutoDebitForm from './AutoDebitForm';
 
 type Programme = {
@@ -52,7 +52,8 @@ export default function TransfertProgramme({ type } : Programme) {
         <View style={styles.container}>
             <Contact 
                 searchExterne={phone} 
-                showSearchBar={false} 
+                showSearchBar={false}
+                useSafeArea={false}
                 onSelectContact={(contact) => {
                     setPhone(contact.phoneNumbers?.[0]?.number || "");
                     setShowForm(true);

@@ -1,20 +1,19 @@
-import { COLORS } from '@/src/constants';
+import { COLORS, ROUTES } from '@/src/constants';
+import { RootStackParamList } from '@/src/navigation/types';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as Contacts from "expo-contacts";
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { TextInput } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import CountryCodePicker, { COUNTRIES, Country } from '../auth/CountryCodePicker';
 import HeaderScreen from '../ui/HeaderScreen';
 import SearchBar from '../ui/SearchBar';
 import ContactListSection from './ContactListSection';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@/src/navigation/types';
-import { ROUTES } from '@/src/constants';
-import { TextInput } from 'react-native-paper';
-import CountryCodePicker, { Country, COUNTRIES } from '../auth/CountryCodePicker';
-import { Ionicons } from '@expo/vector-icons';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -100,23 +99,34 @@ export default function Contact({ searchExterne = "", showSearchBar = true, onSe
               />
             </View>
             <View style={styles.phoneInputWrapper}>
-              <TextInput
-                style={styles.phoneInput}
-                placeholder={t('contacts.enterPhoneNumber')}
-                placeholderTextColor="#aaa"
-                value={phone}
-                onChangeText={setPhone}
-                keyboardType="phone-pad"
-                mode="flat"
-                underlineColor="transparent"
-                activeUnderlineColor="transparent"
-                theme={{
-                  colors: {
-                    text: COLORS.primary,
-                    placeholder: COLORS.secondary,
-                  },
-                }}
-              />
+              <View style={styles.inputWithIcon}>
+                <TextInput
+                  style={styles.phoneInput}
+                  placeholder={t('contacts.enterPhoneNumber')}
+                  placeholderTextColor={COLORS.textSecondary}
+                  value={phone}
+                  onChangeText={setPhone}
+                  keyboardType="phone-pad"
+                  mode="flat"
+                  underlineColor="transparent"
+                  activeUnderlineColor="transparent"
+                  theme={{
+                    colors: {
+                      text: COLORS.textPrimary,
+                      placeholder: COLORS.textSecondary,
+                      background: 'transparent',
+                    },
+                  }}
+                />
+                {phone.length > 0 && (
+                  <TouchableOpacity 
+                    onPress={() => setPhone('')}
+                    style={styles.clearButton}
+                  >
+                    <Ionicons name="close-circle" size={scale(20)} color={COLORS.textSecondary} />
+                  </TouchableOpacity>
+                )}
+              </View>
             </View>
           </View>
         ) : showSearchBar ? (
@@ -132,15 +142,24 @@ export default function Contact({ searchExterne = "", showSearchBar = true, onSe
             <TouchableOpacity 
               style={styles.forMeButton}
               onPress={handleForMe}
-              activeOpacity={0.8}
+              activeOpacity={0.7}
             >
               <View style={styles.forMeIcon}>
-                <Ionicons name="person" size={scale(20)} color={COLORS.white} />
+                <Ionicons name="person" size={scale(22)} color={COLORS.white} />
               </View>
-              <Text style={styles.forMeText}>Pour moi</Text>
-              <Ionicons name="chevron-forward" size={scale(20)} color={COLORS.primary} />
+              <View style={{ flex: 1 }}>
+                <Text style={styles.forMeText}>{t('quickActions.forMe')}</Text>
+                <Text style={styles.forMeSubtext}>{t('quickActions.buyCredit')}</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={scale(22)} color={COLORS.textSecondary} />
             </TouchableOpacity>
 
+            {/* Séparateur avec texte */}
+            <View style={styles.separatorContainer}>
+              <View style={styles.separatorLine} />
+              <Text style={styles.separatorText}>{t('quickActions.orChooseContact')}</Text>
+              <View style={styles.separatorLine} />
+            </View>
           </View>
         }
 
@@ -163,7 +182,7 @@ export default function Contact({ searchExterne = "", showSearchBar = true, onSe
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    paddingVertical: verticalScale(5),
+    paddingVertical: verticalScale(2),
     backgroundColor: COLORS.background
   },
   contact: {
@@ -172,52 +191,94 @@ const styles = StyleSheet.create({
   phoneInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: "#ccc",
-    borderRadius: moderateScale(15),
+    backgroundColor: COLORS.white,
+    borderRadius: moderateScale(12),
     marginVertical: verticalScale(5),
     overflow: 'hidden',
+    borderWidth: scale(1),
+    borderColor: COLORS.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: verticalScale(2) },
+    shadowOpacity: 0.08,
+    shadowRadius: moderateScale(4),
+    elevation: 3,
   },
   countryPickerWrapper: {
-    borderRightWidth: 1,
-    borderRightColor: '#ffffff20',
+    borderRightWidth: scale(1),
+    borderRightColor: COLORS.border,
+    paddingRight: scale(5),
   },
   phoneInputWrapper: {
     flex: 1,
   },
+  inputWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   phoneInput: {
+    flex: 1,
     backgroundColor: 'transparent',
-    fontSize: moderateScale(15),
-    paddingHorizontal: scale(10),
-    color: COLORS.white,
+    fontSize: moderateScale(16),
+    paddingHorizontal: scale(12),
+    color: COLORS.textPrimary,
+    fontWeight: '500',
+  },
+  clearButton: {
+    padding: scale(8),
+    marginRight: scale(8),
   },
   forMeButton: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.white,
     marginTop: verticalScale(5),
-    marginBottom: verticalScale(10),
-    paddingVertical: verticalScale(10),
+    marginBottom: verticalScale(8),
+    paddingVertical: verticalScale(12),
     paddingHorizontal: scale(15),
     borderRadius: moderateScale(12),
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOffset: { width: 0, height: verticalScale(2) },
+    shadowOpacity: 0.08,
+    shadowRadius: moderateScale(4),
+    elevation: 3,
+    borderWidth: scale(1),
+    borderColor: COLORS.border,
   },
   forMeIcon: {
-    width: scale(40),
-    height: scale(40),
-    borderRadius: moderateScale(20),
+    width: scale(45),
+    height: scale(45),
+    borderRadius: moderateScale(22.5),
     backgroundColor: COLORS.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: scale(12),
+    marginRight: scale(15),
   },
   forMeText: {
     flex: 1,
     fontSize: moderateScale(16),
-    fontWeight: '600',
+    fontWeight: '700',
     color: COLORS.textPrimary,
+    marginBottom: verticalScale(2),
+  },
+  forMeSubtext: {
+    fontSize: moderateScale(13),
+    color: COLORS.textSecondary,
+    fontWeight: '400',
+  },
+  separatorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: verticalScale(10),
+  },
+  separatorLine: {
+    flex: 1,
+    height: scale(1),
+    backgroundColor: COLORS.border,
+  },
+  separatorText: {
+    fontSize: moderateScale(13),
+    color: COLORS.textSecondary,
+    marginHorizontal: scale(12),
+    fontWeight: '600',
   },
 });

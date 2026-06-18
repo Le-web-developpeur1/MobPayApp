@@ -1,3 +1,5 @@
+import CompleteProfileBanner from '@/src/components/home/CompleteProfileBanner';
+import Favorites from '@/src/components/home/services/Favorites';
 import React from 'react';
 import { ScrollView, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,8 +9,6 @@ import Header from '../../components/home/Header';
 import QuickActions from '../../components/home/services/QuickActions';
 import RecentesTransaction from '../../components/transactions/RecentesTrans';
 import { COLORS } from '../../constants';
-import Services from '@/src/components/home/services/Services';
-import Favorites from '@/src/components/home/services/Favorites';
 
 export default function HomeScreen() {
   return (
@@ -20,6 +20,7 @@ export default function HomeScreen() {
               showsVerticalScrollIndicator={false}
               >
             <BalanceCard/>
+              <CompleteProfileBanner/>
               <QuickActions/>
               <Favorites/>
               {/* <Services/> */}

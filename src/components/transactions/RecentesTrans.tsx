@@ -4,27 +4,27 @@ import { Feather, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { moderateScale, s, scale, verticalScale } from "react-native-size-matters";
-import DetailTransaction from "../modals/DetailTransactionModal";
 import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { moderateScale, scale, verticalScale } from "react-native-size-matters";
+import DetailTransaction from "../modals/DetailTransactionModal";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const transactionsReussies = [
     {
         name: "Boubacar Bah",
-        amount: "600 000 GNF",
-        date: "01 Février 2026",
+        amount: "600 000",
+        date: "01 Fév 2026",
         type: "entrant",
         phone: "626058033",
         typeTransaction: "Réception OM",
         status: "success"
     },
     {
-        name: "Fodé Douno",
-        amount: "849 000 GNF",
-        date: "02 Février 2026",
+        name: "Fodé Dounoh",
+        amount: "849 000",
+        date: "02 Fév 2026",
         type: "sortant",
         phone: "626058033",
         typeTransaction: "Transfert Cash Moov",
@@ -34,8 +34,8 @@ const transactionsReussies = [
 const transactionsEncours = [
     {
         name: "Rouguiatou Diallo",
-        amount: "1 200 000 GNF",
-        date: "28 Janvier 2026",
+        amount: "1 200 000",
+        date: "28 Jan '26",
         type: "sortant",
         phone: "626058033",
         typeTransaction: "Envoi OM",
@@ -43,8 +43,8 @@ const transactionsEncours = [
     },
     {
         name: "Alphonse Kaman",
-        amount: "599 000 GNF",
-        date: "21 Décembre 2025",
+        amount: "599 000",
+        date: "21 Déc 2025",
         type: "entrant",
         phone: "626058033",
         typeTransaction: "Recharge Crédit",
@@ -72,9 +72,9 @@ export default function RecentesTransaction() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{t('transactions.recent')}</Text>
             <View style={styles.statusView}>
-                <View style={styles.status}>
+            <Text style={styles.title}>{t('transactions.recent')}</Text>
+                {/* <View style={styles.status}>
                     <TouchableOpacity
                         onPress={() => setActivTab("reussies")}
                     >
@@ -83,7 +83,9 @@ export default function RecentesTransaction() {
                                 styles.tab,
                                 activTab === "reussies" && styles.activeTab,
                             ]}
-                        >Réussies</Text>
+                        >
+                            {t('transactions.completed')}
+                        </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => setActivTab("encours")}
@@ -93,9 +95,11 @@ export default function RecentesTransaction() {
                                 styles.tab,
                                 activTab === "encours" && styles.activeTab,
                             ]}
-                        >En cours</Text>
+                        >
+                            {t('transactions.pending')}
+                        </Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
                 <TouchableOpacity
                     style={styles.voirPlus}
                     onPress={navigationTrans}
@@ -106,44 +110,67 @@ export default function RecentesTransaction() {
             </View>
 
             {data.map((item, index) => (
-                                <TouchableOpacity
-                                    key={index}
-                                    style={styles.transactionCard}
-                                    onPress={() => {
-                                        setSelectedTransaction(item);
-                                        setShowModal(true);
-                                    }}
-                                    activeOpacity={0.7}
-                                >
-                                    
-                                        <Feather 
-                                            name={item.type === "sortant" ? "arrow-up-right" : "arrow-down-left"} 
-                                            color={item.type === "entrant" ? COLORS.success : COLORS.error} 
-                                            size={scale(40)}
-                                        />
-                                    
-                                    <View style={styles.transactionInfo}>
-                                        <Text style={styles.transactionName} numberOfLines={1}>{item.name}</Text>
-                                        <Text style={styles.transactionPhone}>{item.phone}</Text>
-                                        <Text style={{color: "#ccccc"}}>{item.typeTransaction}</Text>
-                                    </View>
-                                    
-                                    <View style={styles.transactionRight}>
-                                        <Text
-                                            style={[
-                                                styles.transactionAmount,
-                                                { color: item.type === "entrant" ? COLORS.success : COLORS.error }
-                                            ]}
-                                            numberOfLines={1}
-                                        >
-                                            {item.type === "entrant" ? "+" : "-"}{item.amount}
-                                        </Text>
-                                        <Text style={styles.transactionDate}>{item.date}</Text>
-                                        <Text style={[
-                                            item.status === "success" && styles.succes
-                                        ]}>{item.status === "success" ? "Succes" : "Encours"}</Text>
-                                    </View>
-                                </TouchableOpacity>
+                <TouchableOpacity
+                    key={index}
+                    style={styles.transactionCard}
+                    onPress={() => {
+                        setSelectedTransaction(item);
+                        setShowModal(true);
+                    }}
+                    activeOpacity={0.7}
+                >
+                    {/* Côté gauche avec icône et info */}
+                    <View style={styles.leftSection}>
+                        <View style={[
+                            styles.iconContainer,
+                            item.type === "entrant" ? styles.iconContainerEntrant : styles.iconContainerSortant
+                        ]}>
+                            <Feather 
+                                name={item.type === "sortant" ? "arrow-up-right" : "arrow-down-left"} 
+                                color={item.type === "entrant" ? COLORS.success : COLORS.error} 
+                                size={scale(22)}
+                            />
+                        </View>
+                        
+                        <View style={styles.transactionInfo}>
+                            <Text style={styles.transactionName} numberOfLines={1}>{item.name}</Text>
+                            <Text style={styles.transactionType}>{item.typeTransaction}</Text>
+                            <View style={styles.phoneRow}>
+                                <Ionicons name="call-outline" size={scale(11)} color={COLORS.textSecondary} />
+                                <Text style={styles.transactionPhone}>{item.phone}</Text>
+                            </View>
+                        </View>
+                    </View>
+                    
+                    {/* Côté droit avec montant et statut */}
+                    <View style={styles.rightSection}>
+                        <Text
+                            style={[
+                                styles.transactionAmount,
+                                { color: item.type === "entrant" ? COLORS.success : COLORS.error }
+                            ]}
+                            numberOfLines={1}
+                        >
+                            {item.type === "entrant" ? "+" : "-"}{item.amount} GNF
+                        </Text>
+                        <Text style={styles.transactionDate}>{item.date}</Text>
+                        <View style={[
+                            styles.statusBadge,
+                            item.status === "success" ? styles.statusSuccess : styles.statusPending
+                        ]}>
+                            <View style={[
+                                styles.statusDot,
+                                item.status === "success" ? styles.dotSuccess : styles.dotPending
+                            ]} />
+                            <Text style={[
+                                styles.statusText,
+                                item.status === "success" ? styles.statusSuccessText : styles.statusPendingText
+                            ]}>
+                                {item.status === "success" ? t('common.success') : t('transactions.statusPending')}
+                            </Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
             ))}
             <DetailTransaction
               visible={showModal}
@@ -223,23 +250,6 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         alignItems: "center",
     },
-    iconContainer: {
-        width: scale(50),
-        height: verticalScale(50),
-        borderRadius: moderateScale(10),
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    iconContainerEntrant: {
-        backgroundColor: COLORS.successLight,
-        borderColor: COLORS.success,
-        borderWidth: scale(1),
-    },
-    iconContainerSortant: {
-        backgroundColor: COLORS.errorLight,
-        borderColor: COLORS.error,
-        borderWidth: scale(1),
-    },
     name: {
         fontSize: moderateScale(16),
         fontWeight: "700",
@@ -256,70 +266,114 @@ const styles = StyleSheet.create({
     transactionCard: {
         flexDirection: "row",
         alignItems: "center",
-        height: verticalScale(100),
         backgroundColor: COLORS.white,
-        borderRadius: moderateScale(12),
-        padding: scale(12),
-        marginBottom: verticalScale(10),
+        borderRadius: moderateScale(15),
+        padding: scale(16),
+        marginBottom: verticalScale(12),
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 4,
-        elevation: 2,
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.08,
+        shadowRadius: 6,
+        elevation: 3,
+        borderLeftWidth: scale(4),
+        borderLeftColor: COLORS.primary,
     },
-    transactionIcon: {
-        width: scale(60),
-        height: scale(60),
-        borderRadius: moderateScale(10),
+    leftSection: {
+        flexDirection: "row",
+        alignItems: "center",
+        flex: 1,
+    },
+    iconContainer: {
+        width: scale(48),
+        height: scale(48),
+        borderRadius: moderateScale(12),
         justifyContent: "center",
         alignItems: "center",
         marginRight: scale(12),
     },
-    iconEntrant: {
+    iconContainerEntrant: {
         backgroundColor: COLORS.successLight,
-        borderColor: COLORS.success,
-        borderWidth: 1,
     },
-    iconSortant: {
+    iconContainerSortant: {
         backgroundColor: COLORS.errorLight,
-        borderColor: COLORS.error,
-        borderWidth: 1,
     },
     transactionInfo: {
         flex: 1,
-        marginLeft: scale(8),
     },
     transactionName: {
-        fontSize: moderateScale(15),
+        fontSize: moderateScale(16),
         fontWeight: "700",
         color: COLORS.textPrimary,
-        marginBottom: verticalScale(3),
+        marginBottom: verticalScale(4),
     },
-    transactionPhone: {
+    transactionType: {
         fontSize: moderateScale(13),
         color: COLORS.textSecondary,
-        paddingBottom: verticalScale(10)
+        marginBottom: verticalScale(4),
     },
-    transactionRight: {
-        alignItems: "stretch"
+    phoneRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: scale(4),
+    },
+    transactionPhone: {
+        fontSize: moderateScale(12),
+        color: COLORS.textSecondary,
+    },
+    rightSection: {
+        alignItems: "flex-end",
+        justifyContent: "center",
     },
     transactionAmount: {
-        fontSize: moderateScale(15),
+        fontSize: moderateScale(17),
         fontWeight: "700",
-        marginBottom: verticalScale(3),
+        marginBottom: verticalScale(6),
+    },
+    dateRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: scale(4),
+        marginBottom: verticalScale(8),
     },
     transactionDate: {
-        fontSize: moderateScale(11),
+        fontSize: moderateScale(12),
         color: COLORS.textSecondary,
-        paddingBottom: verticalScale(10)
+        fontWeight: "500",
+        marginBottom: verticalScale(8),
     },
-    succes: {
-        color: "#green",
+    statusBadge: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: scale(6),
+        paddingHorizontal: scale(10),
+        paddingVertical: verticalScale(5),
+        borderRadius: moderateScale(8),
     },
-    pending: {
-        color: "#orange"
+    statusSuccess: {
+        backgroundColor: COLORS.successLight,
     },
-    failled: {
-        color: "#red"
-    }
+    statusPending: {
+        backgroundColor: COLORS.warningLight ,
+    },
+    statusDot: {
+        width: scale(6),
+        height: scale(6),
+        borderRadius: scale(3),
+    },
+    dotSuccess: {
+        backgroundColor: COLORS.success,
+    },
+    dotPending: {
+        backgroundColor: COLORS.warning || '#FFA500',
+    },
+    statusText: {
+        fontSize: moderateScale(11),
+        fontWeight: "600",
+    },
+    statusSuccessText: {
+        color: COLORS.success,
+    },
+    statusPendingText: {
+        color: COLORS.warning || '#FFA500',
+    },
 });

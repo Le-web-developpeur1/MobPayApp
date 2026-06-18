@@ -24,6 +24,7 @@ export const COLORS = {
   // Opacités
   primaryLight: '#2A47931A',   
   secondaryLight: '#F7CE1480', // 10% opacity
+  warningLight: "#FFF4E5",
   primaryMedium: '#2A479380',   // 50% opacity
   primaryDark: '#2A479399',
        // 60% opacity

@@ -1,9 +1,9 @@
 import { COLORS, ROUTES } from "@/src/constants";
 import { RootStackParamList } from "@/src/navigation/types";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from 'react-i18next';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
@@ -15,177 +15,326 @@ export default function Header() {
     const unreadCount = 2;
     const navigation = useNavigation<NavigationProps>();
 
-    const [ visible, setVisible] = useState(false);
-    const [selectedNumber, setSelectedNumber] = useState("626058033");
+    const [visible, setVisible] = useState(false);
+    const [selectedNumber, setSelectedNumber] = useState("626 05 80 33");
 
-    const accounts = ["626058033", "628344212", "628141249"];
+    const accounts = [
+      { number: "626 05 80 33", label: "Principal" },
+      { number: "628 34 42 12", label: "Secondaire" },
+      { number: "628 14 12 49", label: "Pro" }
+    ];
     
     return (
       <>
         <View style={styles.container}>
-          <View style={{ flexDirection: 'row', alignItems: "center", justifyContent: "center", gap: scale(8)}}>
-              <TouchableOpacity
-                onPress={() => navigation.navigate(ROUTES.PROFILE)}
-              >
-                <Ionicons name="menu" size={25} color="#2A4793" style={{ marginRight: 5 }} />
-              </TouchableOpacity>
-            <TouchableOpacity onPress={() => setVisible(true)}>
-               <Text style={styles.number}>{selectedNumber} ▼</Text>
+          <View style={styles.leftSection}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate(ROUTES.PROFILE)}
+              style={styles.menuButton}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="menu" size={scale(26)} color={COLORS.primary} />
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              onPress={() => setVisible(true)}
+              style={styles.accountButton}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.number}>{selectedNumber}</Text>
+              <Ionicons name="chevron-down" size={scale(18)} color={COLORS.primary} />
             </TouchableOpacity>
           </View>
-            <View style={styles.icons}>
-              <TouchableOpacity onPress={() => navigation.navigate(ROUTES.SEARCH)}>
-                <Ionicons name="search-outline" size={scale(24)} color={"#2A4793"}/>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                  style={styles.icon}
-                  onPress={() => navigation.navigate(ROUTES.NOTIFICATION)}
-              >
-                  <View style={{ position: "relative"}}>
-                      <Ionicons name="notifications-outline" size={scale(24)} color={COLORS.primary}/>
-                      {unreadCount > 0 && (
-                          <View style={styles.badge}>
-                              <Text style={styles.badgeText}>{unreadCount}</Text>
-                          </View>
-                      )}
-                  </View>
-              </TouchableOpacity>
-            </View>
 
-            <Modal
-              visible={visible}
-              transparent={true}
-              animationType="slide"
-              onRequestClose={() => setVisible(false)}
+          <View style={styles.icons}>
+            <TouchableOpacity 
+              onPress={() => navigation.navigate(ROUTES.SEARCH)}
+              style={styles.iconButton}
+              activeOpacity={0.7}
             >
-              <View style={styles.modalOverlay}>
-                <View style={styles.bottomSheet}>
-                  <View style={{ flexDirection: "row", justifyContent: "space-between"}}>
-                    <Text style={styles.modalTitle}>Choisir un compte</Text>
-                    <TouchableOpacity onPress={() => setVisible(false)}>
-                      <Ionicons name="close" size={scale(20)} />
-                    </TouchableOpacity>
+              <Ionicons name="search-outline" size={scale(24)} color={COLORS.primary}/>
+            </TouchableOpacity>
+            
+            <TouchableOpacity 
+              style={styles.iconButton}
+              onPress={() => navigation.navigate(ROUTES.NOTIFICATION)}
+              activeOpacity={0.7}
+            >
+              <View style={styles.notificationContainer}>
+                <Ionicons name="notifications-outline" size={scale(24)} color={COLORS.primary}/>
+                {unreadCount > 0 && (
+                  <View style={styles.badge}>
+                    <Text style={styles.badgeText}>{unreadCount}</Text>
                   </View>
-                  {accounts.map((item) => (
-                      <TouchableOpacity
-                      key={item}
-                      style={styles.item}
-                      onPress={() => {
-                        setSelectedNumber(item);
-                        setVisible(false);
-                      }}
-                    >
-                    <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center"}}>
-                      <Text style={styles.itemText}>{item}</Text>
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <Modal
+            visible={visible}
+            transparent={true}
+            animationType="slide"
+            onRequestClose={() => setVisible(false)}
+          >
+            <TouchableOpacity 
+              style={styles.modalOverlay}
+              activeOpacity={1}
+              onPress={() => setVisible(false)}
+            >
+              <View style={styles.bottomSheet}>
+                <View style={styles.modalHeader}>
+                  <View style={styles.modalHandle} />
+                </View>
+                
+                <Text style={styles.modalTitle}>Choisir un compte</Text>
+                
+                {accounts.map((item) => (
+                  <TouchableOpacity
+                    key={item.number}
+                    style={[
+                      styles.item,
+                      selectedNumber === item.number && styles.itemSelected
+                    ]}
+                    onPress={() => {
+                      setSelectedNumber(item.number);
+                      setVisible(false);
+                    }}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.itemContent}>
+                      <View style={styles.itemLeft}>
+                        <Ionicons 
+                          name="card-outline" 
+                          size={scale(24)} 
+                          color={selectedNumber === item.number ? COLORS.primary : COLORS.textSecondary}
+                        />
+                        <View style={styles.itemTextContainer}>
+                          <Text style={[
+                            styles.itemNumber,
+                            selectedNumber === item.number && styles.itemNumberSelected
+                          ]}>
+                            {item.number}
+                          </Text>
+                          <Text style={styles.itemLabel}>{item.label}</Text>
+                        </View>
+                      </View>
                       <Ionicons  
-                        name={selectedNumber === item ? "radio-button-on" : "radio-button-off"}
+                        name={selectedNumber === item.number ? "checkmark-circle" : "ellipse-outline"}
                         size={scale(24)}
-                        color={selectedNumber === item ? COLORS.primary : "#aaa"}
+                        color={selectedNumber === item.number ? COLORS.primary : COLORS.border}
                       />
                     </View>
-                    </TouchableOpacity>
-                  ))}
-                </View>
+                  </TouchableOpacity>
+                ))}
+                
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setVisible(false)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={styles.closeButtonText}>Fermer</Text>
+                </TouchableOpacity>
               </View>
-            </Modal>
+            </TouchableOpacity>
+          </Modal>
         </View>
+        
         <View style={styles.info}>
-          <Text style={styles.name}>{t('home.hello')} <Text style={styles.name}>Boubacar</Text> 👋</Text>
+          <Text style={styles.greeting}>
+            {t('home.hello')}, <Text style={styles.name}>Boubacar</Text> 👋
+          </Text>
         </View>
       </>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: scale(25),
-        paddingTop: verticalScale(10),
-        alignItems: "center",
-        paddingBottom: verticalScale(10)
-    },
-    info: {
-        flexDirection: "column",
-        gap: scale(5),
-        paddingHorizontal: scale(25),
-        paddingBottom: verticalScale(10)
-    },
-    greeting: {
-        fontSize: moderateScale(14),
-        color: COLORS.textPrimary,
-    },
-    name: {
-        fontWeight: "bold",
-        fontSize: moderateScale(22),
-        color: COLORS.textPrimary,
-    },
-    icons: {
-        flexDirection: "row",
-        gap: 15,
-    },
-    icon: {
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    badge: {
-        position: "absolute",
-        right: scale(-5),
-        top: verticalScale(-5),
-        backgroundColor: COLORS.secondary,
-        borderRadius: moderateScale(10),
-        width: scale(18),
-        height: verticalScale(18),
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    badgeText: {
-        color: COLORS.primary,
-        fontSize: moderateScale(10),
-        fontWeight: "bold",
-    },
-    number: {
-        fontSize: moderateScale(20),
-        fontWeight: "bold",
-        color: "#333",
-    },
-    modalOverlay: {
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: scale(20),
+    paddingTop: verticalScale(12),
+    paddingBottom: verticalScale(12),
+  },
+  leftSection: {
+    flexDirection: 'row',
+    alignItems: "center",
+    gap: scale(12),
     flex: 1,
-    justifyContent: "flex-end", // pousse le contenu en bas
-    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  menuButton: {
+    width: scale(40),
+    height: scale(40),
+    borderRadius: moderateScale(20),
+    backgroundColor: COLORS.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: verticalScale(2) },
+    shadowOpacity: 0.1,
+    shadowRadius: moderateScale(3),
+    elevation: 3,
+  },
+  accountButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: COLORS.white,
+    paddingHorizontal: scale(12),
+    paddingVertical: verticalScale(8),
+    borderRadius: moderateScale(20),
+    gap: scale(6),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: verticalScale(2) },
+    shadowOpacity: 0.1,
+    shadowRadius: moderateScale(3),
+    elevation: 3,
+  },
+  number: {
+    fontSize: moderateScale(15),
+    fontWeight: "700",
+    color: COLORS.primary,
+  },
+  icons: {
+    flexDirection: "row",
+    gap: scale(12),
+  },
+  iconButton: {
+    width: scale(40),
+    height: scale(40),
+    borderRadius: moderateScale(20),
+    backgroundColor: COLORS.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: verticalScale(2) },
+    shadowOpacity: 0.1,
+    shadowRadius: moderateScale(3),
+    elevation: 3,
+  },
+  notificationContainer: {
+    position: "relative",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  badge: {
+    position: "absolute",
+    right: scale(-6),
+    top: verticalScale(-6),
+    backgroundColor: COLORS.error,
+    borderRadius: moderateScale(10),
+    width: scale(20),
+    height: scale(20),
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: scale(2),
+    borderColor: COLORS.white,
+  },
+  badgeText: {
+    color: COLORS.white,
+    fontSize: moderateScale(11),
+    fontWeight: "800",
+  },
+  info: {
+    paddingHorizontal: scale(20),
+    paddingBottom: verticalScale(12),
+  },
+  greeting: {
+    fontSize: moderateScale(16),
+    color: COLORS.primary,
+    fontWeight: '400',
+  },
+  name: {
+    fontWeight: "700",
+    fontSize: moderateScale(18),
+    color: COLORS.primary,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(0,0,0,0.6)",
   },
   bottomSheet: {
-    backgroundColor: "#fff",
-    padding: 20,
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
+    backgroundColor: COLORS.white,
+    paddingHorizontal: scale(20),
+    paddingBottom: verticalScale(30),
+    borderTopLeftRadius: moderateScale(24),
+    borderTopRightRadius: moderateScale(24),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: verticalScale(-4) },
+    shadowOpacity: 0.15,
+    shadowRadius: moderateScale(12),
+    elevation: 10,
+  },
+  modalHeader: {
+    alignItems: 'center',
+    paddingVertical: verticalScale(12),
+  },
+  modalHandle: {
+    width: scale(40),
+    height: verticalScale(4),
+    backgroundColor: COLORS.border,
+    borderRadius: moderateScale(2),
   },
   modalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
+    fontSize: moderateScale(20),
+    fontWeight: "800",
+    color: COLORS.textPrimary,
+    marginBottom: verticalScale(20),
   },
   item: {
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ddd",
-
+    paddingVertical: verticalScale(16),
+    paddingHorizontal: scale(16),
+    borderRadius: moderateScale(12),
+    marginBottom: verticalScale(8),
+    backgroundColor: COLORS.background,
   },
-  itemText: {
-    fontSize: 16,
-    color: "#333",
+  itemSelected: {
+    backgroundColor: COLORS.secondary,
+    borderWidth: scale(2),
+    borderColor: COLORS.primary,
   },
-  searchContainer: {
-      paddingHorizontal: scale(25),
-      paddingBottom: verticalScale(10),
+  itemContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
-  searchInput: {
-    borderWidth: scale(1),
-    borderColor: "#ccc",
-    borderRadius: moderateScale(8),
-    paddingHorizontal: scale(10),
-    paddingVertical: verticalScale(8),
+  itemLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: scale(12),
+    flex: 1,
+  },
+  itemTextContainer: {
+    flex: 1,
+  },
+  itemNumber: {
     fontSize: moderateScale(16),
-    backgroundColor: "#fff",
+    fontWeight: "600",
+    color: COLORS.textPrimary,
+    marginBottom: verticalScale(2),
+  },
+  itemNumberSelected: {
+    color: COLORS.primary,
+    fontWeight: "700",
+  },
+  itemLabel: {
+    fontSize: moderateScale(13),
+    color: COLORS.textSecondary,
+  },
+  closeButton: {
+    backgroundColor: COLORS.background,
+    paddingVertical: verticalScale(14),
+    borderRadius: moderateScale(12),
+    alignItems: 'center',
+    marginTop: verticalScale(12),
+    borderWidth: scale(1),
+    borderColor: COLORS.border,
+  },
+  closeButtonText: {
+    fontSize: moderateScale(16),
+    fontWeight: '700',
+    color: COLORS.textPrimary,
   },
 });

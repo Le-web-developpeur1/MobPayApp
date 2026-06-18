@@ -15,6 +15,7 @@ export type RootStackParamList = {
         phone: string;
     };
     Profile: undefined;
+    CompleteProfile: undefined;
     Notification: undefined;
     Search: undefined;
     ServiceScreen: undefined;

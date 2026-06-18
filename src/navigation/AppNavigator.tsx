@@ -23,6 +23,7 @@ import LimiteScreen from '../screens/profil/LimiteScreen';
 import PointsServiceScreen from '../screens/profil/PointsServiceScreen';
 import PreferenceNotifScreen from '../screens/profil/PreferenceNotifScreen';
 import SecuriteScreen from '../screens/profil/SecuriteScreen';
+import CompleteProfileScreen from '../screens/profil/CompleteProfileScreen';
 import BeneficiaryScreen from '../screens/quickActions/BeneficiaryScreen';
 import CountrySelectorScreen from '../screens/quickActions/CountrySelectorScreen';
 import CreditDetailScreen from '../screens/quickActions/CreditDetailScreen';
@@ -40,6 +41,7 @@ import RetraitsScreen from '../screens/quickActions/RetraitsScreen';
 import ServiceSelectorScreen from '../screens/quickActions/ServiceSelectorScreen';
 import SearchScreen from '../screens/SearchScreen';
 import HistoriqueScreen from '../screens/tab/HistoriqueScreen';
+import ProfileScreen from '../screens/tab/ProfilScreen';
 import QrScannerScreen from '../screens/tab/QrScannerScreen';
 import ServiceScreen from '../screens/tab/ServiceScreen';
 import EnvoiOMScreen from '../screens/transfert/EnvoiOMScreen';
@@ -51,7 +53,6 @@ import TransactionsScreen from '../screens/transfert/TransactionScreen';
 import WebScreen from '../screens/WebScreen';
 import TabNavigator from './TabNavigator';
 import { RootStackParamList } from './types';
-import ProfileScreen from '../screens/tab/ProfilScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -90,6 +91,7 @@ export default function AppNavigator() {
       {/* ============== PROFIL ============== */}
       <Stack.Group>
         <Stack.Screen name={ROUTES.PROFILE} component={ProfileScreen} />
+        <Stack.Screen name={ROUTES.COMPLETE_PROFILE} component={CompleteProfileScreen} />
         <Stack.Screen name={ROUTES.SECURITE_SCREEN} component={SecuriteScreen} />
         <Stack.Screen name={ROUTES.PREFERENCE_NOTIF} component={PreferenceNotifScreen} />
         <Stack.Screen name={ROUTES.LIMITE} component={LimiteScreen} />

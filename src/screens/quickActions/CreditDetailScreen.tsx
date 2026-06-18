@@ -4,21 +4,21 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
-    KeyboardAvoidingView,
-    Platform,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { CreditConfirmModal } from '../../components/modals/CreditConfirmModal';
 import HeaderScreen from '../../components/ui/HeaderScreen';
-import { useTranslation } from 'react-i18next';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 type DetailCreditRouteProp = RouteProp<RootStackParamList, 'CreditDetail'>;
@@ -73,27 +73,35 @@ export default function CreditDetailScreen() {
           <View style={styles.container}>
             {/* Input téléphone si "pour autre" */}
             {showInput && (
-              <View style={styles.inputWrapper}>
-                <TextInput
-                  style={styles.input}
-                  placeholder={t('credit.beneficiaryNumber')}
-                  keyboardType="phone-pad"
-                  value={phone}
-                  onChangeText={setPhone}
-                  placeholderTextColor={COLORS.textSecondary}
-                />
-                <TouchableOpacity onPress={handleContactsPermission}>
-                  <FontAwesome6
-                    name="user"
-                    size={moderateScale(20)}
-                    color={COLORS.primary}
-                    style={styles.icon}
+              <>
+                <Text style={styles.sectionTitle}>
+                  {t('credit.beneficiary')}
+                </Text>
+                <View style={styles.inputWrapper}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder={t('credit.beneficiaryNumber')}
+                    keyboardType="phone-pad"
+                    value={phone}
+                    onChangeText={setPhone}
+                    placeholderTextColor={COLORS.textSecondary}
                   />
-                </TouchableOpacity>
-              </View>
+                  <TouchableOpacity onPress={handleContactsPermission}>
+                    <FontAwesome6
+                      name="user"
+                      size={moderateScale(20)}
+                      color={COLORS.primary}
+                      style={styles.icon}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </>
             )}
 
             {/* Input montant */}
+            <Text style={styles.sectionTitle}>
+              {t('credit.amount')}
+            </Text>
             <View style={styles.inputWrapper}>
               <TextInput
                 style={styles.input}
@@ -107,15 +115,26 @@ export default function CreditDetailScreen() {
             </View>
 
             {/* Montants prédéfinis */}
+            <Text style={styles.sectionTitle}>
+              {t('credit.quickAmounts')}
+            </Text>
             <View style={styles.prixSection}>
               {credit.map((c, i) => (
                 <TouchableOpacity
                   key={i}
-                  style={styles.card}
+                  style={[
+                    styles.card,
+                    amount === String(c.prix) && styles.cardSelected
+                  ]}
                   onPress={() => setAmount(String(c.prix))}
                   activeOpacity={0.7}
                 >
-                  <Text style={styles.cardGnf}>{c.prix} GNF</Text>
+                  <Text style={[
+                    styles.cardGnf,
+                    amount === String(c.prix) && styles.cardGnfSelected
+                  ]}>
+                    {c.prix} GNF
+                  </Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -164,57 +183,84 @@ const styles = StyleSheet.create({
     paddingBottom: verticalScale(20),
   },
   container: {
-    paddingTop: verticalScale(30),
+    paddingTop: verticalScale(20),
     paddingHorizontal: scale(20),
+  },
+  sectionTitle: {
+    fontSize: moderateScale(15),
+    fontWeight: '700',
+    color: COLORS.textPrimary,
+    marginBottom: verticalScale(10),
+    marginTop: verticalScale(5),
   },
   inputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderWidth: 1,
+    borderWidth: scale(1),
     borderColor: COLORS.border,
     borderRadius: moderateScale(12),
     paddingHorizontal: scale(15),
-    backgroundColor: COLORS.white,
-    marginBottom: verticalScale(12),
+    backgroundColor: COLORS.background,
+    marginBottom: verticalScale(15),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: verticalScale(1) },
+    shadowOpacity: 0.05,
+    shadowRadius: moderateScale(3),
+    elevation: 1,
   },
   input: {
     flex: 1,
-    fontSize: moderateScale(15),
+    fontSize: moderateScale(16),
     color: COLORS.textPrimary,
     paddingVertical: verticalScale(14),
+    fontWeight: '500',
   },
   icon: {
-    marginRight: scale(8),
+    padding: scale(8),
   },
   currency: {
-    fontSize: moderateScale(14),
-    fontWeight: '600',
-    color: COLORS.textSecondary,
+    fontSize: moderateScale(15),
+    fontWeight: '700',
+    color: COLORS.primary,
     marginLeft: scale(10),
+    paddingLeft: scale(10),
+    borderLeftWidth: scale(1),
+    borderLeftColor: COLORS.border,
   },
   prixSection: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginTop: verticalScale(10),
-    paddingHorizontal: scale(10),
+    marginTop: verticalScale(15),
   },
   card: {
-    width: scale(80),
+    width: '31%',
     backgroundColor: COLORS.white,
-    borderWidth: 1,
-    borderColor: COLORS.primary,
+    borderWidth: scale(1.5),
+    borderColor: COLORS.border,
     borderRadius: moderateScale(12),
-    paddingVertical: verticalScale(12),
-    marginBottom: verticalScale(15),
+    paddingVertical: verticalScale(16),
+    marginBottom: verticalScale(12),
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: verticalScale(2) },
+    shadowOpacity: 0.06,
+    shadowRadius: moderateScale(4),
+    elevation: 2,
   },
   cardGnf: {
-    fontSize: moderateScale(14),
+    fontSize: moderateScale(15),
     fontWeight: '700',
     color: COLORS.textPrimary,
+  },
+  cardSelected: {
+    backgroundColor: COLORS.primary,
+    borderColor: COLORS.primary,
+  },
+  cardGnfSelected: {
+    color: COLORS.white,
   },
   continuer: {
     backgroundColor: COLORS.primary,

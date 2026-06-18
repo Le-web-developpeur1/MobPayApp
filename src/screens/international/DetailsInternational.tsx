@@ -23,6 +23,17 @@ export default function DetailsInternational() {
 
   const [phone, setPhone] = useState(route.params?.phone || '');
   const [name, setName] = useState(route.params?.name || '');
+  
+  // ⚠️ IMPORTANT: VALIDATION REQUISE AVANT PRODUCTION
+  // Ce champ permet au client de saisir le montant à envoyer
+  // Le système calcule automatiquement ce que le bénéficiaire recevra
+  // ATTENTION: Cette fonctionnalité doit être validée par:
+  // 1. L'équipe financière (pour vérifier les calculs de frais)
+  // 2. L'équipe compliance (pour la réglementation des transferts)
+  // 3. L'équipe produit (pour l'UX et les règles métier)
+  const [montantEnvoi, setMontantEnvoi] = useState(''); // Montant que le client veut envoyer
+  const [montantRecu, setMontantRecu] = useState(''); // Montant que le bénéficiaire recevra
+  
   const [gnf, setGnf] = useState('');
   const [xof, setXof] = useState('');
   const [fraisValue, setFraisValue] = useState(0);
@@ -31,6 +42,38 @@ export default function DetailsInternational() {
   const [visible, setVisible] = useState(false);
 
   const tauxValue = 0.5;
+  
+  // ⚠️ IMPORTANT: Taux de frais à valider
+  // Actuellement: 1% du montant envoyé
+  // À confirmer avec l'équipe financière
+  const tauxFrais = 0.01; // 1%
+
+  // ⚠️ FONCTION À VALIDER: Calcul du montant reçu après frais
+  // Cette fonction calcule automatiquement ce que le bénéficiaire recevra
+  // en déduisant les frais du montant que le client veut envoyer
+  const handleMontantEnvoiChange = (val: string) => {
+    setMontantEnvoi(val);
+    const montant = Number(val);
+    
+    if (!isNaN(montant) && montant > 0) {
+      // Calculer les frais
+      const frais = montant * tauxFrais;
+      
+      // Montant que le bénéficiaire recevra = Montant envoyé - Frais
+      const montantApresfrais = montant - frais;
+      
+      // Convertir en XOF
+      const montantEnXOF = montantApresfrais * tauxValue;
+      
+      setMontantRecu(montantApresfrais.toString());
+      setXof(montantEnXOF.toString());
+      setGnf(montant.toString());
+    } else {
+      setMontantRecu('');
+      setXof('');
+      setGnf('');
+    }
+  };
 
   const handleContactPress = () => {
     // Passer country à Contact pour qu'il puisse le repasser à DetailsInternational
@@ -130,6 +173,36 @@ export default function DetailsInternational() {
             </View>
 
             <Text style={styles.sectionTitle}>{t('transfer.transferAmount')}</Text>
+
+            {/* ⚠️ NOUVEAU CHAMP - À VALIDER */}
+            {/* Ce champ permet de saisir le montant à envoyer */}
+            {/* Le système calcule automatiquement le montant reçu */}
+            <View style={styles.inputWrapper}>
+              <TextInput
+                style={styles.input}
+                placeholder="Montant à envoyer"
+                keyboardType="numeric"
+                value={montantEnvoi}
+                onChangeText={handleMontantEnvoiChange}
+                placeholderTextColor={COLORS.textSecondary}
+              />
+              <Text style={styles.currency}>GNF</Text>
+            </View>
+
+            {/* Affichage du montant que le bénéficiaire recevra */}
+            {montantRecu && (
+              <View style={styles.recuCard}>
+                <Text style={styles.recuLabel}>Le bénéficiaire recevra</Text>
+                <Text style={styles.recuAmount}>{formatNumber(Number(montantRecu))} GNF</Text>
+                <Text style={styles.recuSubtext}>≈ {formatNumber(Number(xof))} XOF</Text>
+              </View>
+            )}
+
+            <View style={styles.dividerSection}>
+              <View style={styles.dividerLine} />
+              <Text style={styles.dividerText}>ou calculer manuellement</Text>
+              <View style={styles.dividerLine} />
+            </View>
 
             <View style={styles.inputWrapper}>
               <TextInput
@@ -314,5 +387,46 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontWeight: '700',
     fontSize: moderateScale(16),
+  },
+  // ⚠️ NOUVEAUX STYLES - À VALIDER
+  recuCard: {
+    backgroundColor: COLORS.success + '15',
+    borderRadius: moderateScale(12),
+    padding: scale(16),
+    marginTop: verticalScale(8),
+    marginBottom: verticalScale(12),
+    borderLeftWidth: scale(4),
+    borderLeftColor: COLORS.success,
+  },
+  recuLabel: {
+    fontSize: moderateScale(13),
+    color: COLORS.textSecondary,
+    marginBottom: verticalScale(6),
+  },
+  recuAmount: {
+    fontSize: moderateScale(22),
+    fontWeight: '700',
+    color: COLORS.success,
+    marginBottom: verticalScale(4),
+  },
+  recuSubtext: {
+    fontSize: moderateScale(14),
+    color: COLORS.textSecondary,
+    fontWeight: '600',
+  },
+  dividerSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: verticalScale(15),
+  },
+  dividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: COLORS.border,
+  },
+  dividerText: {
+    fontSize: moderateScale(12),
+    color: COLORS.textSecondary,
+    marginHorizontal: scale(10),
   },
 });

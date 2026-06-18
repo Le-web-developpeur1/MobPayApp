@@ -24,6 +24,7 @@ export const ROUTES = {
   SEARCH: 'Search',
   
   // Profil
+  COMPLETE_PROFILE: 'CompleteProfile',
   SECURITE_SCREEN: 'SecuriteScreen',
   PREFERENCE_NOTIF: 'PreferenceNotif',
   LIMITE: 'Limite',
