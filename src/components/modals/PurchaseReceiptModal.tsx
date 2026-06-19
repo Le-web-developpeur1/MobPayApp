@@ -1,9 +1,8 @@
 import { COLORS } from '@/src/constants';
-import { copyTransactionId } from '@/src/utils/clipboard';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as Sharing from "expo-sharing";
 import React, { useRef } from 'react';
-import { Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
 
@@ -79,7 +78,7 @@ export default function PurchaseReceiptModal({
   };
 
   const handleContactSupport = () => {
-    Linking.openURL('tel:+224622000000');
+    Linking.openURL('tel:+224621640000');
   };
 
   return (
@@ -88,6 +87,15 @@ export default function PurchaseReceiptModal({
         <View style={styles.container}>
           {/* Handle bar */}
           <View style={styles.handleBar} />
+
+          {/* Logo */}
+          <View style={styles.logoContainer}>
+            <Image 
+              source={require('@/assets/images/icon.png')} 
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
 
           {/* Header */}
           <View style={styles.header}>
@@ -142,22 +150,16 @@ export default function PurchaseReceiptModal({
 
           {/* Actions EN DEHORS de la capture */}
           <View style={styles.actions}>
-            <TouchableOpacity style={styles.buttonOutline} onPress={() => copyTransactionId(transactionId)}>
-              <Feather name="copy" size={scale(20)} color={COLORS.primary} />
-              <Text style={styles.buttonOutlineText}>Copier l'ID</Text>
+            <TouchableOpacity style={styles.buttonSupport} onPress={handleContactSupport}>
+              <Ionicons name="call-outline" size={scale(20)} color={COLORS.white} />
+              <Text style={styles.buttonSupportText}>Contacter le support</Text>
             </TouchableOpacity>
-
-            <TouchableOpacity style={styles.buttonPrimary} onPress={captureAndShare}>
+            <TouchableOpacity style={styles.buttonOutline} onPress={captureAndShare}>
               <Feather name="share-2" size={scale(20)} color={COLORS.primary} />
-              <Text style={styles.buttonPrimaryText}>Partager</Text>
+              <Text style={styles.buttonOutlineText}>Partager</Text>
             </TouchableOpacity>
           </View>
 
-          {/* Contact Support */}
-          <TouchableOpacity style={styles.buttonSupport} onPress={handleContactSupport}>
-            <Ionicons name="call-outline" size={scale(20)} color={COLORS.white} />
-            <Text style={styles.buttonSupportText}>Contacter le support</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -187,6 +189,20 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: verticalScale(15),
   },
+  logoContainer: {
+    alignItems: 'center',
+  },
+  logo: {
+    width: scale(60),
+    height: scale(60),
+    marginBottom: verticalScale(8),
+  },
+  appName: {
+    fontSize: moderateScale(18),
+    fontWeight: '700',
+    color: COLORS.primary,
+    letterSpacing: 0.5,
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -208,7 +224,7 @@ const styles = StyleSheet.create({
   },
   statusContainer: {
     alignItems: 'center',
-    marginBottom: verticalScale(20),
+    marginBottom: verticalScale(8),
   },
   statusIcon: {
     marginBottom: verticalScale(10),
@@ -220,7 +236,7 @@ const styles = StyleSheet.create({
   },
   amountContainer: {
     alignItems: 'center',
-    marginBottom: verticalScale(25),
+    marginBottom: verticalScale(15),
   },
   amount: {
     fontSize: moderateScale(32),
@@ -299,22 +315,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: COLORS.primary,
   },
-  buttonPrimary: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: verticalScale(14),
-    borderRadius: moderateScale(12),
-    gap: scale(8),
-    backgroundColor: COLORS.secondary,
-  },
-  buttonPrimaryText: {
-    fontSize: moderateScale(15),
-    fontWeight: '600',
-    color: COLORS.primary,
-  },
   buttonSupport: {
+    flex: 1.5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -322,7 +324,6 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(12),
     gap: scale(8),
     backgroundColor: COLORS.primary,
-    marginTop: verticalScale(10),
   },
   buttonSupportText: {
     fontSize: moderateScale(15),

@@ -16,28 +16,28 @@ type TransferType = "ReceptionOM";
 const retraitOptions = [
   { 
     type: 'icon',
+    labelKey: "quickActions.atAgent",
+    icon: "user",
+  },
+  { 
+    type: 'icon',
     labelKey: "quickActions.withdrawalCode",
     icon: "key",
   },
   { 
-    type: 'icon',
-    labelKey: "quickActions.atAgent",
-    icon: "user",
-  },
-  {     
-    type: 'icon',
-    labelKey: "quickActions.myBank",
-    icon: "building-columns",
+    type: 'image',
+    labelKey: "quickActions.fromOrangeMoney",
+    image: require("@/assets/images/national/logo-orange.png"),
   },
   {     
     type: 'image',
     labelKey: "transfer.fromWave",
     image: require("@/assets/images/national/wave.png"),
   },
-  { 
-    type: 'image',
-    labelKey: "quickActions.fromOrangeMoney",
-    image: require("@/assets/images/national/logo-orange.png"),
+  {     
+    type: 'icon',
+    labelKey: "quickActions.myBank",
+    icon: "building-columns",
   },
 ] as const;
 

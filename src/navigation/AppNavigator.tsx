@@ -54,6 +54,8 @@ import WebScreen from '../screens/WebScreen';
 import TabNavigator from './TabNavigator';
 import { RootStackParamList } from './types';
 import ChatbotScreen from '../screens/ChatbotScreen';
+import Credit from '../screens/quickActions/Credit';
+import History from '../screens/tab/History';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -139,6 +141,12 @@ export default function AppNavigator() {
         <Stack.Screen name={ROUTES.CONFIRM} component={Confirm} />
         <Stack.Screen name={ROUTES.ENVOI_OM} component={EnvoiOMScreen} />
         <Stack.Screen name={ROUTES.RECEPTION_OM} component={ReceptionOMScreen} />
+      </Stack.Group>
+
+      {/* ============== Crédits, me recharger ============== */}
+      <Stack.Group>
+        <Stack.Screen name='Credit' component={Credit}/>
+        <Stack.Screen name='History' component={History} />
       </Stack.Group>
 
     </Stack.Navigator>

@@ -180,7 +180,6 @@ export default function HistoriqueScreen() {
         setter(formatted);
     };
 
-    // Fonction pour obtenir les données selon le tab
     const getDataByTab = () => {
         return activTab === "all" ? all : activTab === "week" ? week : activTab === "month" ? month : year;
     };

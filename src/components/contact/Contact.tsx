@@ -24,9 +24,10 @@ type ContactProps = {
   onSelectContact?: (contact: Contacts.Contact) => void;
   useSafeArea?: boolean;    // utiliser SafeAreaView ou non (par défaut: true)
   showHeader?: boolean;
+  credit?: boolean;
 };
 
-export default function Contact({ searchExterne = "", showSearchBar = true, onSelectContact, useSafeArea = true, showHeader= false }: ContactProps) {
+export default function Contact({ searchExterne = "", showSearchBar = true, onSelectContact, useSafeArea = true, showHeader= false, credit= true }: ContactProps) {
   const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
@@ -163,7 +164,8 @@ export default function Contact({ searchExterne = "", showSearchBar = true, onSe
           </View>
         }
 
-        <ContactListSection
+       {credit && (
+         <ContactListSection
           contacts={contacts}
           filteredContacts={filteredContacts}
           search={activeSearch}
@@ -173,6 +175,7 @@ export default function Contact({ searchExterne = "", showSearchBar = true, onSe
           onSelectContact={onSelectContact}
           selectedCountry={showCountryPicker ? selectedCountry : undefined}
         />
+       )}
       </View>
     </Wrapper>
   );

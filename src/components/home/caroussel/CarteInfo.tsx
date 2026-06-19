@@ -63,7 +63,7 @@ export default function CarteInfo() {
         index: ORIGINAL_DATA_LENGTH,
         animated: false,
       });
-    }, 100);
+    }, 1000);
   }, []);
 
   useEffect(() => {
@@ -131,9 +131,9 @@ export default function CarteInfo() {
 
       <View style={styles.card}>
         <Text style={styles.title}>{t(item.titleKey)}</Text>
-        {item.descriptionKeys.map((key, index) => (
+        {/* {item.descriptionKeys.map((key, index) => (
           <Text key={index} style={styles.text}>{t(key)}</Text>
-        ))}
+        ))} */}
       </View>
     </View>
   );

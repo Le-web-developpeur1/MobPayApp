@@ -1,10 +1,9 @@
 import { COLORS } from '@/src/constants';
-import { copyTransactionId } from '@/src/utils/clipboard';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import * as Sharing from "expo-sharing";
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Modal, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert, Linking } from 'react-native';
+import { Alert, Image, Linking, Modal, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
 
@@ -70,7 +69,9 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
       console.log("Erreur partage :", error);
     }
   };
-
+  const handleContactSupport = () => {
+        Linking.openURL('tel:+224621640000');
+  };
   const handleCallSupport = () => {
     const supportNumber = '+224621640000'; 
     
@@ -115,11 +116,18 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
 
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
             <View ref={vieWShotRef} collapsable={false} style={{ backgroundColor: "white"}}>
+              
+              {/* Logo dans le reçu */}
+              <View style={styles.logoContainer}>
+                <Image 
+                  source={require('@/assets/images/icon.png')} 
+                  style={styles.logoReceipt}
+                  resizeMode="contain"
+                />
+              </View>
+
               {/* Status Icon */}
               <View style={styles.statusContainer}>
-                <View style={styles.statusIcon}>
-                  <Ionicons name="checkmark-circle" size={scale(60)} color={COLORS.success} />
-                </View>
                 <Text style={styles.statusText}>{t('transactions.transactionSuccess')}</Text>
               </View>
 
@@ -150,28 +158,18 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
               </View>
 
               {/* Bouton d'aide */}
-              <TouchableOpacity style={styles.helpButton} onPress={handleCallSupport}>
-                <View style={styles.helpContent}>
-                  <Ionicons name="headset-outline" size={scale(24)} color={COLORS.primary} />
-                  <View style={styles.helpTextContainer}>
-                    <Text style={styles.helpTitle}>{t('support.needHelp') || 'Besoin d\'aide ?'}</Text>
-                    <Text style={styles.helpSubtitle}>{t('support.contactUs') || 'Contactez notre support client'}</Text>
-                  </View>
-                  <Feather name="phone-call" size={scale(20)} color={COLORS.primary} />
-                </View>
-              </TouchableOpacity>
             </View>
           </ScrollView>
 
           <View style={styles.actions}>
-              <TouchableOpacity style={styles.buttonOutline} onPress={() => copyTransactionId(transactionId)}>
-                <Feather name="copy" size={scale(20)} color={COLORS.primary} />
-                <Text style={styles.buttonOutlineText}>Copier l'ID</Text>
+              <TouchableOpacity style={styles.buttonSupport} onPress={handleContactSupport}>
+                <Ionicons name="call-outline" size={scale(20)} color={COLORS.white} />
+                <Text style={styles.buttonSupportText}>Contacter le support</Text>
               </TouchableOpacity>
               
-              <TouchableOpacity style={styles.buttonPrimary} onPress={captureAndShare}>
+              <TouchableOpacity style={styles.buttonOutline} onPress={captureAndShare}>
                 <Feather name="share-2" size={scale(20)} color={COLORS.primary} />
-                <Text style={styles.buttonPrimaryText}>Partager</Text>
+                <Text style={styles.buttonOutlineText}>Partager</Text>
               </TouchableOpacity>
             </View>
         </View>
@@ -205,6 +203,23 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: verticalScale(15),
   },
+  logoContainer: {
+    alignItems: 'center',
+    marginTop: verticalScale(20),
+        borderRadius: moderateScale(12)
+
+  },
+  logoReceipt: {
+    width: scale(80),
+    height: scale(80),
+    marginBottom: verticalScale(8),
+  },
+  appName: {
+    fontSize: moderateScale(20),
+    fontWeight: '700',
+    color: COLORS.primary,
+    letterSpacing: 0.5,
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -226,7 +241,7 @@ const styles = StyleSheet.create({
   },
   statusContainer: {
     alignItems: 'center',
-    marginBottom: verticalScale(20),
+    marginBottom: verticalScale(8),
   },
   statusIcon: {
     marginBottom: verticalScale(10),
@@ -238,7 +253,7 @@ const styles = StyleSheet.create({
   },
   amountContainer: {
     alignItems: 'center',
-    marginBottom: verticalScale(25),
+    marginBottom: verticalScale(15),
   },
   amount: {
     fontSize: moderateScale(32),
@@ -313,20 +328,20 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: COLORS.primary,
   },
-  buttonPrimary: {
-    flex: 1,
+  buttonSupport: {
+    flex: 1.5,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: 'center',
     paddingVertical: verticalScale(14),
     borderRadius: moderateScale(12),
     gap: scale(8),
-    backgroundColor: COLORS.secondary,
+    backgroundColor: COLORS.primary,
   },
-  buttonPrimaryText: {
+  buttonSupportText: {
     fontSize: moderateScale(15),
     fontWeight: '600',
-    color: COLORS.primary,
+    color: COLORS.white,
   },
   helpButton: {
     backgroundColor: COLORS.background,

@@ -54,15 +54,15 @@ export default function HomeScreen() {
   }, []);
 
   // Affiche aussi le modal quand on revient sur cet écran depuis une autre page
-  useFocusEffect(
-    useCallback(() => {
-      const timer = setTimeout(() => {
-        setShowWelcomeModal(true);
-      }, 300);
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     const timer = setTimeout(() => {
+  //       setShowWelcomeModal(true);
+  //     }, 300);
 
-      return () => clearTimeout(timer);
-    }, [])
-  );
+  //     return () => clearTimeout(timer);
+  //   }, [])
+  // );
 
   const handleCloseWelcome = () => {
     setShowWelcomeModal(false);
