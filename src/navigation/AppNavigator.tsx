@@ -56,6 +56,7 @@ import { RootStackParamList } from './types';
 import ChatbotScreen from '../screens/ChatbotScreen';
 import Credit from '../screens/quickActions/Credit';
 import History from '../screens/tab/History';
+import Recharger from '../screens/quickActions/Recharger';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -147,6 +148,7 @@ export default function AppNavigator() {
       <Stack.Group>
         <Stack.Screen name='Credit' component={Credit}/>
         <Stack.Screen name='History' component={History} />
+        <Stack.Screen name='Recharger' component={Recharger} />
       </Stack.Group>
 
     </Stack.Navigator>

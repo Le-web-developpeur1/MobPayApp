@@ -26,7 +26,8 @@ export default function Favorites() {
     { name: "Auto-Débit", route: ROUTES.AUTO_DEBIT, params: { type: "programme" }, icon: "calendar-sharp" },
     { name: "Marchands", route: ROUTES.DETAIL_MARCHAND, icon: "storefront" },
     { name: "Achat credit", route: "Credit", icon: "storefront" },
-    { name: "History", route: "History", icon: "time-outline"}
+    { name: "History", route: "History", icon: "time-outline"},
+    { name: "Recharger mon compte", route: "Recharger", icon: "card"},
   ];
 
   useEffect(() => {

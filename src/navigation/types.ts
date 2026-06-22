@@ -133,9 +133,11 @@ export type RootStackParamList = {
         type?: string;
     };
     Chatbot: undefined;
-    //Nouvels types : Pour crédit, me recharger
+    //Nouvels types : Pour crédit, me recharger, paiement marchand et historique
     Credit: undefined;
     History: undefined;
+    Recharger: undefined;
+    PaiementMachand: undefined;
 };
 
 export interface Beneficiaire {
