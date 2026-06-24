@@ -38,7 +38,7 @@ export default function RechargeReceiptModal({
   });
   const transactionId = `RCH${Date.now().toString().slice(-8)}`;
   
-  const fees = (parseFloat(amount) * 0.02).toLocaleString();
+  const fees = (parseFloat(amount) * 0.01).toLocaleString();
 
   const viewShotRef = useRef(null);
 
@@ -102,7 +102,7 @@ export default function RechargeReceiptModal({
                 <Text style={styles.sectionTitle}>Détails de la recharge</Text>
 
                 <RowItem label="Montant envoyé" value={`${parseFloat(amount).toLocaleString()} GNF`} icon="cash-outline" />
-                <RowItem label="Frais (2%)" value={`${fees} GNF`} icon="pricetag-outline" />
+                <RowItem label="Frais (1%)" value={`${fees} GNF`} icon="pricetag-outline" />
                 <RowItem label="Montant reçu" value={`${receivedAmount} GNF`} icon="wallet-outline" />
                 <RowItem label="Source" value={operator} icon="phone-portrait-outline" />
               </View>

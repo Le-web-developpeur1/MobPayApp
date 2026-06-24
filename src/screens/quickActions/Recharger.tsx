@@ -20,16 +20,19 @@ const CREDIT_AMOUNTS = [
 ];
 
 const OPERATEURS = [
-    { id: 'orange', label: "Orange", img: require("@/assets/images/national/logo-orange.png") },
-    { id: 'mtn', label: "MTN", img: require("@/assets/images/national/mtn.png") },
-    { id: 'wave', label: "Wave", img: require("@/assets/images/national/wave.png") },
+    { id: 'orange',         type: 'image',  label: "Orange",                 img: require("@/assets/images/national/logo-orange.png") },
+    { id: 'mtn',            type: 'image',  label: "MTN",                    img: require("@/assets/images/national/mtn.png") },
+    { id: 'wave',           type: 'image',  label: "Wave",                   img: require("@/assets/images/national/wave.png") },
+    { id: 'agent',          type: 'icon',   label: "Chez un agent",          icon: 'person-outline' },
+    { id: 'bank',           type: 'icon',   label: "Depuis ma banque",       icon: 'business-outline' },
+    { id: 'international',  type: 'icon',   label: "Depuis l'international", icon: 'globe-outline' },
 ];
 
 export default function Recharger() {
-    const [amount, setAmount] = useState("");
-    const [selectedOperator, setSelectedOperator] = useState<string | null>(null);
+    const [amount, setAmount]                           = useState("");
+    const [selectedOperator, setSelectedOperator]       = useState<string | null>(null);
     const [confirmModalVisible, setConfirmModalVisible] = useState(false);
-    const [codeModalVisible, setCodeModalVisible] = useState(false);
+    const [codeModalVisible, setCodeModalVisible]       = useState(false);
     const [receiptModalVisible, setReceiptModalVisible] = useState(false);
 
     const calculateReceivedAmount = () => {
@@ -166,7 +169,17 @@ export default function Recharger() {
                                 onPress={() => setSelectedOperator(operateur.id)}
                                 activeOpacity={0.7}
                             >
-                                <Image source={operateur.img} style={styles.operateurImg}/>
+                                {operateur.type === 'image' ? (
+                                    <Image source={operateur.img} style={styles.operateurImg}/>
+                                ) : (
+                                    <View style={styles.iconCircle}>
+                                        <Ionicons 
+                                            name={operateur.icon as any} 
+                                            size={scale(28)} 
+                                            color={COLORS.white}
+                                        />
+                                    </View>
+                                )}
                                 <Text style={styles.operateurLabel}>{operateur.label}</Text>
                                 <View style={styles.radioContainer}>
                                     <Ionicons 
@@ -375,15 +388,24 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.05,
         shadowRadius: 4,
         elevation: 2,
+        minHeight: verticalScale(140),
     },
     operateurCardSelected: {
         borderColor: COLORS.primary,
-        backgroundColor: COLORS.primaryLight,
     },
     operateurImg: {
         height: scale(60),
         width: scale(60),
         borderRadius: scale(30),
+        marginBottom: verticalScale(10),
+    },
+    iconCircle: {
+        height: scale(60),
+        width: scale(60),
+        borderRadius: scale(30),
+        backgroundColor: COLORS.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
         marginBottom: verticalScale(10),
     },
     operateurLabel: {
@@ -437,4 +459,4 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: COLORS.white,
     },
-})
+});

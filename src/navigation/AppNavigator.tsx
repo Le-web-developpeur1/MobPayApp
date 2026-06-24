@@ -57,6 +57,7 @@ import ChatbotScreen from '../screens/ChatbotScreen';
 import Credit from '../screens/quickActions/Credit';
 import History from '../screens/tab/History';
 import Recharger from '../screens/quickActions/Recharger';
+import Marchand from '../screens/quickActions/Marchand';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -144,11 +145,12 @@ export default function AppNavigator() {
         <Stack.Screen name={ROUTES.RECEPTION_OM} component={ReceptionOMScreen} />
       </Stack.Group>
 
-      {/* ============== Crédits, me recharger ============== */}
+      {/* ============== Crédits, me recharger, paiement marchand ============== */}
       <Stack.Group>
         <Stack.Screen name='Credit' component={Credit}/>
         <Stack.Screen name='History' component={History} />
         <Stack.Screen name='Recharger' component={Recharger} />
+        <Stack.Screen name='PaiementMachand' component={Marchand} />
       </Stack.Group>
 
     </Stack.Navigator>

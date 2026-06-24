@@ -22,11 +22,10 @@ export default function Favorites() {
     { name: "Retraits", route: ROUTES.RETRAITS, icon: "cash" },
     { name: "Envoi OM", route: ROUTES.CONTACT, params: { type: "EnvoiOM" }, icon: "send" },
     { name: "Réception OM", route: ROUTES.CONTACT, params: { type: "ReceptionOM" }, icon: "download" },
-    { name: "Historique", route: ROUTES.HISTORIQUE, icon: "time" },
     { name: "Auto-Débit", route: ROUTES.AUTO_DEBIT, params: { type: "programme" }, icon: "calendar-sharp" },
-    { name: "Marchands", route: ROUTES.DETAIL_MARCHAND, icon: "storefront" },
+    { name: "Marchands", route: "PaiementMachand", icon: "storefront" },
     { name: "Achat credit", route: "Credit", icon: "storefront" },
-    { name: "History", route: "History", icon: "time-outline"},
+    { name: "History", route: "History", icon: "time"},
     { name: "Recharger mon compte", route: "Recharger", icon: "card"},
   ];
 

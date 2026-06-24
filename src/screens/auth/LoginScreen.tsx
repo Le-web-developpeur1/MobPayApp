@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
@@ -45,7 +45,10 @@ export default function LoginScreen() {
         >
           <View style={styles.header}>
             <View style={styles.logoContainer}>
-              <Text style={styles.logo}>CashMoov</Text>
+              <Image 
+                source={require('@/assets/images/icon.png')} 
+                style={styles.logo}
+              />
             </View>
             <Text style={styles.title}>{t('common.welcome')}</Text>
             <Text style={styles.subtitle}>{t('auth.loginSubtitle')}</Text>
@@ -93,6 +96,7 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: scale(25),
+    paddingBottom: verticalScale(20),
   },
   header: {
     alignItems: 'center',
@@ -100,18 +104,17 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(50),
   },
   logoContainer: {
-    width: scale(90),
-    height: scale(90),
-    borderRadius: moderateScale(45),
+    width: scale(95),
+    height: scale(95),
+    borderRadius: moderateScale(15),
     backgroundColor: COLORS.primary,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: verticalScale(20),
   },
   logo: {
-    fontSize: moderateScale(20),
-    fontWeight: '700',
-    color: COLORS.white,
+    width: scale(85),
+    height: verticalScale(85)
   },
   title: {
     fontSize: moderateScale(30),
