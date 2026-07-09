@@ -1,7 +1,7 @@
 import { COLORS, ROUTES } from '@/src/constants';
 import { RootStackParamList } from '@/src/navigation/types';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { FlatList, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import HeaderScreen from '../../components/ui/HeaderScreen';
 import { useTranslation } from 'react-i18next';
+import { Transaction } from './../../navigation/types';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -87,6 +88,9 @@ export default function International() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const navigation = useNavigation<NavigationProp>();
+  const route = useRoute();
+
+  const { transactionType } = route.params as { transactionType : string};
 
   // Fonction pour normaliser les caractères accentués
   const normalizeString = (str: string) => {
@@ -106,7 +110,13 @@ export default function International() {
     <TouchableOpacity 
         style={styles.countryItem} 
         activeOpacity={0.7}
-        onPress={() => navigation.navigate(ROUTES.OPTION_TRANSFERT, { country: item.name })}
+        onPress={() => {
+          if (transactionType === "Transfert") {
+              navigation.navigate(ROUTES.OPTION_TRANSFERT, { country: item.name, transactionType: transactionType });
+          } else if (transactionType === "Recharge") {
+            navigation.navigate(ROUTES.OPTION_TRANSFERT, { country: item.name, transactionType: transactionType});
+          }
+        }}
     >
       <Text style={styles.flagEmoji}>{item.flag}</Text>
       <Text style={styles.countryName}>{item.name}</Text>
@@ -116,7 +126,7 @@ export default function International() {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <HeaderScreen title={t('transfer.internationalTransfer')} />
+      <HeaderScreen title={transactionType === "Transfert" ? 'Transfert International' : "Rechagement International"} />
       <View style={styles.container}>
         <View style={styles.searchContainer}>
           <Ionicons name="search" size={moderateScale(20)} color={COLORS.textSecondary} />

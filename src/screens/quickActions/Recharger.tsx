@@ -1,14 +1,19 @@
-import RechargeCodeModal from '@/src/components/modals/RechargeCodeModal'
-import RechargeConfirmModal from '@/src/components/modals/RechargeConfirmModal'
-import RechargeReceiptModal from '@/src/components/modals/RechargeReceiptModal'
-import HeaderScreen from '@/src/components/ui/HeaderScreen'
-import { COLORS } from '@/src/constants'
-import { FontAwesome5, Ionicons } from '@expo/vector-icons'
-import React, { useState } from 'react'
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { TextInput } from 'react-native-paper'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { moderateScale, scale, verticalScale } from 'react-native-size-matters'
+import RechargeCodeModal from '@/src/components/modals/RechargeCodeModal';
+import RechargeConfirmModal from '@/src/components/modals/RechargeConfirmModal';
+import RechargeReceiptModal from '@/src/components/modals/RechargeReceiptModal';
+import HeaderScreen from '@/src/components/ui/HeaderScreen';
+import { COLORS, ROUTES } from '@/src/constants';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { TextInput } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { RootStackParamList } from '@/src/navigation/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 const CREDIT_AMOUNTS = [
     { prix: 10000 },
@@ -20,20 +25,30 @@ const CREDIT_AMOUNTS = [
 ];
 
 const OPERATEURS = [
-    { id: 'orange',         type: 'image',  label: "Orange",                 img: require("@/assets/images/national/logo-orange.png") },
+    { id: 'orange',         type: 'image',  label: "Orange Money",                 img: require("@/assets/images/national/logo-orange.png") },
     { id: 'mtn',            type: 'image',  label: "MTN",                    img: require("@/assets/images/national/mtn.png") },
     { id: 'wave',           type: 'image',  label: "Wave",                   img: require("@/assets/images/national/wave.png") },
-    { id: 'agent',          type: 'icon',   label: "Chez un agent",          icon: 'person-outline' },
-    { id: 'bank',           type: 'icon',   label: "Depuis ma banque",       icon: 'business-outline' },
-    { id: 'international',  type: 'icon',   label: "Depuis l'international", icon: 'globe-outline' },
+    { id: 'money',           type: 'image',  label: "Wave",                   img: require("@/assets/images/national/wave.png") },
+    { id: 's',           type: 'image',  label: "Wave",                   img: require("@/assets/images/national/wave.png") },
 ];
 
 export default function Recharger() {
+    const route = useRoute();
+const params = route.params as { name?: string; phone?: string } | undefined;
+
+const name = params?.name ?? "";
+const phone = params?.phone ?? "";
+
+    const navigation = useNavigation<NavigationProp>();
+
     const [amount, setAmount]                           = useState("");
+    const [number, setNumber]                           = useState(phone as any || "");
     const [selectedOperator, setSelectedOperator]       = useState<string | null>(null);
     const [confirmModalVisible, setConfirmModalVisible] = useState(false);
     const [codeModalVisible, setCodeModalVisible]       = useState(false);
     const [receiptModalVisible, setReceiptModalVisible] = useState(false);
+    
+
 
     const calculateReceivedAmount = () => {
         if (!amount) return "0";
@@ -68,7 +83,7 @@ export default function Recharger() {
     
   return (
     <SafeAreaView style={styles.safe}>
-        <HeaderScreen title='Recharger mon compte' />
+        <HeaderScreen title='Recharger mon compte'/>
         <View style={styles.container}>
             <ScrollView 
                 showsVerticalScrollIndicator={false}
@@ -78,14 +93,76 @@ export default function Recharger() {
                 <View style={styles.infoCard}>
                     <Ionicons name="information-circle" size={scale(24)} color={COLORS.primary} />
                     <Text style={styles.infoText}>
-                        Rechargez votre compte CashMoov depuis votre mobile money
+                        Rechargez votre compte CashMoov depuis votre mobile money ou depuis un autre compte
                     </Text>
                 </View>
 
-                {/* Solde disponible */}
-                <View style={styles.balanceCard}>
-                    <Text style={styles.balanceLabel}>Solde actuel</Text>
-                    <Text style={styles.balanceAmount}>2 000 000 GNF</Text>
+                {/* Opérateurs */}
+                <View style={styles.section}>
+                    <View style={styles.sectionHeader}>
+                        <Ionicons name='wallet' size={scale(20)} color={COLORS.primary}/>
+                        <Text style={styles.sectionTitle}>Source de recharge</Text>
+                    </View>
+                    <ScrollView 
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                          contentContainerStyle={{ paddingHorizontal: scale(10), gap: scale(12) }}
+                    >
+                        {OPERATEURS.map((operateur) => (
+                            <TouchableOpacity 
+                                key={operateur.id}
+                                style={[
+                                    styles.operateurCard,
+                                    selectedOperator === operateur.id && styles.operateurCardSelected
+                                ]}
+                                onPress={() => setSelectedOperator(operateur.id)}
+                                activeOpacity={0.7}
+                            >      
+                                <View style={{justifyContent: "center", alignItems: "center", right: scale(10)}}>
+                                    <Image source={operateur.img} style={styles.operateurImg}/>
+                                    <Text style={styles.operateurLabel}>{operateur.label}</Text>
+                                </View>                                                             
+                                <View style={styles.radioContainer}>
+                                    <Ionicons 
+                                    name={selectedOperator === operateur.id ? 'radio-button-on' : 'radio-button-off'} 
+                                    size={scale(24)}
+                                    color={selectedOperator === operateur.id ? COLORS.primary : COLORS.textSecondary}
+                                    />
+                                </View>
+                            </TouchableOpacity>
+                        ))}
+                    </ScrollView>
+                </View>
+                {/** Section numéro de téléphone */}
+                <View>
+                    <View style={styles.sectionHeader}>
+                        <Ionicons name='phone-portrait' size={scale(20)} color={COLORS.primary}/>
+                        <Text style={styles.sectionTitle}>Numéro de telephone</Text>
+                    </View>
+                    <View style={styles.inputWrapper}>
+                        <TextInput
+                            style={[styles.input, { flex: 1 ,marginBottom: verticalScale(15)}]}
+                            label="Numéro"
+                            value={number}
+                            onChangeText={setNumber}
+                            keyboardType="numeric"
+                            placeholder="Entrez le numéro"
+                            theme={{
+                                colors: {
+                                    placeholder: COLORS.textSecondary,
+                                    text: COLORS.textPrimary,
+                                    primary: COLORS.primary,
+                                },
+                            }}
+                            mode="outlined"
+                        />
+                        <TouchableOpacity 
+                            style={styles.iconContact}
+                            onPress={() => navigation.navigate(ROUTES.CONTACT, { type: 'Recharge'})}
+                        >
+                            <Ionicons name='person' size={scale(24)} color={COLORS.primary}/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
                 {/* Montant Section */}
@@ -151,47 +228,6 @@ export default function Recharger() {
                       ))}
                     </View>
                 </View>
-
-                {/* Opérateurs */}
-                <View style={styles.section}>
-                    <View style={styles.sectionHeader}>
-                        <Ionicons name='phone-portrait-outline' size={scale(20)} color={COLORS.primary}/>
-                        <Text style={styles.sectionTitle}>Source de recharge</Text>
-                    </View>
-                    <View style={styles.operateurGrid}>
-                        {OPERATEURS.map((operateur) => (
-                            <TouchableOpacity 
-                                key={operateur.id}
-                                style={[
-                                    styles.operateurCard,
-                                    selectedOperator === operateur.id && styles.operateurCardSelected
-                                ]}
-                                onPress={() => setSelectedOperator(operateur.id)}
-                                activeOpacity={0.7}
-                            >
-                                {operateur.type === 'image' ? (
-                                    <Image source={operateur.img} style={styles.operateurImg}/>
-                                ) : (
-                                    <View style={styles.iconCircle}>
-                                        <Ionicons 
-                                            name={operateur.icon as any} 
-                                            size={scale(28)} 
-                                            color={COLORS.white}
-                                        />
-                                    </View>
-                                )}
-                                <Text style={styles.operateurLabel}>{operateur.label}</Text>
-                                <View style={styles.radioContainer}>
-                                    <Ionicons 
-                                    name={selectedOperator === operateur.id ? 'radio-button-on' : 'radio-button-off'} 
-                                    size={scale(24)}
-                                    color={selectedOperator === operateur.id ? COLORS.primary : COLORS.textSecondary}
-                                    />
-                                </View>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                </View>
             </ScrollView>
 
             {/* Bouton de validation */}
@@ -217,6 +253,8 @@ export default function Recharger() {
             onClose={() => setConfirmModalVisible(false)}
             onConfirm={handleConfirmRecharge}
             amount={amount}
+            number={number}
+            name={name}
             receivedAmount={calculateReceivedAmount()}
             operator={getOperatorLabel()}
         />
@@ -231,6 +269,8 @@ export default function Recharger() {
             visible={receiptModalVisible}
             onClose={() => setReceiptModalVisible(false)}
             amount={amount}
+            number={number}
+            name={name}
             receivedAmount={calculateReceivedAmount()}
             operator={getOperatorLabel()}
         />
@@ -323,7 +363,7 @@ const styles = StyleSheet.create({
         fontWeight: '500',
     },
     feeAmount: {
-        fontSize: moderateScale(15),
+        fontSize: moderateScale(20),
         fontWeight: '700',
         color: COLORS.success,
     },
@@ -370,17 +410,15 @@ const styles = StyleSheet.create({
         color: COLORS.white,
     },
     operateurGrid: {
-        flexDirection: "row",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
-        gap: scale(12),
+       
+
     },
     operateurCard: {
-        width: '48%',
+        width: scale(100),
+        height: verticalScale(100),
         backgroundColor: COLORS.white,
         borderRadius: moderateScale(15),
-        padding: scale(16),
-        alignItems: 'center',
+        padding: scale(8),
         borderWidth: scale(2),
         borderColor: COLORS.border,
         shadowColor: '#000',
@@ -388,7 +426,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.05,
         shadowRadius: 4,
         elevation: 2,
-        minHeight: verticalScale(140),
+        
     },
     operateurCardSelected: {
         borderColor: COLORS.primary,
@@ -410,14 +448,14 @@ const styles = StyleSheet.create({
     },
     operateurLabel: {
         fontSize: moderateScale(14),
-        fontWeight: '600',
+        fontWeight: 'bold',
         color: COLORS.textPrimary,
         marginBottom: verticalScale(4),
     },
     radioContainer: {
         position: 'absolute',
         top: scale(12),
-        right: scale(12),
+        right: scale(2),
     },
     footer: {
         position: 'absolute',
@@ -458,5 +496,21 @@ const styles = StyleSheet.create({
         fontSize: moderateScale(16),
         fontWeight: '700',
         color: COLORS.white,
+    },
+    inputWrapper: {
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: 'space-between',
+        gap: scale(5)
+    },
+    iconContact: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: COLORS.white,
+        height: verticalScale(53),
+        width: scale(50),
+        bottom: verticalScale(5),
+        borderWidth: scale(1),
+        borderRadius: moderateScale(5)
     },
 });

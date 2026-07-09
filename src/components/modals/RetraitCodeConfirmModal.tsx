@@ -4,29 +4,25 @@ import React from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
-interface RechargeConfirmModalProps {
+interface RetraitCodeConfirmModalProps {
   visible: boolean;
   onClose: () => void;
   onConfirm: () => void;
-  amount: string;
-  number: string;
-  name: string;
-  receivedAmount: string;
-  operator: string;
+  data: {
+    code: string;
+    recipient: string;
+    phone: string;
+    amount: number;
+  };
 }
 
-export default function RechargeConfirmModal({
+export default function RetraitCodeConfirmModal({
   visible,
   onClose,
   onConfirm,
-  amount,
-  number,
-  name,
-  receivedAmount,
-  operator,
-}: RechargeConfirmModalProps) {
-  const amountNum = parseFloat(amount);
-  const fees = Math.round(amountNum * 0.01);
+  data,
+}: RetraitCodeConfirmModalProps) {
+  const fees = 0; // Pas de frais pour le retrait code
 
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
@@ -38,7 +34,7 @@ export default function RechargeConfirmModal({
           {/* Header */}
           <View style={styles.header}>
             <View>
-              <Text style={styles.title}>Confirmer la recharge</Text>
+              <Text style={styles.title}>Confirmer le retrait</Text>
               <Text style={styles.subtitle}>Vérifiez les informations avant de continuer</Text>
             </View>
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
@@ -49,47 +45,39 @@ export default function RechargeConfirmModal({
           <ScrollView showsVerticalScrollIndicator={false}>
             {/* Montant principal */}
             <View style={styles.amountContainer}>
-              <Text style={styles.amountLabel}>Montant à recharger</Text>
-              <Text style={styles.amount}>{amountNum.toLocaleString()} GNF</Text>
+              <Text style={styles.amountLabel}>Montant à retirer</Text>
+              <Text style={styles.amount}>{data.amount.toLocaleString()} GNF</Text>
             </View>
 
             {/* Message d'instruction important */}
-            {operator === "Orange" && (
-              <View style={styles.warningCard}>
-                <Ionicons name="information-circle" size={scale(24)} color={COLORS.warning} />
-                <View style={styles.warningTextContainer}>
-                  <Text style={styles.warningTitle}>Action requise</Text>
-                  <Text style={styles.warningText}>
-                    Après validation, vous devrez confirmer ou demander à votre contact de confirmer le retrait depuis son compte {operator} Money pour finaliser la recharge.
-                  </Text>
-                </View>
+            <View style={styles.warningCard}>
+              <Ionicons name="information-circle" size={scale(24)} color={COLORS.warning} />
+              <View style={styles.warningTextContainer}>
+                <Text style={styles.warningTitle}>Information importante</Text>
+                <Text style={styles.warningText}>
+                  Assurez-vous que le code de retrait et les informations du bénéficiaire sont corrects avant de valider cette transaction.
+                </Text>
               </View>
-            )}
+            </View>
 
-            {/* Source */}
+            {/* Informations du bénéficiaire */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Source de recharge</Text>
+              <Text style={styles.sectionTitle}>Informations du bénéficiaire</Text>
               <View style={styles.card}>
                 <View style={styles.row}>
                   <View style={styles.iconLabel}>
-                    <Ionicons name="wallet" size={scale(20)} color={COLORS.primary} />
-                    <Text style={styles.labelText}>Opérateur</Text>
-                  </View>
-                  <Text style={styles.valueText}>{operator}</Text>
-                </View>
-                <View style={styles.row}>
-                  <View style={styles.iconLabel}>
-                    <Ionicons name="person" size={scale(20)} color={COLORS.primary} />
+                    <Ionicons name="person-outline" size={scale(20)} color={COLORS.primary} />
                     <Text style={styles.labelText}>Nom</Text>
                   </View>
-                  <Text style={styles.valueText}>{name}</Text>
+                  <Text style={styles.valueText}>{data.recipient}</Text>
                 </View>
+                <View style={styles.divider} />
                 <View style={styles.row}>
                   <View style={styles.iconLabel}>
-                    <Ionicons name="phone-portrait" size={scale(20)} color={COLORS.primary} />
-                    <Text style={styles.labelText}>Numéro</Text>
+                    <Ionicons name="call-outline" size={scale(20)} color={COLORS.textSecondary} />
+                    <Text style={styles.labelText}>Téléphone</Text>
                   </View>
-                  <Text style={styles.valueText}>{number}</Text>
+                  <Text style={styles.valueText}>{data.phone}</Text>
                 </View>
               </View>
             </View>
@@ -100,16 +88,24 @@ export default function RechargeConfirmModal({
               <View style={styles.card}>
                 <View style={styles.row}>
                   <View style={styles.iconLabel}>
-                    <Ionicons name="cash-outline" size={scale(20)} color={COLORS.textSecondary} />
-                    <Text style={styles.labelText}>Montant envoyé</Text>
+                    <Ionicons name="key-outline" size={scale(20)} color={COLORS.textSecondary} />
+                    <Text style={styles.labelText}>Code de retrait</Text>
                   </View>
-                  <Text style={styles.valueText}>{amountNum.toLocaleString()} GNF</Text>
+                  <Text style={styles.valueText}>{data.code}</Text>
+                </View>
+                <View style={styles.divider} />
+                <View style={styles.row}>
+                  <View style={styles.iconLabel}>
+                    <Ionicons name="cash-outline" size={scale(20)} color={COLORS.textSecondary} />
+                    <Text style={styles.labelText}>Montant</Text>
+                  </View>
+                  <Text style={styles.valueText}>{data.amount.toLocaleString()} GNF</Text>
                 </View>
                 <View style={styles.divider} />
                 <View style={styles.row}>
                   <View style={styles.iconLabel}>
                     <Ionicons name="receipt-outline" size={scale(20)} color={COLORS.textSecondary} />
-                    <Text style={styles.labelText}>Frais (1%)</Text>
+                    <Text style={styles.labelText}>Frais</Text>
                   </View>
                   <Text style={styles.valueTextFees}>{fees.toLocaleString()} GNF</Text>
                 </View>
@@ -117,17 +113,17 @@ export default function RechargeConfirmModal({
                 <View style={styles.row}>
                   <View style={styles.iconLabel}>
                     <Ionicons name="wallet-outline" size={scale(20)} color={COLORS.success} />
-                    <Text style={styles.labelText}>Montant reçu</Text>
+                    <Text style={styles.labelText}>Montant à recevoir</Text>
                   </View>
-                  <Text style={styles.valueTextSuccess}>{receivedAmount} GNF</Text>
+                  <Text style={styles.valueTextSuccess}>{data.amount.toLocaleString()} GNF</Text>
                 </View>
               </View>
             </View>
 
             {/* Total */}
             <View style={styles.totalCard}>
-              <Text style={styles.totalLabel}>Total à débiter</Text>
-              <Text style={styles.totalValue}>{amountNum.toLocaleString()} GNF</Text>
+              <Text style={styles.totalLabel}>Total à recevoir</Text>
+              <Text style={styles.totalValue}>{data.amount.toLocaleString()} GNF</Text>
             </View>
 
             {/* Boutons */}

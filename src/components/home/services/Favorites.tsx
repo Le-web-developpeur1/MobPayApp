@@ -6,9 +6,30 @@ import { RootStackParamList } from "@/src/navigation/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { ROUTES } from "@/src/constants";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
-import { Ionicons } from "@expo/vector-icons";
+import { 
+  ArrowLeftRight, FileText, Phone, Banknote, Send, 
+  Download, Calendar, Clock, Store, ShoppingCart, 
+  History as HistoryIcon, CreditCard, Lock 
+} from 'lucide-react-native';
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
+
+// 🔹 Mapping des icônes Lucide
+const iconMap: any = {
+  Transfert: ArrowLeftRight,
+  Factures: FileText,
+  Crédits: Phone,
+  Retraits: Banknote,
+  "Envoi OM": Send,
+  "Réception OM": Download,
+  "Auto-Débit": Calendar,
+  Historique: Clock,
+  Marchands: Store,
+  "Achat credit": ShoppingCart,
+  History: HistoryIcon,
+  "Me recharger": CreditCard,
+  Coffre: Lock,
+};
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<any[]>([]);
@@ -16,17 +37,19 @@ export default function Favorites() {
   const navigation = useNavigation<NavigationProps>();
 
   const allServices = [
-    { name: "Transfert", route: ROUTES.TRANSFERT, icon: "swap-horizontal" },
-    { name: "Factures", route: ROUTES.FACTURES, icon: "document-text" },
-    { name: "Crédits", route: ROUTES.CREDITS, icon: "phone-portrait" },
-    { name: "Retraits", route: ROUTES.RETRAITS, icon: "cash" },
-    { name: "Envoi OM", route: ROUTES.CONTACT, params: { type: "EnvoiOM" }, icon: "send" },
-    { name: "Réception OM", route: ROUTES.CONTACT, params: { type: "ReceptionOM" }, icon: "download" },
-    { name: "Auto-Débit", route: ROUTES.AUTO_DEBIT, params: { type: "programme" }, icon: "calendar-sharp" },
-    { name: "Marchands", route: "PaiementMachand", icon: "storefront" },
-    { name: "Achat credit", route: "Credit", icon: "storefront" },
-    { name: "History", route: "History", icon: "time"},
-    { name: "Recharger mon compte", route: "Recharger", icon: "card"},
+    { name: "Transfert", route: ROUTES.TRANSFERT },
+    { name: "Factures", route: ROUTES.FACTURES },
+    { name: "Crédits", route: ROUTES.CREDITS },
+    { name: "Retraits", route: ROUTES.RETRAITS },
+    { name: "Envoi OM", route: ROUTES.CONTACT, params: { type: "EnvoiOM" } },
+    { name: "Réception OM", route: ROUTES.CONTACT, params: { type: "ReceptionOM" } },
+    { name: "Auto-Débit", route: ROUTES.AUTO_DEBIT, params: { type: "programme" } },
+    { name: "Historique", route: ROUTES.HISTORIQUE },
+    { name: "Marchands", route: "PaiementMachand" },
+    { name: "Achat credit", route: "Credit" },
+    { name: "History", route: "History" },
+    { name: "Me recharger", route: "MRecharger" },
+    { name: "Coffre", route: "Coffre" },
   ];
 
   useEffect(() => {
@@ -60,16 +83,19 @@ export default function Favorites() {
 
       {/* Favoris affichés en scroll horizontal */}
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{marginTop: verticalScale(10)}}>
-        {favorites.map((fav) => (
-          <TouchableOpacity
-            key={fav.name}
-            style={styles.favItem}
-            onPress={() => navigation.navigate(fav.route, fav.params)}
-          >
-            <Ionicons name={fav.icon as any} size={scale(28)} color="#2A4793" />
-            <Text style={styles.favText}>{fav.name}</Text>
-          </TouchableOpacity>
-        ))}
+        {favorites.map((fav) => {
+          const IconComponent = iconMap[fav.name];
+          return (
+            <TouchableOpacity
+              key={fav.name}
+              style={styles.favItem}
+              onPress={() => navigation.navigate(fav.route, fav.params)}
+            >
+              {IconComponent && <IconComponent size={scale(28)} color="#2A4793" strokeWidth={2} />}
+              <Text style={styles.favText}>{fav.name}</Text>
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
 
       {/* Modal avec grille */}
@@ -81,19 +107,25 @@ export default function Favorites() {
               data={allServices}
               keyExtractor={(item) => item.name}
               numColumns={2}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.gridItem}
-                  onPress={() => toggleFavorite(item)}
-                >
-                  <Ionicons 
-                    name={item.icon as any}
-                    size={scale(28)}
-                    color={favorites.find((f) => f.name === item.name) ? "#2A4793" : "#999"}
-                  />
-                  <Text style={styles.gridText}>{item.name}</Text>
-                </TouchableOpacity>
-              )}
+              renderItem={({ item }) => {
+                const IconComponent = iconMap[item.name];
+                const isSelected = favorites.find((f) => f.name === item.name);
+                return (
+                  <TouchableOpacity
+                    style={styles.gridItem}
+                    onPress={() => toggleFavorite(item)}
+                  >
+                    {IconComponent && (
+                      <IconComponent
+                        size={scale(28)}
+                        color={isSelected ? "#2A4793" : "#999"}
+                        strokeWidth={2}
+                      />
+                    )}
+                    <Text style={styles.gridText}>{item.name}</Text>
+                  </TouchableOpacity>
+                );
+              }}
             />
             <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
               <Text style={styles.closeText}>Fermer</Text>
@@ -126,3 +158,4 @@ const styles = StyleSheet.create({
   closeButton: { marginTop: verticalScale(15), backgroundColor: "#2A4793", padding: verticalScale(10), borderRadius: moderateScale(8) },
   closeText: { color: "#fff", textAlign: "center", fontSize: moderateScale(16) },
 });
+ 

@@ -37,7 +37,7 @@ export type RootStackParamList = {
         type?: string;
     };
     Contact?: { 
-        type?: "EnvoiOM" | "ReceptionOM" | "Envoi" | "International" | "CreditDetail" | "programme";
+        type?: "EnvoiOM" | "ReceptionOM" | "Envoi" | "International" | "CreditDetail" | "programme" | "Recharge" | "RechargeInternational";
         country?: string;
     };
     EnvoiOM: {
@@ -60,9 +60,12 @@ export type RootStackParamList = {
     Credits: undefined;
     Retraits: undefined;
     National: undefined;
-    International: undefined;
+    International?: {
+        transactionType: "Transfert" | "Recharge";
+    };
     OptionTransfert: {
         country: string;
+        transactionType: "Transfert" | "Recharge";
     };
     DetailsInternational: {
         country?: string;
@@ -136,8 +139,20 @@ export type RootStackParamList = {
     //Nouvels types : Pour crédit, me recharger, paiement marchand et historique
     Credit: undefined;
     History: undefined;
-    Recharger: undefined;
+    Recharger?: {
+        name: string;
+        phone: string;
+    };
     PaiementMachand: undefined;
+    Coffre: undefined;
+    MRecharger: undefined;
+    RetraitCode: undefined;
+    //Rechargement International
+    RechargeInternational?: {
+        country: string;
+        name?: string;
+        phone?: string;
+    };
 };
 
 export interface Beneficiaire {

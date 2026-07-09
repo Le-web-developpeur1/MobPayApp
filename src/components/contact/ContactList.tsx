@@ -18,7 +18,7 @@ interface Contact {
 const ContactItem = ({ contact }: { contact: Contact }) => {
     const navigation = useNavigation<NavigationProp>();
     const route = useRoute();
-    const { type, country } = route.params as { type: "Envoi" | "EnvoiOM" | "ReceptionOM" | "International"; country?: string };
+    const { type, country } = route.params as { type: "Envoi" | "EnvoiOM" | "ReceptionOM" | "International" | "RechargeInternational"; country?: string };
 
   const initials = contact.name
     ? contact.name.split(" ").map(word => word[0]).join("").toUpperCase()

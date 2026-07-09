@@ -386,7 +386,8 @@ export default function HistoriqueScreen() {
         transactionId={`TXN${Date.now()}`}
         fees="5 000"
         number={selectedTransaction?.phone || ""}
-        note="Transaction mobile"
+        note={selectedTransaction?.note}
+        transferType={selectedTransaction?.typeTransaction}
       />
 
       {/* Modal de filtre avancé */}

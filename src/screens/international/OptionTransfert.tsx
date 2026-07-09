@@ -22,7 +22,7 @@ export default function OptionTransfert() {
   const { t } = useTranslation();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
-  const { country } = route.params as { country: string };
+  const { country, transactionType } = route.params as { country: string, transactionType: string };
 
   const services: Record<string, Service[]> = {
     "Sénégal": [
@@ -47,10 +47,11 @@ export default function OptionTransfert() {
   };
 
   const available = services[country] || [];
+  const title = transactionType === 'Transfert' ? `Transfert vers ${country}` : `Rechargement depuis ${country}`;
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
-      <HeaderScreen title={`${t('transfer.transferTo')} ${country}`} />
+      <HeaderScreen title={title} />
       <View style={styles.container}>
         <Text style={styles.subtitle}>{t('transfer.chooseService')}</Text>
 
@@ -61,7 +62,13 @@ export default function OptionTransfert() {
                 key={index}
                 style={styles.serviceCard}
                 activeOpacity={0.7}
-                onPress={() => navigation.navigate(service.screen as any, {country})}
+                onPress={() => {
+                  if (transactionType === 'Transfert') {
+                    navigation.navigate(service.screen as any, {country});
+                  } else {
+                    navigation.navigate('RechargeInternational', { country: country});
+                  }
+                }}
               >
                 <View style={styles.logoContainer}>
                   <Image source={service.logo} style={styles.logo} />

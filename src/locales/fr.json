@@ -33,7 +33,8 @@
     "modify": "Modifier",
     "openModal": "Ouvrir le modal",
     "processing": "Traitement en cours",
-    "pleaseWait": "Veuillez patienter"
+    "pleaseWait": "Veuillez patienter",
+    "loading": "Chargement..."
   },
   "auth": {
     "login": "Connexion",
@@ -296,7 +297,7 @@
     "personalInfo": "Informations personnelles",
     "changePhoto": "Changer la photo",
     "shareTitle": "Recommander CashMoov",
-    "shareMessage": "Télécharge CashMoov, la meilleure application de transfert d'argent et de paiement mobile en Guinée ! https://play.google.com/store/apps/details?id=com.estel.cashmoovsubscriberapp",
+    "shareMessage": "Télécharge CashMoov, la meilleure application de transfert d'argent et de paiement mobile en Guinée !",
     "permissionDenied": "Permission refusée",
     "permissionMessage": "Nous avons besoin de votre permission pour accéder à vos photos.",
     "completeProfile": "Compléter mon profil",
@@ -380,12 +381,13 @@
     "scheduling": "Programmation",
     "startDate": "Date de début",
     "frequency": "Fréquence",
-    "recurringTransfer": "Transfert récurrent"
+    "recurringTransfer": "Transfert récurrent",
+    "type": "Type"
   },
   "merchant": {
     "merchantPayment": "Paiement marchand",
     "merchantDetails": "Détails du marchand",
-    "posNumber": "Numéro POS",
+    "posNumber": "Numéro du point de vente",
     "pay": "Payer",
     "scanToPay": "Scanner pour payer"
   },
@@ -433,7 +435,17 @@
     "chooseCountry": "Choisir un pays",
     "eSimPurchase": "Achat E-Sim",
     "eSimDesc": "Achetez des forfaits eSIM pour rester connecté partout dans le monde",
-    "giftCardDesc": "Payez en ligne sans carte bancaire sur vos plateformes préférées"
+    "giftCardDesc": "Payez en ligne sans carte bancaire sur vos plateformes préférées",
+    "confirmPurchase": "Confirmer l'achat",
+    "amountToPay": "Montant à payer",
+    "product": "Produit",
+    "service": "Service",
+    "zone": "Zone",
+    "worldwide": "Monde entier",
+    "europe": "Europe",
+    "nonRefundable": "Achat non remboursable",
+    "usableOnlyFor": "et utilisable seulement pour",
+    "purchaseSuccess": "Achat effectué avec succès"
   },
   "qr": {
     "title": "Scanner QR",
@@ -441,6 +453,20 @@
     "scanToPay": "Scanner pour payer",
     "myQRCode": "Mon code QR",
     "shareQR": "Partager mon QR"
+  },
+  "qrScanner": {
+    "title": "Scanner QR",
+    "permissionRequired": "Permission requise",
+    "permissionMessage": "Veuillez autoriser l'accès à l'appareil photo dans les paramètres de l'application pour scanner les codes QR.",
+    "openSettings": "Ouvrir les paramètres",
+    "cameraAccessRequired": "Accès à la caméra requis",
+    "cameraAccessMessage": "Pour scanner les codes QR, nous avons besoin d'accéder à votre caméra.",
+    "allowAccess": "Autoriser l'accès",
+    "scanQRCode": "Scanner un code QR",
+    "scanInstruction": "Placez le code QR dans le cadre pour le scanner automatiquement",
+    "scanSuccess": "Code scanné avec succès",
+    "scannedData": "Données scannées",
+    "scanAgain": "Scanner à nouveau"
   },
   "history": {
     "title": "Historique",

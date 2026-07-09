@@ -23,6 +23,8 @@ interface DetailTransactionProps {
   country?: string;
   amountReceived?: string; 
   exchangeRate?: string;
+  // Type de transfert
+  transferType?: string;
 }
 
 const RowItem: React.FC<{ label: string; value: string; icon?: string }> = ({ label, value, icon }) => (
@@ -50,6 +52,7 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
   country,
   amountReceived,
   exchangeRate,
+  transferType,
 }) => {
 
   const vieWShotRef = useRef(null);
@@ -143,6 +146,7 @@ const DetailTransaction: React.FC<DetailTransactionProps> = ({
               <View style={styles.detailsCard}>
                 <Text style={styles.sectionTitle}>{t('transactions.information')}</Text>
                 
+                <RowItem label="Type de transfert" value={transferType || ''} icon="swap-horizontal-outline" />
                 {isInternational && country && (
                   <RowItem label={t('transfer.country')} value={country} icon="globe-outline" />
                 )}
@@ -205,14 +209,16 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     alignItems: 'center',
+    justifyContent: "center",
     marginTop: verticalScale(20),
-        borderRadius: moderateScale(12)
+    borderRadius: moderateScale(40)
 
   },
   logoReceipt: {
     width: scale(80),
     height: scale(80),
     marginBottom: verticalScale(8),
+    borderRadius: moderateScale(15)
   },
   appName: {
     fontSize: moderateScale(20),

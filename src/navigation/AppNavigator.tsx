@@ -58,6 +58,10 @@ import Credit from '../screens/quickActions/Credit';
 import History from '../screens/tab/History';
 import Recharger from '../screens/quickActions/Recharger';
 import Marchand from '../screens/quickActions/Marchand';
+import Coffre from '../screens/Coffre';
+import MRecharger from '../screens/quickActions/MRecharger';
+import { RetraitCode } from '../screens/quickActions/RetraitCode';
+import RechargeInternational from '../screens/quickActions/International/RechargeInternational';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -151,6 +155,10 @@ export default function AppNavigator() {
         <Stack.Screen name='History' component={History} />
         <Stack.Screen name='Recharger' component={Recharger} />
         <Stack.Screen name='PaiementMachand' component={Marchand} />
+        <Stack.Screen name='Coffre' component={Coffre} />
+        <Stack.Screen name='MRecharger' component={MRecharger} />
+        <Stack.Screen name='RetraitCode' component={RetraitCode} />
+        <Stack.Screen name='RechargeInternational' component={RechargeInternational} />
       </Stack.Group>
 
     </Stack.Navigator>

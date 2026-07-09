@@ -10,6 +10,7 @@ interface CreditConfirmModalProps {
   visible: boolean;
   onClose: () => void;
   phone: string;
+  type?: string;
   amount: string;
   isSelfPurchase: boolean;
 }
@@ -18,6 +19,7 @@ export function CreditConfirmModal({
   visible,
   onClose,
   phone,
+  type,
   amount,
   isSelfPurchase,
 }: CreditConfirmModalProps) {
@@ -141,6 +143,7 @@ export function CreditConfirmModal({
         onClose={handleCodeModalClose}
         phone={phone}
         amount={amount}
+        type= {type}
         fees={fees.toLocaleString()}
         total={total.toLocaleString()}
         isSelfPurchase={isSelfPurchase}

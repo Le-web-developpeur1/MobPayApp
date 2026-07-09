@@ -33,11 +33,18 @@ export default function Credit() {
   const [recipientType, setRecipientType] = useState<RecipientType>('self');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
+  const selectedOperatorData = OPERATEURS.find(
+    (op) => op.id === selectedOperator
+  );
+
   const handlePurchase = () => {
     setShowConfirmModal(true);
   };
 
-  const isValid = selectedOperator && (recipientType === 'self' || phone) && amount;
+  const isValid = selectedOperator && amount && (
+    recipientType === 'self' || 
+    (recipientType === 'other' && phone.trim() !== '')
+  );
 
   return (
     <SafeAreaView style={styles.area} edges={['top']}>
@@ -108,7 +115,23 @@ export default function Credit() {
 
         {recipientType === 'other' && (
           <View style={styles.section}>
-            <Contact 
+            <TextInput 
+              style={styles.input}
+              label="Numéro de téléphone"
+              keyboardType="phone-pad"
+              theme={{
+                colors: {
+                  placeholder: COLORS.textSecondary,
+                  text: COLORS.textPrimary,
+                  primary: COLORS.primary,
+                },
+              }}
+              value={phone}
+              onChangeText={setPhone}
+              mode="outlined"
+              placeholder="Ex: 621 64 00 00"
+            />
+            {/* <Contact 
               searchExterne={phone} 
               showSearchBar={false}
               useSafeArea={false}
@@ -116,7 +139,7 @@ export default function Credit() {
                 setPhone(contact.phoneNumbers?.[0]?.number || "");
               }}
               credit={false}
-            />
+            /> */}
           </View>
         )}
 
@@ -140,7 +163,11 @@ export default function Credit() {
 
         {/* Section Montants prédéfinis */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Montants rapides</Text>
+          <View style={styles.infoRow}>
+            <Text style={styles.sectionTitle}>Montants rapides</Text>
+            <Text style={styles.infoLabel}>Solde :</Text>
+            <Text style={styles.infoValue}>23 589 556 GNF</Text>
+          </View>
           <View style={styles.amountGrid}>
             {CREDIT_AMOUNTS.map((c, i) => (
               <TouchableOpacity
@@ -163,16 +190,6 @@ export default function Credit() {
           </View>
         </View>
 
-        <View style={styles.footerSection}>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Solde :</Text>
-            <Text style={styles.infoValue}>23 589 556 GNF</Text>
-          </View>
-          <View style={styles.infoRow}>
-            <Text style={styles.infoLabel}>Frais :</Text>
-            <Text style={[styles.infoValue, styles.freeText]}>Gratuit</Text>
-          </View>
-
           <TouchableOpacity
             style={[styles.purchaseButton, !isValid && styles.purchaseButtonDisabled]}
             onPress={handlePurchase}
@@ -182,7 +199,7 @@ export default function Credit() {
             <Text style={styles.buttonText}>Acheter le crédit</Text>
             <Ionicons name="arrow-forward" size={scale(20)} color={COLORS.white} />
           </TouchableOpacity>
-        </View>
+        
       </ScrollView>
 
       {/* Modal de confirmation */}
@@ -190,6 +207,7 @@ export default function Credit() {
         visible={showConfirmModal}
         onClose={() => setShowConfirmModal(false)}
         phone={recipientType === 'self' ? 'Mon numéro' : phone}
+        type= {selectedOperatorData?.label ?? ""}
         amount={amount}
         isSelfPurchase={recipientType === 'self'}
       />
@@ -214,7 +232,7 @@ const styles = StyleSheet.create({
     marginTop: verticalScale(10),
   },
   sectionTitle: {
-    fontSize: moderateScale(18),
+    fontSize: moderateScale(16),
     fontWeight: 'bold',
     color: COLORS.textPrimary,
     paddingBottom: verticalScale(5)
@@ -311,7 +329,6 @@ const styles = StyleSheet.create({
     color: COLORS.white,
   },
   footerSection: {
-    marginTop: verticalScale(24),
     paddingTop: verticalScale(16),
     borderTopWidth: 1,
     borderTopColor: COLORS.border,
@@ -325,9 +342,10 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontSize: moderateScale(15),
     color: COLORS.textSecondary,
+    left: scale(35)
   },
   infoValue: {
-    fontSize: moderateScale(18),
+    fontSize: moderateScale(16),
     fontWeight: 'bold',
     color: "#2A4793",
 

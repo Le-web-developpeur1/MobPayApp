@@ -11,6 +11,7 @@ interface CreditReceiptModalProps {
   onClose: () => void;
   phone: string;
   amount: string;
+  type?: string;
   fees: string;
   total: string;
   isSelfPurchase: boolean;
@@ -35,6 +36,7 @@ export default function CreditReceiptModal({
   onClose,
   phone,
   amount,
+  type,
   fees,
   total,
   isSelfPurchase,
@@ -102,7 +104,7 @@ export default function CreditReceiptModal({
             {/* Amount */}
             <View style={styles.amountContainer}>
               <Text style={styles.amount}>{amount} GNF</Text>
-              <Text style={styles.amountLabel}>Crédit acheté</Text>
+              <Text style={styles.amountLabel}>Crédit {type}</Text>
             </View>
 
             {/* Beneficiary Details Card */}
@@ -198,6 +200,7 @@ const styles = StyleSheet.create({
     width: scale(80),
     height: scale(80),
     marginBottom: verticalScale(8),
+    borderRadius: moderateScale(15),
   },
   appName: {
     fontSize: moderateScale(18),

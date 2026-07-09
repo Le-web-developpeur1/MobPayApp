@@ -89,13 +89,7 @@ export default function PurchaseReceiptModal({
           <View style={styles.handleBar} />
 
           {/* Logo */}
-          <View style={styles.logoContainer}>
-            <Image 
-              source={require('@/assets/images/icon.png')} 
-              style={styles.logo}
-              resizeMode="contain"
-            />
-          </View>
+          
 
           {/* Header */}
           <View style={styles.header}>
@@ -109,8 +103,12 @@ export default function PurchaseReceiptModal({
             <View ref={viewShotRef} collapsable={false} style={{ backgroundColor: 'white' }}>
               {/* Status Icon */}
               <View style={styles.statusContainer}>
-                <View style={styles.statusIcon}>
-                  <Ionicons name="checkmark-circle" size={scale(60)} color={COLORS.success} />
+                <View style={styles.logoContainer}>
+                  <Image 
+                    source={require('@/assets/images/icon.png')} 
+                    style={styles.logo}
+                    resizeMode="contain"
+                  />
                 </View>
                 <Text style={styles.statusText}>Achat réussi</Text>
               </View>
@@ -196,6 +194,7 @@ const styles = StyleSheet.create({
     width: scale(60),
     height: scale(60),
     marginBottom: verticalScale(8),
+    borderRadius: moderateScale(15),
   },
   appName: {
     fontSize: moderateScale(18),

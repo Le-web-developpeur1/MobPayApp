@@ -134,7 +134,7 @@ export default function Marchand() {
                 <View style={styles.searchContainer}>
                     <Ionicons name='search' size={scale(20)} color={COLORS.textSecondary} />
                     <TextInput 
-                        placeholder='Rechercher par nom ou code'
+                        placeholder='Rechercher un marchand'
                         style={styles.input}
                         value={search}
                         onChangeText={setSearch}

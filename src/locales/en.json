@@ -33,7 +33,8 @@
     "modify": "Modify",
     "openModal": "Open modal",
     "processing": "Processing",
-    "pleaseWait": "Please wait"
+    "pleaseWait": "Please wait",
+    "loading": "Loading..."
   },
   "auth": {
     "login": "Login",
@@ -290,7 +291,7 @@
     "personalInfo": "Personal information",
     "changePhoto": "Change photo",
     "shareTitle": "Recommend CashMoov",
-    "shareMessage": "Download CashMoov, the best money transfer and mobile payment app in Guinea! https://play.google.com/store/apps/details?id=com.estel.cashmoovsubscriberapp",
+    "shareMessage": "Download CashMoov, the best money transfer and mobile payment app in Guinea!",
     "permissionDenied": "Permission denied",
     "permissionMessage": "We need your permission to access your photos.",
     "completeProfile": "Complete my profile",
@@ -374,7 +375,8 @@
     "scheduling": "Scheduling",
     "startDate": "Start date",
     "frequency": "Frequency",
-    "recurringTransfer": "Recurring transfer"
+    "recurringTransfer": "Recurring transfer",
+    "type": "Type"
   },
   "merchant": {
     "merchantPayment": "Merchant Payment",
@@ -427,7 +429,17 @@
     "chooseCountry": "Choose a country",
     "eSimPurchase": "E-Sim Purchase",
     "eSimDesc": "Buy eSIM packages to stay connected anywhere in the world",
-    "giftCardDesc": "Pay online without a bank card on your favorite platforms"
+    "giftCardDesc": "Pay online without a bank card on your favorite platforms",
+    "confirmPurchase": "Confirm purchase",
+    "amountToPay": "Amount to pay",
+    "product": "Product",
+    "service": "Service",
+    "zone": "Zone",
+    "worldwide": "Worldwide",
+    "europe": "Europe",
+    "nonRefundable": "Non-refundable purchase",
+    "usableOnlyFor": "and usable only for",
+    "purchaseSuccess": "Purchase completed successfully"
   },
   "qr": {
     "title": "Scan QR",
@@ -435,6 +447,20 @@
     "scanToPay": "Scan to pay",
     "myQRCode": "My QR code",
     "shareQR": "Share my QR"
+  },
+  "qrScanner": {
+    "title": "Scan QR",
+    "permissionRequired": "Permission Required",
+    "permissionMessage": "Please allow camera access in the app settings to scan QR codes.",
+    "openSettings": "Open Settings",
+    "cameraAccessRequired": "Camera Access Required",
+    "cameraAccessMessage": "To scan QR codes, we need access to your camera.",
+    "allowAccess": "Allow Access",
+    "scanQRCode": "Scan a QR Code",
+    "scanInstruction": "Place the QR code in the frame to scan it automatically",
+    "scanSuccess": "Code scanned successfully",
+    "scannedData": "Scanned data",
+    "scanAgain": "Scan again"
   },
   "history": {
     "title": "History",

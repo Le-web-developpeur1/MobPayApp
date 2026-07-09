@@ -6,14 +6,13 @@ import { Image, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, 
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
 
-interface RechargeReceiptModalProps {
+interface MarchandReceiptModalProps {
   visible: boolean;
   onClose: () => void;
+  marchandName: string;
+  marchandPhone: string;
   amount: string;
-  number: string;
-  name: string;
-  receivedAmount: string;
-  operator: string;
+  note: string;
 }
 
 const RowItem: React.FC<{ label: string; value: string; icon?: string }> = ({ label, value, icon }) => (
@@ -26,23 +25,24 @@ const RowItem: React.FC<{ label: string; value: string; icon?: string }> = ({ la
   </View>
 );
 
-export default function RechargeReceiptModal({
+export default function MarchandReceiptModal({
   visible,
   onClose,
+  marchandName,
+  marchandPhone,
   amount,
-  number,
-  name,
-  receivedAmount,
-  operator,
-}: RechargeReceiptModalProps) {
+  note,
+}: MarchandReceiptModalProps) {
   const date = new Date().toLocaleDateString('fr-FR', {
     day: '2-digit',
     month: 'long',
     year: 'numeric',
   });
-  const transactionId = `RCH${Date.now().toString().slice(-8)}`;
+  const transactionId = `MRC${Date.now().toString().slice(-8)}`;
   
-  const fees = (parseFloat(amount) * 0.01).toLocaleString();
+  const amountNum = parseFloat(amount);
+  const fees = Math.round(amountNum * 0.01);
+  const total = amountNum + fees;
 
   const viewShotRef = useRef(null);
 
@@ -64,8 +64,6 @@ export default function RechargeReceiptModal({
     Linking.openURL('tel:+224621640000');
   };
 
-  const operatorTitle = operator === "Orange" ? `${operator} Money` : operator;
-  
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.overlay}>
@@ -75,7 +73,7 @@ export default function RechargeReceiptModal({
 
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.title}>Reçu de recharge</Text>
+            <Text style={styles.title}>Reçu de paiement</Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
               <Ionicons name="close" size={scale(24)} color={COLORS.textPrimary} />
             </TouchableOpacity>
@@ -94,28 +92,34 @@ export default function RechargeReceiptModal({
 
               {/* Status Text */}
               <View style={styles.statusContainer}>
-                <Text style={styles.statusText}>Recharge réussie</Text>
+                <Text style={styles.statusText}>Paiement réussi</Text>
               </View>
 
               {/* Amount */}
               <View style={styles.amountContainer}>
-                <Text style={styles.amount}>{parseFloat(amount).toLocaleString()} GNF</Text>
-                <Text style={styles.amountLabel}>{`Reception ${operatorTitle}`}</Text>
+                <Text style={styles.amount}>{amountNum.toLocaleString()} GNF</Text>
+                <Text style={styles.amountLabel}>Montant payé</Text>
               </View>
 
-              {/* Details Card */}
+              {/* Marchand Details Card */}
               <View style={styles.detailsCard}>
-                <Text style={styles.sectionTitle}>Détails de la recharge</Text>
+                <Text style={styles.sectionTitle}>Bénéficiaire</Text>
 
-                <RowItem label="Nom" value={name} icon="person" />
-                <RowItem label="Numéro" value={number} icon="phone-portrait" />
-                <RowItem label="Montant envoyé" value={`${parseFloat(amount).toLocaleString()} GNF`} icon="cash-outline" />
-                <RowItem label="Frais (1%)" value={`${fees} GNF`} icon="pricetag-outline" />
-                <RowItem label="Montant reçu" value={`${receivedAmount} GNF`} icon="wallet-outline" />
-                <RowItem label="Source" value={operator} icon="wallet" />
+                <RowItem label="Marchand" value={marchandName} icon="storefront-outline" />
+                <RowItem label="Téléphone" value={marchandPhone} icon="call-outline" />
+                {note && <RowItem label="Note" value={note} icon="document-text-outline" />}
               </View>
 
               {/* Transaction Details Card */}
+              <View style={styles.detailsCard}>
+                <Text style={styles.sectionTitle}>Détails de la transaction</Text>
+
+                <RowItem label="Montant" value={`${amountNum.toLocaleString()} GNF`} icon="cash-outline" />
+                <RowItem label="Frais (1%)" value={`${fees.toLocaleString()} GNF`} icon="pricetag-outline" />
+                <RowItem label="Total débité" value={`${total.toLocaleString()} GNF`} icon="wallet-outline" />
+              </View>
+
+              {/* Transaction Info Card */}
               <View style={styles.detailsCard}>
                 <Text style={styles.sectionTitle}>Transaction</Text>
 

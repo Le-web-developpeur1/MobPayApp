@@ -16,6 +16,7 @@ type ContactListSectionProps = {
   search: string;
   titleRecent: string;
   titleAll: string;
+  typeTrans?: string;
   titleSearch: string;
   onSelectContact?: (contact: any) => void;
   selectedCountry?: Country;
@@ -31,10 +32,12 @@ export default function ContactListSection({
   search,
   titleRecent,
   titleAll,
+  typeTrans,
   titleSearch,
   onSelectContact,
   selectedCountry,
 }: ContactListSectionProps) {
+
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
   const { type, country } = (route.params || {}) as { type?: string; country?: string };
@@ -84,13 +87,24 @@ export default function ContactListSection({
                 phone: item.phoneNumbers?.[0]?.number || "",
                 country,
               });
+            } else if (type === 'Recharge') {
+              navigation.navigate("Recharger", {
+                name: item.name || "",
+                phone: item.phoneNumbers?.[0]?.number || "",
+              });
+
+            } else if (type === 'RechargeInternational') {
+                navigation.navigate('RechargeInternational', {
+                  name: item.name || "",
+                  phone: item.phoneNumbers?.[0]?.number || "",
+                  country: country as any,
+                });
             } else {
               navigation.navigate(ROUTES.ENVOI, {
                 name: item.name || "",
                 phone: item.phoneNumbers?.[0]?.number || "",
                 type,
-              });
-
+            });
             }
           }}
         >

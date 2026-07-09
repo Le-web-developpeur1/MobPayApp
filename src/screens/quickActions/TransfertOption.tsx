@@ -77,7 +77,7 @@ export default function TransfertOption() {
       <TouchableOpacity 
         style={styles.internationalCard}
         activeOpacity={0.7}
-        onPress={() => navigation.navigate(ROUTES.INTERNATIONAL)}
+        onPress={() => navigation.navigate(ROUTES.INTERNATIONAL, { transactionType: 'Transfert'})}
       >
         <View style={[styles.logoContainer, { backgroundColor: COLORS.secondary }]}>
           <Ionicons name="globe" size={moderateScale(32)} color={COLORS.primary}/>

@@ -25,6 +25,7 @@ interface CreditCodeModalProps {
   onClose: () => void;
   phone: string;
   amount: string;
+  type?: string;
   fees: string;
   total: string;
   isSelfPurchase: boolean;
@@ -35,6 +36,7 @@ export default function CreditCodeModal({
   onClose,
   phone,
   amount,
+  type,
   fees,
   total,
   isSelfPurchase,
@@ -237,6 +239,7 @@ export default function CreditCodeModal({
         onClose={handleReceiptClose}
         phone={phone}
         amount={amount}
+        type={type}
         fees={fees}
         total={total}
         isSelfPurchase={isSelfPurchase}

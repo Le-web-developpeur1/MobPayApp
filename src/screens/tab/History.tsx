@@ -21,6 +21,7 @@ const mockTransactions = [
     phone: '626058033',
     typeTransaction: 'Réception OM',
     transferMethod: 'Orange Money',
+    transferType: 'Orange Money' as const,
     status: 'success'
   },
   {
@@ -32,6 +33,7 @@ const mockTransactions = [
     phone: '626058033',
     typeTransaction: 'Transfert CashMoov',
     transferMethod: 'CashMoov',
+    transferType: 'CashMoov' as const,
     status: 'success'
   },
   {
@@ -43,6 +45,7 @@ const mockTransactions = [
     phone: '626058033',
     typeTransaction: 'Envoi OM',
     transferMethod: 'Orange Money',
+    transferType: 'Orange Money' as const,
     status: 'pending'
   },
   {
@@ -54,6 +57,7 @@ const mockTransactions = [
     phone: '621234567',
     typeTransaction: 'Réception Wave',
     transferMethod: 'Wave',
+    transferType: 'Wave' as const,
     status: 'failed'
   },
   {
@@ -65,6 +69,7 @@ const mockTransactions = [
     phone: '627654321',
     typeTransaction: 'Transfert Wave',
     transferMethod: 'Wave',
+    transferType: 'Wave' as const,
     status: 'failed'
   },
   {
@@ -74,8 +79,9 @@ const mockTransactions = [
     date: "10 Jan '26",
     type: 'entrant',
     phone: '627654321',
-    typeTransaction: 'Transfert Wave',
+    typeTransaction: 'Transfert International',
     transferMethod: 'Wave',
+    transferType: 'International' as const,
     status: 'pending'
   },
 ];
@@ -247,6 +253,7 @@ export default function History() {
         fees="5 000"
         number={selectedTransaction?.phone || ""}
         note="Transaction mobile"
+        transferType={selectedTransaction?.typeTransaction}
       />
     </SafeAreaView>
   );

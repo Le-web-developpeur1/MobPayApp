@@ -57,7 +57,12 @@ export default function Contact({ searchExterne = "", showSearchBar = true, onSe
     })();
   }, []);
 
-
+  //Redirection si on vient de recharge
+  // const handleRecharge = () => {
+  //   if (routeType === 'Recharge') {
+  //     navigation.navigate('Recharger');
+  //   }
+  // };
 
   // Vérifier si on vient de "Transfert" (type = undefined ou "National")
   const showCountryPicker = routeType === undefined || routeType === "Envoi";
@@ -171,6 +176,7 @@ export default function Contact({ searchExterne = "", showSearchBar = true, onSe
           search={activeSearch}
           titleRecent={t("contacts.recentContacts")}
           titleAll={t("contacts.allContacts")}
+          typeTrans={routeType}
           titleSearch={t("contacts.searchResults")}
           onSelectContact={onSelectContact}
           selectedCountry={showCountryPicker ? selectedCountry : undefined}

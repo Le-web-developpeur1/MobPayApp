@@ -1,12 +1,13 @@
 import { COLORS, ROUTES } from "@/src/constants";
 import { RootStackParamList } from "@/src/navigation/types";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
+import CustomerServiceModal from '@/src/components/modals/CustomerServiceModal';
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
@@ -16,6 +17,8 @@ export default function Header() {
     const navigation = useNavigation<NavigationProps>();
 
     const [visible, setVisible] = useState(false);
+    const [serviceModalVisible, setServiceModalVisible] = useState(false);
+
     const [selectedNumber, setSelectedNumber] = useState("626 05 80 33");
 
     const accounts = [
@@ -69,7 +72,20 @@ export default function Header() {
                 )}
               </View>
             </TouchableOpacity>
+
+            <TouchableOpacity 
+              onPress={() => setServiceModalVisible(true)}
+              style={styles.iconButton}
+              activeOpacity={0.7}
+            >
+              <MaterialIcons name="headset-mic" size={scale(24)} color={COLORS.primary}/>
+            </TouchableOpacity>
           </View>
+
+          <CustomerServiceModal
+            visible={serviceModalVisible}
+            onClose={() => setServiceModalVisible(false)}
+          />
 
           <Modal
             visible={visible}
@@ -165,8 +181,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   menuButton: {
-    width: scale(40),
-    height: scale(40),
+    width: scale(35),
+    height: scale(35),
     borderRadius: moderateScale(20),
     backgroundColor: COLORS.white,
     alignItems: 'center',
@@ -201,8 +217,8 @@ const styles = StyleSheet.create({
     gap: scale(12),
   },
   iconButton: {
-    width: scale(40),
-    height: scale(40),
+    width: scale(35),
+    height: scale(35),
     borderRadius: moderateScale(20),
     backgroundColor: COLORS.white,
     alignItems: 'center',

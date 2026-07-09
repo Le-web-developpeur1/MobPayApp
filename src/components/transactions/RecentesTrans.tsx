@@ -28,7 +28,7 @@ const transactionsReussies = [
         type: "sortant",
         phone: "626058033",
         typeTransaction: "Transfert Cash Moov",
-        status: "pending"
+        status: "success"
     },
 ];
 const transactionsEncours = [
@@ -183,6 +183,7 @@ export default function RecentesTransaction() {
               fees=""
               number={selectedTransaction?.phone}
               note=""
+              transferType={selectedTransaction?.typeTransaction}
             />
         </View>
     );

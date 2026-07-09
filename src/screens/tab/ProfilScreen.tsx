@@ -12,7 +12,6 @@ import { COLORS, ROUTES } from '../../constants';
 import { RootStackParamList } from '../../navigation/types';
 import { PrimaryStatusBar } from '@/src/components/ui';
 
-
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function ProfileScreen() {
@@ -24,17 +23,12 @@ export default function ProfileScreen() {
 
     const handleShareApp = async () => {
         try {
-            if (Platform.OS === "android") {
-                await Share.share({
-                message: t('profile.shareMessage'),
+            const androidLink = "https://play.google.com/store/apps/details?id=com.estel.cashmoovsubscriberapp";
+            const iosLink     = "https://apps.apple.com/us/app/cashmoov-client/id6642668233?l=fr-FR";
+            await Share.share({
+                message: `${t('profile.shareMessage')}\n\nAndroid: ${androidLink}\n\nIOS: ${iosLink}`,
                 title: t('profile.shareTitle'),
             });
-            } else {
-                await Share.share({
-                message: t('profile.shareMessage'),
-                title: t('profile.shareTitle'),
-            });
-            }
         } catch (error) {
             console.log('Erreur lors du partage:', error);
         }
@@ -98,7 +92,6 @@ export default function ProfileScreen() {
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: verticalScale(20)}}
             >
-                    {/**Compléter le profil - TODO: Afficher seulement si le profil n'est pas complet */}
                 <TouchableOpacity 
                     style={[styles.sectionParams, { backgroundColor: '#FFF8E7', borderWidth: scale(1), borderColor: '#FFE082' }]}
                     onPress={() => navigation.navigate(ROUTES.COMPLETE_PROFILE)}

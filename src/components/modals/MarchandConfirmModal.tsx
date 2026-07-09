@@ -4,29 +4,28 @@ import React from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
-interface RechargeConfirmModalProps {
+interface MarchandConfirmModalProps {
   visible: boolean;
   onClose: () => void;
   onConfirm: () => void;
+  marchandName: string;
+  marchandPhone: string;
   amount: string;
-  number: string;
-  name: string;
-  receivedAmount: string;
-  operator: string;
+  note: string;
 }
 
-export default function RechargeConfirmModal({
+export default function MarchandConfirmModal({
   visible,
   onClose,
   onConfirm,
+  marchandName,
+  marchandPhone,
   amount,
-  number,
-  name,
-  receivedAmount,
-  operator,
-}: RechargeConfirmModalProps) {
+  note,
+}: MarchandConfirmModalProps) {
   const amountNum = parseFloat(amount);
   const fees = Math.round(amountNum * 0.01);
+  const total = amountNum + fees;
 
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
@@ -38,7 +37,7 @@ export default function RechargeConfirmModal({
           {/* Header */}
           <View style={styles.header}>
             <View>
-              <Text style={styles.title}>Confirmer la recharge</Text>
+              <Text style={styles.title}>Confirmer le paiement</Text>
               <Text style={styles.subtitle}>Vérifiez les informations avant de continuer</Text>
             </View>
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
@@ -49,50 +48,41 @@ export default function RechargeConfirmModal({
           <ScrollView showsVerticalScrollIndicator={false}>
             {/* Montant principal */}
             <View style={styles.amountContainer}>
-              <Text style={styles.amountLabel}>Montant à recharger</Text>
+              <Text style={styles.amountLabel}>Montant à payer</Text>
               <Text style={styles.amount}>{amountNum.toLocaleString()} GNF</Text>
             </View>
 
-            {/* Message d'instruction important */}
-            {operator === "Orange" && (
-              <View style={styles.warningCard}>
-                <Ionicons name="information-circle" size={scale(24)} color={COLORS.warning} />
-                <View style={styles.warningTextContainer}>
-                  <Text style={styles.warningTitle}>Action requise</Text>
-                  <Text style={styles.warningText}>
-                    Après validation, vous devrez confirmer ou demander à votre contact de confirmer le retrait depuis son compte {operator} Money pour finaliser la recharge.
-                  </Text>
-                </View>
-              </View>
-            )}
-
-            {/* Source */}
+            {/* Marchand */}
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Source de recharge</Text>
+              <Text style={styles.sectionTitle}>Bénéficiaire</Text>
               <View style={styles.card}>
                 <View style={styles.row}>
                   <View style={styles.iconLabel}>
-                    <Ionicons name="wallet" size={scale(20)} color={COLORS.primary} />
-                    <Text style={styles.labelText}>Opérateur</Text>
+                    <Ionicons name="storefront-outline" size={scale(20)} color={COLORS.primary} />
+                    <Text style={styles.labelText}>Marchand</Text>
                   </View>
-                  <Text style={styles.valueText}>{operator}</Text>
+                  <Text style={styles.valueText}>{marchandName}</Text>
                 </View>
+                <View style={styles.divider} />
                 <View style={styles.row}>
                   <View style={styles.iconLabel}>
-                    <Ionicons name="person" size={scale(20)} color={COLORS.primary} />
-                    <Text style={styles.labelText}>Nom</Text>
+                    <Ionicons name="call-outline" size={scale(20)} color={COLORS.textSecondary} />
+                    <Text style={styles.labelText}>Téléphone</Text>
                   </View>
-                  <Text style={styles.valueText}>{name}</Text>
-                </View>
-                <View style={styles.row}>
-                  <View style={styles.iconLabel}>
-                    <Ionicons name="phone-portrait" size={scale(20)} color={COLORS.primary} />
-                    <Text style={styles.labelText}>Numéro</Text>
-                  </View>
-                  <Text style={styles.valueText}>{number}</Text>
+                  <Text style={styles.valueText}>{marchandPhone}</Text>
                 </View>
               </View>
             </View>
+
+            {/* Note (si présente) */}
+            {note ? (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>Note</Text>
+                <View style={styles.card}>
+                  <Text style={styles.noteText}>{note}</Text>
+                </View>
+              </View>
+            ) : null}
 
             {/* Détails de la transaction */}
             <View style={styles.section}>
@@ -101,7 +91,7 @@ export default function RechargeConfirmModal({
                 <View style={styles.row}>
                   <View style={styles.iconLabel}>
                     <Ionicons name="cash-outline" size={scale(20)} color={COLORS.textSecondary} />
-                    <Text style={styles.labelText}>Montant envoyé</Text>
+                    <Text style={styles.labelText}>Montant</Text>
                   </View>
                   <Text style={styles.valueText}>{amountNum.toLocaleString()} GNF</Text>
                 </View>
@@ -113,21 +103,13 @@ export default function RechargeConfirmModal({
                   </View>
                   <Text style={styles.valueTextFees}>{fees.toLocaleString()} GNF</Text>
                 </View>
-                <View style={styles.divider} />
-                <View style={styles.row}>
-                  <View style={styles.iconLabel}>
-                    <Ionicons name="wallet-outline" size={scale(20)} color={COLORS.success} />
-                    <Text style={styles.labelText}>Montant reçu</Text>
-                  </View>
-                  <Text style={styles.valueTextSuccess}>{receivedAmount} GNF</Text>
-                </View>
               </View>
             </View>
 
             {/* Total */}
             <View style={styles.totalCard}>
               <Text style={styles.totalLabel}>Total à débiter</Text>
-              <Text style={styles.totalValue}>{amountNum.toLocaleString()} GNF</Text>
+              <Text style={styles.totalValue}>{total.toLocaleString()} GNF</Text>
             </View>
 
             {/* Boutons */}
@@ -214,30 +196,6 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(32),
     fontWeight: '700',
   },
-  warningCard: {
-    flexDirection: 'row',
-    backgroundColor: '#FFF4E5',
-    borderRadius: moderateScale(12),
-    padding: scale(15),
-    gap: scale(12),
-    marginBottom: verticalScale(15),
-    borderLeftWidth: scale(4),
-    borderLeftColor: COLORS.warning,
-  },
-  warningTextContainer: {
-    flex: 1,
-  },
-  warningTitle: {
-    fontSize: moderateScale(14),
-    fontWeight: '700',
-    color: COLORS.textPrimary,
-    marginBottom: verticalScale(4),
-  },
-  warningText: {
-    fontSize: moderateScale(12),
-    color: COLORS.textSecondary,
-    lineHeight: moderateScale(18),
-  },
   section: {
     marginBottom: verticalScale(15),
   },
@@ -275,6 +233,7 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(14),
     color: COLORS.textPrimary,
     textAlign: 'right',
+    flex: 1,
   },
   valueTextFees: {
     fontWeight: '600',
@@ -282,11 +241,10 @@ const styles = StyleSheet.create({
     color: COLORS.error,
     textAlign: 'right',
   },
-  valueTextSuccess: {
-    fontWeight: '700',
+  noteText: {
     fontSize: moderateScale(14),
-    color: COLORS.success,
-    textAlign: 'right',
+    color: COLORS.textPrimary,
+    lineHeight: moderateScale(20),
   },
   divider: {
     height: 1,
