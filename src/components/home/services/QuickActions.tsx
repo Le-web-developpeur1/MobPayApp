@@ -21,11 +21,11 @@ const QuickActions = () => {
 
   const actions: Action[] = [
     { labelKey: "quickActions.transfer", icon: "send-outline", route: ROUTES.TRANSFERT },
-    { labelKey: "quickActions.topUp", icon: "add-circle-outline", route: ROUTES.ME_RECHARGER},
-    { labelKey: "quickActions.credits", icon: "phone-portrait-outline", route: ROUTES.CREDITS },
+    { labelKey: "quickActions.topUp", icon: "add-circle-outline", route: 'MRecharger'},
+    { labelKey: "quickActions.credits", icon: "phone-portrait-outline", route: 'Credit' },
     { labelKey: "quickActions.withdrawals", icon: "download-outline", route: ROUTES.RETRAITS },
     { labelKey: "quickActions.bills", icon: "document-text-outline", route: ROUTES.FACTURES },
-    { labelKey: "quickActions.merchants", icon: "cart-outline", route: ROUTES.DETAIL_MARCHAND },
+    { labelKey: "quickActions.merchants", icon: "cart-outline", route: 'PaiementMachand' },
   ];
 
   return (

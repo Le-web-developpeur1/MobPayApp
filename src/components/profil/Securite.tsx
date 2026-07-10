@@ -22,8 +22,12 @@ export default function Securite() {
             "Cette action vous déconnectera de l'application",
             [
                 {
-                    text: "Ok",
+                    text: "Confirmer",
                     onPress: () => navigation.navigate(ROUTES.LOGIN),
+                },
+                {
+                    text: "Annuler",
+                    onPress: () => navigation.goBack(),
                 }
             ]
         )

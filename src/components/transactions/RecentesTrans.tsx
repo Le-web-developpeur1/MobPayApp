@@ -63,7 +63,7 @@ export default function RecentesTransaction() {
 
     const navigationTrans = () => {
         if (activTab === "reussies") {
-            navigation.navigate(ROUTES.HISTORIQUE);
+            navigation.navigate("History");
         } else {
             navigation.navigate(ROUTES.TRANSACTIONS_ENCOURS);
         }

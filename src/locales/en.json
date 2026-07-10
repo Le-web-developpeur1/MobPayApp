@@ -310,7 +310,13 @@
     "exclusiveDeals": "Exclusive deals",
     "securityAlertsAlways": "Security alerts are",
     "alwaysEnabled": "always enabled",
-    "forYourProtection": "for your protection"
+    "forYourProtection": "for your protection",
+    "perTransaction": "Per transaction",
+    "perDay": "Per day",
+    "perMonth": "Per month",
+    "usedThisMonth": "used this month",
+    "increaseLimit": "To increase your limits,",
+    "contactSupport": "contact support"
   },
   "payment": {
     "title": "Payment",

@@ -15,6 +15,7 @@ import QrScannerScreen from '../screens/tab/QrScannerScreen';
 import ServiceScreen from '../screens/tab/ServiceScreen';
 import { RootStackParamList } from './types';
 import { useTranslation } from 'react-i18next';
+import History from '../screens/tab/History';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -46,7 +47,7 @@ export default function TabNavigator() {
             iconName = 'home';
           } else if (route.name === ROUTES.SHOPPING) {
             iconName = 'shopping-cart';
-          } else if (route.name === ROUTES.HISTORIQUE) {
+          } else if (route.name === "History") {
             iconName = 'history';
           } else if (route.name === ROUTES.SERVICES) {
             iconName = 'account-balance-wallet';
@@ -66,8 +67,8 @@ export default function TabNavigator() {
         options={{ title: t('home.title') || 'Accueil' }} 
       />
       <Tab.Screen 
-        name={ROUTES.HISTORIQUE} 
-        component={HistoriqueScreen} 
+        name={"History"} 
+        component={History} 
         options={{ title: t('history.title') || 'Historique' }} 
       />
       <Tab.Screen 

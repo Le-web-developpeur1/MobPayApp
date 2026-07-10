@@ -28,21 +28,21 @@ const OPERATEURS = [
     { id: 'orange',         type: 'image',  label: "Orange Money",                 img: require("@/assets/images/national/logo-orange.png") },
     { id: 'mtn',            type: 'image',  label: "MTN",                    img: require("@/assets/images/national/mtn.png") },
     { id: 'wave',           type: 'image',  label: "Wave",                   img: require("@/assets/images/national/wave.png") },
-    { id: 'money',           type: 'image',  label: "Wave",                   img: require("@/assets/images/national/wave.png") },
-    { id: 's',           type: 'image',  label: "Wave",                   img: require("@/assets/images/national/wave.png") },
+    { id: 'money',          type: 'image',  label: "Wave",                   img: require("@/assets/images/national/wave.png") },
+    { id: 's',              type: 'image',  label: "Wave",                   img: require("@/assets/images/national/wave.png") },
 ];
 
 export default function Recharger() {
     const route = useRoute();
-const params = route.params as { name?: string; phone?: string } | undefined;
+    const params = route.params as { name?: string; phone?: string } | undefined;
 
-const name = params?.name ?? "";
-const phone = params?.phone ?? "";
+    const name = params?.name ?? "";
+    const phone = params?.phone ?? "";
 
     const navigation = useNavigation<NavigationProp>();
 
     const [amount, setAmount]                           = useState("");
-    const [number, setNumber]                           = useState(phone as any || "");
+    const [number, setNumber]                           = useState(phone || "");
     const [selectedOperator, setSelectedOperator]       = useState<string | null>(null);
     const [confirmModalVisible, setConfirmModalVisible] = useState(false);
     const [codeModalVisible, setCodeModalVisible]       = useState(false);
@@ -106,7 +106,7 @@ const phone = params?.phone ?? "";
                     <ScrollView 
                         horizontal
                         showsHorizontalScrollIndicator={false}
-                          contentContainerStyle={{ paddingHorizontal: scale(10), gap: scale(12) }}
+                        contentContainerStyle={{ paddingHorizontal: scale(10), gap: scale(12) }}
                     >
                         {OPERATEURS.map((operateur) => (
                             <TouchableOpacity 

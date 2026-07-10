@@ -37,7 +37,7 @@ export type RootStackParamList = {
         type?: string;
     };
     Contact?: { 
-        type?: "EnvoiOM" | "ReceptionOM" | "Envoi" | "International" | "CreditDetail" | "programme" | "Recharge" | "RechargeInternational";
+        type?: "EnvoiOM" | "ReceptionOM" | "Envoi" | "International" | "CreditDetail" | "programme" | "Recharge" | "RechargeInternational" | "Credit";
         country?: string;
     };
     EnvoiOM: {
@@ -137,7 +137,10 @@ export type RootStackParamList = {
     };
     Chatbot: undefined;
     //Nouvels types : Pour crédit, me recharger, paiement marchand et historique
-    Credit: undefined;
+    Credit?: {
+        name: string;
+        phone: string;
+    };
     History: undefined;
     Recharger?: {
         name: string;

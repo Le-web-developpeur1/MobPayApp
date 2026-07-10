@@ -96,7 +96,8 @@ export default function History() {
     return mockTransactions.filter((transaction) => {
       const matchesSearch = 
         transaction.name.toLowerCase().includes(search.toLowerCase()) ||
-        transaction.phone.includes(search);
+        transaction.phone.includes(search) ||
+        transaction.transferType.toLowerCase().includes(search.toLowerCase());
 
       const matchesTransfert = !filters.Transfert || transaction.transferMethod === filters.Transfert;
 

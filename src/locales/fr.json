@@ -316,7 +316,13 @@
     "exclusiveDeals": "Offres exclusives",
     "securityAlertsAlways": "Les alertes de sécurité sont",
     "alwaysEnabled": "toujours activées",
-    "forYourProtection": "pour votre protection"
+    "forYourProtection": "pour votre protection",
+    "perTransaction": "Par transaction",
+    "perDay": "Par jour",
+    "perMonth": "Par mois",
+    "usedThisMonth": "utilisé ce mois",
+    "increaseLimit": "Pour augmenter vos limites,",
+    "contactSupport": "contactez le support"
   },
   "payment": {
     "title": "Paiement",

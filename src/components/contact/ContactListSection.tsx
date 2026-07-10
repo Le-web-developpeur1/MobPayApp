@@ -99,12 +99,17 @@ export default function ContactListSection({
                   phone: item.phoneNumbers?.[0]?.number || "",
                   country: country as any,
                 });
+            } else if (type === 'Credit') {
+                navigation.navigate('Credit', {
+                  name: item.name || "",
+                  phone: item.phoneNumbers?.[0]?.number || "",
+                });
             } else {
               navigation.navigate(ROUTES.ENVOI, {
                 name: item.name || "",
                 phone: item.phoneNumbers?.[0]?.number || "",
                 type,
-            });
+              });
             }
           }}
         >
