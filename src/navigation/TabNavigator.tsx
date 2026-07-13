@@ -1,28 +1,20 @@
-import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { COLORS, ROUTES } from '../constants';
-import HistoriqueScreen from '../screens/tab/HistoriqueScreen';
+import History from '../screens/tab/History';
 import HomeScreen from '../screens/tab/HomeScreen';
-import ShoppingScreen from '../screens/tab/ShoppingScreen';
-
 import QrScannerScreen from '../screens/tab/QrScannerScreen';
 import ServiceScreen from '../screens/tab/ServiceScreen';
-import { RootStackParamList } from './types';
-import { useTranslation } from 'react-i18next';
-import History from '../screens/tab/History';
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+import ShoppingScreen from '../screens/tab/ShoppingScreen';
+import { Clock, Home, QrCode, ShoppingBag, Wallet } from 'lucide-react-native';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
-  const navigation = useNavigation<NavigationProp>();
   const { t } = useTranslation();
 
   const insets = useSafeAreaInsets();
@@ -41,23 +33,16 @@ export default function TabNavigator() {
           paddingTop: verticalScale(5),
         },
         tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof MaterialIcons.glyphMap;
-
           if (route.name === ROUTES.HOME) {
-            iconName = 'home';
+            return <Home color={color} size={size} strokeWidth={2} />;
           } else if (route.name === ROUTES.SHOPPING) {
-            iconName = 'shopping-cart';
+            return <ShoppingBag color={color} size={size} strokeWidth={2} />;
           } else if (route.name === "History") {
-            iconName = 'history';
+            return <Clock color={color} size={size} strokeWidth={2} />;
           } else if (route.name === ROUTES.SERVICES) {
-            iconName = 'account-balance-wallet';
-          } else if (route.name === ROUTES.QRSCAN) {
-            iconName = 'account-balance-wallet';
-          } else {
-            iconName = 'home';
+            return <Wallet color={color} size={size} strokeWidth={2} />;
           }
-
-          return <MaterialIcons name={iconName} size={size} color={color} />;
+          return <Home color={color} size={size} strokeWidth={2} />;
         },
       })}
     >
@@ -78,9 +63,8 @@ export default function TabNavigator() {
           title: '',
           tabBarIcon: () => (
             <View style={styles.scanButtonContainer}>
-              <View style={styles.scanButton}
-              >
-                <MaterialIcons name="qr-code-scanner" size={scale(30)} color={COLORS.secondary} />
+              <View style={styles.scanButton}>
+                <QrCode size={scale(30)} color={COLORS.secondary} strokeWidth={2} />
               </View>
             </View>
           ),

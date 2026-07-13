@@ -1,5 +1,4 @@
 import { RootStackParamList } from '@/src/navigation/types';
-import { Ionicons } from '@expo/vector-icons';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from 'expo-router';
 import React from 'react';
@@ -29,7 +28,7 @@ export default function ProfileScreen() {
                 <Text style={styles.name}>Boubacar Bah</Text>
                 <Text style={styles.phone}>+224 626 05 80 33</Text>
                 <View style={styles.status}>
-                    <Ionicons name='shield-checkmark-outline' size={scale(15)} color={"white"}/>
+                    <ShieldCheck size={scale(15)} color={"white"} strokeWidth={2} />
                     <Text style={styles.textStatus}>{t('profile.verifiedAccount')}</Text>
                 </View>
             </View>
@@ -43,7 +42,7 @@ export default function ProfileScreen() {
                     <View style={styles.card}>
                         <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
                             <View style={styles.icon}>
-                                <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
+                                <ShieldCheck size={scale(23)} color={"white"} strokeWidth={2} />
                             </View>
                             <View>
                                 <Text style={styles.subtitle}>{t('profile.fees')}</Text>
@@ -51,7 +50,7 @@ export default function ProfileScreen() {
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
-                            <Ionicons name="chevron-forward-sharp" size={scale(20)} color={"#ccc"}/>
+                            <ChevronRight size={scale(20)} color={"#ccc"} strokeWidth={2} />
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -63,7 +62,7 @@ export default function ProfileScreen() {
                     <View style={styles.card}>
                         <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
                             <View style={styles.icon}>
-                                <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
+                                <ShieldCheck size={scale(23)} color={"white"} strokeWidth={2} />
                             </View>
                             <View>
                                 <Text style={styles.subtitle}>{t('profile.security')}</Text>
@@ -71,7 +70,7 @@ export default function ProfileScreen() {
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
-                            <Ionicons name="chevron-forward-sharp" size={scale(20)} color={"#ccc"}/>
+                            <ChevronRight size={scale(20)} color={"#ccc"} strokeWidth={2} />
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -80,7 +79,7 @@ export default function ProfileScreen() {
                     <View style={styles.card}>
                         <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
                             <View style={styles.icon}>
-                                <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
+                                <ShieldCheck size={scale(23)} color={"white"} strokeWidth={2} />
                             </View>
                             <View>
                                 <Text style={styles.subtitle}>{t('profile.servicePoints')}</Text>
@@ -88,7 +87,7 @@ export default function ProfileScreen() {
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
-                            <Ionicons name="chevron-forward-sharp" size={scale(20)} color={"#ccc"}/>
+                            <ChevronRight size={scale(20)} color={"#ccc"} strokeWidth={2} />
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -100,7 +99,7 @@ export default function ProfileScreen() {
                     <View style={styles.card}>
                         <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
                             <View style={styles.icon}>
-                                <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
+                                <ShieldCheck size={scale(23)} color={"white"} strokeWidth={2} />
                             </View>
                             <View>
                                 <Text style={styles.subtitle}>{t('profile.transferLimits')}</Text>
@@ -108,7 +107,7 @@ export default function ProfileScreen() {
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
-                            <Ionicons name="chevron-forward-sharp" size={scale(20)} color={"#ccc"}/>
+                            <ChevronRight size={scale(20)} color={"#ccc"} strokeWidth={2} />
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -117,7 +116,7 @@ export default function ProfileScreen() {
                     <View style={styles.card}>
                         <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
                             <View style={styles.icon}>
-                                <Ionicons name='shield-checkmark-outline' size={scale(23)} color={"white"}/>
+                                <ShieldCheck size={scale(23)} color={"white"} strokeWidth={2} />
                             </View>
                             <View>
                                 <Text style={styles.subtitle}>{t('profile.terms')}</Text>
@@ -125,7 +124,7 @@ export default function ProfileScreen() {
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
-                            <Ionicons name="chevron-forward-sharp" size={scale(20)} color={"#ccc"}/>
+                            <ChevronRight size={scale(20)} color={"#ccc"} strokeWidth={2} />
                         </View>
                     </View>
                 </TouchableOpacity>
@@ -137,7 +136,7 @@ export default function ProfileScreen() {
                     <View style={styles.card}>
                         <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
                             <View style={styles.icon}>
-                                <Ionicons name='notifications-outline' size={scale(23)} color={"white"}/>
+                                <Bell size={scale(23)} color={"white"} strokeWidth={2} />
                             </View>
                             <View>
                                 <Text style={styles.subtitle}>{t('profile.notifications')}</Text>
@@ -145,7 +144,7 @@ export default function ProfileScreen() {
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
-                            <Ionicons name="chevron-forward-sharp" size={scale(20)} color={"#ccc"}/>
+                            <ChevronRight size={scale(20)} color={"#ccc"} strokeWidth={2} />
                         </View>
                     </View>
                 </TouchableOpacity>

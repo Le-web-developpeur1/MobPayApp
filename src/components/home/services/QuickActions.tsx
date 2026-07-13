@@ -1,8 +1,8 @@
 import { COLORS, ROUTES } from '@/src/constants';
 import { RootStackParamList } from '@/src/navigation/types';
-import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Send, Smartphone, Wallet, Banknote, Receipt, Store } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
@@ -11,7 +11,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 type Action = {
   labelKey: string;
-  icon: keyof typeof Ionicons.glyphMap;
+  icon: any;
   route: string;
 };
 
@@ -20,28 +20,31 @@ const QuickActions = () => {
   const navigation = useNavigation<NavigationProp>();
 
   const actions: Action[] = [
-    { labelKey: "quickActions.transfer", icon: "send-outline", route: ROUTES.TRANSFERT },
-    { labelKey: "quickActions.topUp", icon: "add-circle-outline", route: 'MRecharger'},
-    { labelKey: "quickActions.credits", icon: "phone-portrait-outline", route: 'Credit' },
-    { labelKey: "quickActions.withdrawals", icon: "download-outline", route: ROUTES.RETRAITS },
-    { labelKey: "quickActions.bills", icon: "document-text-outline", route: ROUTES.FACTURES },
-    { labelKey: "quickActions.merchants", icon: "cart-outline", route: 'PaiementMachand' },
+    { labelKey: "quickActions.transfer", icon: Send, route: ROUTES.TRANSFERT },
+    { labelKey: "quickActions.topUp", icon: Wallet, route: 'MRecharger'},
+    { labelKey: "quickActions.credits", icon: Smartphone, route: 'Credit' },
+    { labelKey: "quickActions.withdrawals", icon: Banknote, route: ROUTES.RETRAITS },
+    { labelKey: "quickActions.bills", icon: Receipt, route: ROUTES.FACTURES },
+    { labelKey: "quickActions.merchants", icon: Store, route: 'PaiementMachand' },
   ];
 
   return (
         <View style={styles.container}>
-            {actions.map((item, index) => (
-                <TouchableOpacity 
-                  key={index} 
-                  style={styles.action}
-                  onPress={() => navigation.navigate(item.route as any) }
-                >
-                    <View style={styles.iconContainer}>
-                        <Ionicons name={item.icon} size={moderateScale(24)} color={COLORS.primary}/>
-                    </View>
-                    <Text style={styles.label}>{t(item.labelKey)}</Text>
-                </TouchableOpacity>
-            ))}
+            {actions.map((item, index) => {
+                const IconComponent = item.icon;
+                return (
+                  <TouchableOpacity 
+                    key={index} 
+                    style={styles.action}
+                    onPress={() => navigation.navigate(item.route as any) }
+                  >
+                      <View style={styles.iconContainer}>
+                          <IconComponent size={moderateScale(24)} color={COLORS.primary} strokeWidth={2}/>
+                      </View>
+                      <Text style={styles.label}>{t(item.labelKey)}</Text>
+                  </TouchableOpacity>
+                );
+            })}
         </View>
     );
 }

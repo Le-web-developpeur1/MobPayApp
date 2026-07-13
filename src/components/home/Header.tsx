@@ -1,13 +1,14 @@
+import CustomerServiceModal from '@/src/components/modals/CustomerServiceModal';
 import { COLORS, ROUTES } from "@/src/constants";
 import { RootStackParamList } from "@/src/navigation/types";
-import { Ionicons, MaterialIcons, } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Bell, CheckCircle2, ChevronDown, CreditCard, Headphones, Menu, Search } from 'lucide-react-native';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
-import CustomerServiceModal from '@/src/components/modals/CustomerServiceModal';
+import { Circle } from 'react-native-svg';
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
 
@@ -36,7 +37,7 @@ export default function Header() {
               style={styles.menuButton}
               activeOpacity={0.7}
             >
-              <Ionicons name="menu" size={scale(26)} color={COLORS.primary} />
+              <Menu size={scale(26)} color={COLORS.primary} strokeWidth={2}/>
             </TouchableOpacity>
             
             <TouchableOpacity 
@@ -45,7 +46,7 @@ export default function Header() {
               activeOpacity={0.7}
             >
               <Text style={styles.number}>{selectedNumber}</Text>
-              <Ionicons name="chevron-down" size={scale(18)} color={COLORS.primary} />
+              <ChevronDown size={scale(18)} color={COLORS.primary} strokeWidth={2}/>
             </TouchableOpacity>
           </View>
 
@@ -55,7 +56,7 @@ export default function Header() {
               style={styles.iconButton}
               activeOpacity={0.7}
             >
-              <Ionicons name="search-outline" size={scale(24)} color={COLORS.primary}/>
+              <Search size={scale(24)} color={COLORS.primary} strokeWidth={2}/>
             </TouchableOpacity>
             
             <TouchableOpacity 
@@ -64,7 +65,7 @@ export default function Header() {
               activeOpacity={0.7}
             >
               <View style={styles.notificationContainer}>
-                <Ionicons name="notifications-outline" size={scale(24)} color={COLORS.primary}/>
+                <Bell size={scale(24)} color={COLORS.primary} strokeWidth={2}/>
                 {unreadCount > 0 && (
                   <View style={styles.badge}>
                     <Text style={styles.badgeText}>{unreadCount}</Text>
@@ -78,7 +79,7 @@ export default function Header() {
               style={styles.iconButton}
               activeOpacity={0.7}
             >
-              <MaterialIcons name="headset-mic" size={scale(24)} color={COLORS.primary}/>
+              <Headphones size={scale(24)} color={COLORS.primary} strokeWidth={2}/>
             </TouchableOpacity>
           </View>
 
@@ -120,10 +121,10 @@ export default function Header() {
                   >
                     <View style={styles.itemContent}>
                       <View style={styles.itemLeft}>
-                        <Ionicons 
-                          name="card-outline" 
+                        <CreditCard 
                           size={scale(24)} 
                           color={selectedNumber === item.number ? COLORS.primary : COLORS.textSecondary}
+                          strokeWidth={2}
                         />
                         <View style={styles.itemTextContainer}>
                           <Text style={[
@@ -135,11 +136,18 @@ export default function Header() {
                           <Text style={styles.itemLabel}>{item.label}</Text>
                         </View>
                       </View>
-                      <Ionicons  
-                        name={selectedNumber === item.number ? "checkmark-circle" : "ellipse-outline"}
-                        size={scale(24)}
-                        color={selectedNumber === item.number ? COLORS.primary : COLORS.border}
-                      />
+                      {selectedNumber === item.number ? (
+                        <CheckCircle2 
+                          size={scale(24)}
+                          color={COLORS.primary}
+                          strokeWidth={2}
+                        />
+                      ) : (
+                        <Circle 
+                          color={COLORS.border}
+                          strokeWidth={2}
+                        />
+                      )}
                     </View>
                   </TouchableOpacity>
                 ))}
