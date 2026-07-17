@@ -6,7 +6,7 @@ import * as Haptics from 'expo-haptics';
 import * as LocalAuthentication from 'expo-local-authentication';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
@@ -220,9 +220,9 @@ const styles = StyleSheet.create({
     marginVertical: verticalScale(60),
   },
   codeEmpty: {
-    width: scale(25),
-    height: verticalScale(25),
-    borderRadius: moderateScale(25),
+    width: Platform.OS === "android" ? scale(25) : scale(25),
+    height: Platform.OS === "android" ? verticalScale(25) : scale(25),
+    borderRadius: Platform.OS === "android" ? moderateScale(25) : scale(25),
     borderWidth: scale(1),
     borderColor: COLORS.primary,
   },

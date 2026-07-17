@@ -6,7 +6,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Bell, CheckCircle2, ChevronDown, CreditCard, Headphones, Menu, Search } from 'lucide-react-native';
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Modal, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { Circle } from 'react-native-svg';
 
@@ -205,10 +205,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.white,
-    paddingHorizontal: scale(12),
+    paddingHorizontal: scale(10),
     paddingVertical: verticalScale(8),
     borderRadius: moderateScale(20),
-    gap: scale(6),
+    gap: scale(5),
     shadowColor: '#000',
     shadowOffset: { width: 0, height: verticalScale(2) },
     shadowOpacity: 0.1,
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   number: {
-    fontSize: moderateScale(15),
+    fontSize: Platform.OS === "android" ? moderateScale(15) : moderateScale(11),
     fontWeight: "700",
     color: COLORS.primary,
   },

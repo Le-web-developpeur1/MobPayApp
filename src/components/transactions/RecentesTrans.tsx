@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import DetailTransaction from "../modals/DetailTransactionModal";
 
@@ -73,7 +73,7 @@ export default function RecentesTransaction() {
     return (
         <View style={styles.container}>
             <View style={styles.statusView}>
-            <Text style={styles.title}>{t('transactions.recent')}</Text>
+                <Text style={styles.title}>{t('transactions.recent')}</Text>
                 {/* <View style={styles.status}>
                     <TouchableOpacity
                         onPress={() => setActivTab("reussies")}
@@ -195,9 +195,9 @@ const styles = StyleSheet.create({
         paddingVertical: verticalScale(15),
     },
     title: {
-        fontSize: moderateScale(20),
+        fontSize: Platform.OS === "android" ? moderateScale(20) : moderateScale(15),
         fontWeight: "bold",
-        paddingBottom: verticalScale(10),
+        // paddingBottom: verticalScale(10),
         color: COLORS.textPrimary,
     },
     statusView: {

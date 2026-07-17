@@ -13,6 +13,8 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import OnboardingScreen from '../screens/auth/OnboardingScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
 import VerificationScreen from '../screens/auth/VerificationScreen';
+import ChatbotScreen from '../screens/ChatbotScreen';
+import Coffre from '../screens/Coffre';
 import DetailsInternational from '../screens/international/DetailsInternational';
 import OptionTransfert from '../screens/international/OptionTransfert';
 import NotificationScreen from '../screens/NotificationScreen';
@@ -26,6 +28,7 @@ import PreferenceNotifScreen from '../screens/profil/PreferenceNotifScreen';
 import SecuriteScreen from '../screens/profil/SecuriteScreen';
 import BeneficiaryScreen from '../screens/quickActions/BeneficiaryScreen';
 import CountrySelectorScreen from '../screens/quickActions/CountrySelectorScreen';
+import Credit from '../screens/quickActions/Credit';
 import CreditDetailScreen from '../screens/quickActions/CreditDetailScreen';
 import CreditsScreen from '../screens/quickActions/CreditsScreen';
 import DetailDebitScreen from '../screens/quickActions/DetailDebitScreen';
@@ -33,14 +36,21 @@ import DetailFacture from '../screens/quickActions/DetailFacture';
 import EsimDetail from '../screens/quickActions/EsimDetail';
 import Facture from '../screens/quickActions/Facture';
 import FacturesScreen from '../screens/quickActions/FacturesScreen';
+import RechargeInternational from '../screens/quickActions/International/RechargeInternational';
+import Marchand from '../screens/quickActions/Marchand';
 import MarchandsScreen from '../screens/quickActions/MarchandsScreen';
 import Merecharger from '../screens/quickActions/Merecharger';
+import MRecharger from '../screens/quickActions/MRecharger';
 import PaiementProduitScreen from '../screens/quickActions/PaiementProduitScreen';
 import ProductDetailScreen from '../screens/quickActions/ProductDetailScreen';
+import Recharger from '../screens/quickActions/Recharger';
+import { RetraitCode } from '../screens/quickActions/RetraitCode';
 import RetraitsScreen from '../screens/quickActions/RetraitsScreen';
 import ServiceSelectorScreen from '../screens/quickActions/ServiceSelectorScreen';
+import ReleveScreen from '../screens/ReleveScreen';
 import SearchScreen from '../screens/SearchScreen';
 import HistoriqueScreen from '../screens/tab/HistoriqueScreen';
+import History from '../screens/tab/History';
 import ProfileScreen from '../screens/tab/ProfilScreen';
 import QrScannerScreen from '../screens/tab/QrScannerScreen';
 import ServiceScreen from '../screens/tab/ServiceScreen';
@@ -53,15 +63,6 @@ import TransactionsScreen from '../screens/transfert/TransactionScreen';
 import WebScreen from '../screens/WebScreen';
 import TabNavigator from './TabNavigator';
 import { RootStackParamList } from './types';
-import ChatbotScreen from '../screens/ChatbotScreen';
-import Credit from '../screens/quickActions/Credit';
-import History from '../screens/tab/History';
-import Recharger from '../screens/quickActions/Recharger';
-import Marchand from '../screens/quickActions/Marchand';
-import Coffre from '../screens/Coffre';
-import MRecharger from '../screens/quickActions/MRecharger';
-import { RetraitCode } from '../screens/quickActions/RetraitCode';
-import RechargeInternational from '../screens/quickActions/International/RechargeInternational';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -159,6 +160,7 @@ export default function AppNavigator() {
         <Stack.Screen name='MRecharger' component={MRecharger} />
         <Stack.Screen name='RetraitCode' component={RetraitCode} />
         <Stack.Screen name='RechargeInternational' component={RechargeInternational} />
+        <Stack.Screen name='Releve' component={ReleveScreen} />
       </Stack.Group>
 
     </Stack.Navigator>

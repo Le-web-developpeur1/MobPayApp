@@ -9,6 +9,7 @@ import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "rea
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import CodeModal from "./CodeModal";
 import DetailTransaction from "./DetailTransactionModal";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -17,6 +18,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
   const navigation = useNavigation<NavigationProp>();
   const [show, setShow] = useState(false);
   const [showReceipt, setShowReceipt] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const handleConfirm = () => {
     onClose(); // Ferme ConfirmModal d'abord
@@ -43,7 +45,7 @@ export function ConfirmModal({ visible, onClose, beneficiaire, transaction, isIn
     <>
       <Modal visible={visible} transparent animationType="slide">
         <View style={styles.modalView}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { paddingBottom: Math.max(verticalScale(30), insets.bottom + verticalScale(10)) }]}>
             {/* Handle bar */}
             <View style={styles.handleBar} />
             

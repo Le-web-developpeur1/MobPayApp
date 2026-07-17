@@ -44,6 +44,7 @@ export const ROUTES = {
   FACTURES: 'Factures',
   CREDITS: 'Credits',
   RETRAITS: 'Retraits',
+  RELEVE: 'ReleveScreen',
 
   //Transactions
   NATIONAL: 'National',

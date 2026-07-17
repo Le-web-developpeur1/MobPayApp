@@ -36,9 +36,8 @@ export default function Credit() {
   
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute();
-  const params = route.params as { name?: string; phone?: string } | undefined;
+  const params = route.params as { phone?: string } | undefined;
   
-  const name = params?.name ?? "";
   const number = params?.phone ?? "";
 
   const [phone, setPhone]                       = useState(number || "");
@@ -46,6 +45,13 @@ export default function Credit() {
   const [selectedOperator, setSelectedOperator] = useState<string | null>(null);
   const [recipientType, setRecipientType]       = useState<RecipientType>('self');
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  useEffect(() => {
+    if (params?.phone) {
+      setPhone(params.phone);
+      setRecipientType('other');
+    }
+  }, [params?.phone]);
 
   const selectedOperatorData = OPERATEURS.find(
     (op) => op.id === selectedOperator
@@ -61,6 +67,7 @@ export default function Credit() {
     (recipientType === 'other' && phone.trim() !== '')
   );
 
+ 
   return (
     <SafeAreaView style={styles.area} edges={['top']}>
       <HeaderScreen title='Achat de crédit téléphonique'/>
@@ -160,6 +167,21 @@ export default function Credit() {
                 <Ionicons name='person' size={scale(24)} color={COLORS.primary}/>
               </TouchableOpacity>
             </View>
+
+            {/* <TextInput 
+              style={[styles.input, {marginTop: verticalScale(-7)}]}
+              label="Nom"
+              theme={{
+                colors: {
+                  placeholder: COLORS.textSecondary,
+                  text: COLORS.textPrimary,
+                  primary: COLORS.primary,
+                },
+              }}
+              value={nom}
+              onChangeText={setNom}
+              mode="outlined"
+            /> */}
             {/* <Contact 
               searchExterne={phone} 
               showSearchBar={false}
@@ -258,7 +280,7 @@ const styles = StyleSheet.create({
     paddingBottom: verticalScale(20),
   },
   section: {
-    marginTop: verticalScale(10),
+    marginTop: verticalScale(8),
   },
   sectionTitle: {
     fontSize: moderateScale(16),
@@ -331,7 +353,7 @@ radioContainer: {
     color: COLORS.textPrimary,
   },
   input: {
-    marginTop: verticalScale(10),
+    marginTop: verticalScale(5),
     backgroundColor: COLORS.white,
     fontSize: moderateScale(16),
   },

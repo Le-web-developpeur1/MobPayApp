@@ -5,15 +5,14 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { useTranslation } from 'react-i18next';
+import HeaderScreen from '@/src/components/ui/HeaderScreen';
 
 export default function ShoppingScreen() {
   const { t } = useTranslation();
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>E-Commerce</Text>
-      </View>
+     <HeaderScreen title='E-Commerce'/>
 
       <View style={styles.content}>
         <View style={styles.iconContainer}>

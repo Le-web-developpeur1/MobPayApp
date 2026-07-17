@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import CreditCodeModal from './CreditCodeModal';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface CreditConfirmModalProps {
   visible: boolean;
@@ -25,6 +26,7 @@ export function CreditConfirmModal({
 }: CreditConfirmModalProps) {
   const { t } = useTranslation();
   const [showCodeModal, setShowCodeModal] = useState(false);
+  const insets = useSafeAreaInsets();
 
   // Calcul des frais (exemple: 2% du montant)
   const amountNum = parseFloat(amount.replace(/\s/g, ''));
@@ -44,7 +46,7 @@ export function CreditConfirmModal({
     <>
       <Modal visible={visible} transparent animationType="slide">
         <View style={styles.modalView}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { paddingBottom: Math.max(verticalScale(30), insets.bottom + verticalScale(10)) }]}>
             {/* Handle bar */}
             <View style={styles.handleBar} />
 

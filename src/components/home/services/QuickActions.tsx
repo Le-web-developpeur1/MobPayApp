@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Send, Smartphone, Wallet, Banknote, Receipt, Store } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -13,6 +13,7 @@ type Action = {
   labelKey: string;
   icon: any;
   route: string;
+  color: string;
 };
 
 const QuickActions = () => {
@@ -20,13 +21,13 @@ const QuickActions = () => {
   const navigation = useNavigation<NavigationProp>();
 
   const actions: Action[] = [
-    { labelKey: "quickActions.transfer", icon: Send, route: ROUTES.TRANSFERT },
-    { labelKey: "quickActions.topUp", icon: Wallet, route: 'MRecharger'},
-    { labelKey: "quickActions.credits", icon: Smartphone, route: 'Credit' },
-    { labelKey: "quickActions.withdrawals", icon: Banknote, route: ROUTES.RETRAITS },
-    { labelKey: "quickActions.bills", icon: Receipt, route: ROUTES.FACTURES },
-    { labelKey: "quickActions.merchants", icon: Store, route: 'PaiementMachand' },
-  ];
+  { labelKey: "quickActions.transfer", icon: Send, route: ROUTES.TRANSFERT, color: "#007AFF" },
+  { labelKey: "quickActions.topUp", icon: Wallet, route: "MRecharger", color: "#34C759" },
+  { labelKey: "quickActions.credits", icon: Smartphone, route: "Credit", color: "#FF9500" },
+  { labelKey: "quickActions.withdrawals", icon: Banknote, route: ROUTES.RETRAITS, color: "#FF3B30" },
+  { labelKey: "quickActions.bills", icon: Receipt, route: ROUTES.FACTURES, color: "#5856D6" },
+  { labelKey: "quickActions.merchants", icon: Store, route: "PaiementMachand", color: "#FFCC00" },
+];
 
   return (
         <View style={styles.container}>
@@ -38,10 +39,10 @@ const QuickActions = () => {
                     style={styles.action}
                     onPress={() => navigation.navigate(item.route as any) }
                   >
-                      <View style={styles.iconContainer}>
-                          <IconComponent size={moderateScale(24)} color={COLORS.primary} strokeWidth={2}/>
-                      </View>
-                      <Text style={styles.label}>{t(item.labelKey)}</Text>
+                    <View style={[styles.iconContainer, { backgroundColor: item.color + "20" }]}>
+                      <IconComponent size={moderateScale(30)} color={item.color} strokeWidth={2}/>                      
+                    </View>
+                    <Text style={styles.label}>{t(item.labelKey)}</Text>
                   </TouchableOpacity>
                 );
             })}
@@ -84,8 +85,8 @@ const styles = StyleSheet.create({
       marginBottom: verticalScale(8),
     },
     label: {
-      fontSize: moderateScale(12),
-      fontWeight: "600",
+      fontSize: Platform.OS === "android" ? moderateScale(13) : moderateScale(11),
+      fontWeight: "bold",
       color: COLORS.textPrimary,
       textAlign: "center",
     },

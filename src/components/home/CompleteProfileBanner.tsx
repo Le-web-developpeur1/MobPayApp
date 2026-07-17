@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { RootStackParamList } from '../../navigation/types';
 
@@ -89,13 +89,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: moderateScale(16),
+    fontSize: Platform.OS === "android" ? moderateScale(16) : moderateScale(13),
     fontWeight: '700',
     color: COLORS.textPrimary,
     marginBottom: verticalScale(6),
   },
   description: {
-    fontSize: moderateScale(13),
+    fontSize: Platform.OS === "android" ? moderateScale(13) : moderateScale(10),
     color: COLORS.textSecondary,
     lineHeight: moderateScale(18),
     marginBottom: verticalScale(12),
@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
   buttonSecondary: {
     flex: 1,
     backgroundColor: COLORS.white,
-    paddingVertical: verticalScale(10),
-    paddingHorizontal: scale(16),
+    paddingVertical: Platform.OS === "android" ? verticalScale(10) : verticalScale(8),
+    paddingHorizontal: Platform.OS === "android" ? scale(16) : scale(0),
     borderRadius: moderateScale(10),
     alignItems: 'center',
     borderWidth: scale(1),

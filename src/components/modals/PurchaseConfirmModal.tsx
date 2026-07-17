@@ -1,10 +1,11 @@
 import { COLORS } from '@/src/constants';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import PurchaseCodeModal from './PurchaseCodeModal';
-import { useTranslation } from 'react-i18next';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface PurchaseConfirmModalProps {
   visible: boolean;
@@ -35,6 +36,7 @@ export function PurchaseConfirmModal({
 }: PurchaseConfirmModalProps) {
   const { t } = useTranslation();
   const [showCodeModal, setShowCodeModal] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const handleConfirm = () => {
     onClose();
@@ -61,7 +63,7 @@ export function PurchaseConfirmModal({
     <>
       <Modal visible={visible} transparent animationType="slide">
         <View style={styles.modalView}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { paddingBottom: Math.max(verticalScale(30), insets.bottom + verticalScale(10)) }]}>
             {/* Handle bar */}
             <View style={styles.handleBar} />
 

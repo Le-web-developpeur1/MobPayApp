@@ -8,8 +8,8 @@ import { ROUTES } from "@/src/constants";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 import { 
   ArrowLeftRight, FileText, Phone, Banknote, Send, 
-  Download, Calendar, Clock, Store, ShoppingCart, 
-  History as HistoryIcon, CreditCard, Lock 
+  Download, Calendar, Clock, Store, 
+  CreditCard, Lock 
 } from 'lucide-react-native';
 
 type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
@@ -23,10 +23,8 @@ const iconMap: any = {
   "Envoi OM": Send,
   "Réception OM": Download,
   "Auto-Débit": Calendar,
-  Historique: Clock,
   Marchands: Store,
-  "Achat credit": ShoppingCart,
-  History: HistoryIcon,
+  History: Clock,
   "Me recharger": CreditCard,
   Coffre: Lock,
 };
@@ -39,14 +37,12 @@ export default function Favorites() {
   const allServices = [
     { name: "Transfert", route: ROUTES.TRANSFERT },
     { name: "Factures", route: ROUTES.FACTURES },
-    { name: "Crédits", route: ROUTES.CREDITS },
+    { name: "Crédits", route: "Credit" },
     { name: "Retraits", route: ROUTES.RETRAITS },
     { name: "Envoi OM", route: ROUTES.CONTACT, params: { type: "EnvoiOM" } },
     { name: "Réception OM", route: ROUTES.CONTACT, params: { type: "ReceptionOM" } },
     { name: "Auto-Débit", route: ROUTES.AUTO_DEBIT, params: { type: "programme" } },
-    { name: "Historique", route: ROUTES.HISTORIQUE },
     { name: "Marchands", route: "PaiementMachand" },
-    { name: "Achat credit", route: "Credit" },
     { name: "History", route: "History" },
     { name: "Me recharger", route: "MRecharger" },
     { name: "Coffre", route: "Coffre" },

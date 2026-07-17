@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(20),
   },
   logo: {
-    width: scale(85),
-    height: verticalScale(85)
+    width: Platform.OS === "android" ? scale(88) : scale(82),
+    height: verticalScale(82),
   },
   title: {
     fontSize: moderateScale(30),

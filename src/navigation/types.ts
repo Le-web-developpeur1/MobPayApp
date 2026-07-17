@@ -156,6 +156,7 @@ export type RootStackParamList = {
         name?: string;
         phone?: string;
     };
+    Releve: undefined;
 };
 
 export interface Beneficiaire {

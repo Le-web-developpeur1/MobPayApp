@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { StyleSheet, Text, TouchableOpacity, View, } from "react-native";
+import { Platform, StyleSheet, Text, TouchableOpacity, View, } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { COLORS } from '../../constants';
 import QrCode from "react-native-qrcode-svg";
@@ -86,12 +86,12 @@ const styles = StyleSheet.create({
     solde: {
         gap: scale(15),
         paddingHorizontal: scale(15),
-        padding: scale(10),
+        padding: Platform.OS === "android" ? scale(10) : scale(14),
     },
     soldeDispo: {
-        fontSize: moderateScale(30),
+        fontSize: Platform.OS === "android" ? moderateScale(30) : moderateScale(22),
         paddingHorizontal: scale(5),
-        fontWeight: "600",
+        fontWeight: "bold",
         color: COLORS.white
     },
     soldeRes: {

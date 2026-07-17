@@ -1,8 +1,8 @@
 import { COLORS, ROUTES } from '@/src/constants';
 import { RootStackParamList } from '@/src/navigation/types';
-import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Globe } from 'lucide-react-native';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -18,7 +18,6 @@ export default function TransfertOption() {
 
   return (
     <View style={styles.container}>
-      
       <View style={styles.row}>
         <TouchableOpacity 
           style={styles.card} 
@@ -53,26 +52,7 @@ export default function TransfertOption() {
           <Text style={styles.cardTitle}>{t('transfer.sendToOM')}</Text>
           <Text style={styles.cardDescription}>{t('transfer.orangeMoney')}</Text>
         </TouchableOpacity>
-
-        {/* <TouchableOpacity 
-          style={styles.card} 
-          activeOpacity={0.7}
-         onPress={() => {
-            navigation.navigate(ROUTES.CONTACT, { type: "ReceptionOM" as TransferType })
-          }}
-        >
-          <View style={styles.logoContainer}>
-            <Image 
-              source={require("@/assets/images/national/logo-orange.png")}
-              style={styles.logo}
-            />
-          </View>
-          <Text style={styles.cardTitle}>{t('transfer.receiveFromOM')}</Text>
-          <Text style={styles.cardDescription}>{t('transfer.orangeMoney')}</Text>
-        </TouchableOpacity> */}
       </View>
-
-      <Text style={styles.sectionTitle}>{t('transfer.international')}</Text>
 
       <TouchableOpacity 
         style={styles.internationalCard}
@@ -80,13 +60,15 @@ export default function TransfertOption() {
         onPress={() => navigation.navigate(ROUTES.INTERNATIONAL, { transactionType: 'Transfert'})}
       >
         <View style={[styles.logoContainer, { backgroundColor: COLORS.secondary }]}>
-          <Ionicons name="globe" size={moderateScale(32)} color={COLORS.primary}/>
+          <Globe size={moderateScale(32)} color={COLORS.primary} strokeWidth={2} />
         </View>
         <View style={styles.cardContent}>
           <Text style={styles.cardTitle}>{t('transfer.international')}</Text>
           <Text style={styles.cardDescription}>{t('transfer.sendAbroad24h')}</Text>
         </View>
-        <Ionicons name="chevron-forward" size={moderateScale(24)} color={COLORS.textSecondary}/>
+        <View style={styles.arrowContainer}>
+          <Text style={styles.arrow}>›</Text>
+        </View>
       </TouchableOpacity>
     </View>
   )
@@ -94,28 +76,18 @@ export default function TransfertOption() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: COLORS.background,
-    paddingTop: verticalScale(20),
-    paddingHorizontal: scale(20),
-  },
-  sectionTitle: {
-    fontSize: moderateScale(18),
-    fontWeight: '700',
-    color: COLORS.textPrimary,
-    marginBottom: verticalScale(15),
-    marginTop: verticalScale(10),
   },
   row: {
     flexDirection: 'row',
     gap: scale(10),
-    marginBottom: verticalScale(10),
+    marginBottom: verticalScale(12),
   },
   card: {
     flex: 1,
     backgroundColor: COLORS.white,
     borderRadius: moderateScale(16),
-    padding: scale(12),
+    padding: scale(14),
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: verticalScale(2) },
@@ -138,14 +110,14 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(10),
   },
   cardTitle: {
-    fontSize: moderateScale(13),
+    fontSize: moderateScale(14),
     fontWeight: '700',
     color: COLORS.textPrimary,
     marginBottom: verticalScale(4),
     textAlign: 'center',
   },
   cardDescription: {
-    fontSize: moderateScale(12),
+    fontSize: moderateScale(11),
     color: COLORS.textSecondary,
     textAlign: 'center',
   },
@@ -164,5 +136,18 @@ const styles = StyleSheet.create({
   cardContent: {
     flex: 1,
     marginLeft: scale(12),
+  },
+  arrowContainer: {
+    width: scale(28),
+    height: scale(28),
+    borderRadius: moderateScale(14),
+    backgroundColor: COLORS.background,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  arrow: {
+    fontSize: moderateScale(24),
+    color: COLORS.textSecondary,
+    fontWeight: '300',
   },
 });

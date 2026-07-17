@@ -2,6 +2,7 @@ import { COLORS } from '@/src/constants';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 
 interface RechargeConfirmModalProps {
@@ -25,13 +26,14 @@ export default function RechargeConfirmModal({
   receivedAmount,
   operator,
 }: RechargeConfirmModalProps) {
+  const insets = useSafeAreaInsets();
   const amountNum = parseFloat(amount);
   const fees = Math.round(amountNum * 0.01);
 
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.modalView}>
-        <View style={styles.modalContent}>
+        <View style={[styles.modalContent, { paddingBottom: Math.max(verticalScale(30), insets.bottom + verticalScale(20)) }]}>
           {/* Handle bar */}
           <View style={styles.handleBar} />
 

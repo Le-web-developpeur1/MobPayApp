@@ -3,14 +3,15 @@ import { useLanguage } from '@/src/context/LanguageContext';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from 'expo-router';
-import { AlertCircle, Bell, Camera, CheckCircle2, ChevronRight, CreditCard, Languages, MapPin, Share2, ShieldCheck, UserPlus, Wallet } from 'lucide-react-native';
+import { AlertCircle, Bell, Camera, CheckCircle2, ChevronRight, CreditCard, FileText, Languages, MapPin, Share2, ShieldCheck, UserPlus, Wallet } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Image, Modal, ScrollView, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Modal, Platform, ScrollView, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { COLORS, ROUTES } from '../../constants';
 import { RootStackParamList } from '../../navigation/types';
+import HeaderScreen from '@/src/components/ui/HeaderScreen';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -63,8 +64,9 @@ export default function ProfileScreen() {
       <PrimaryStatusBar />
       <SafeAreaView
           style={{ flex: 1, backgroundColor: COLORS.primary }}
-          edges={['top']}
+          edges={['top', 'bottom']}
       >
+        <HeaderScreen title='Profil' />
         <View style={styles.container}>
             <View style={styles.info}>
                 <TouchableOpacity onPress={handleChangePhoto} style={styles.photoContainer}>
@@ -72,7 +74,7 @@ export default function ProfileScreen() {
                         {profileImage ? (
                             <Image source={{ uri: profileImage }} style={styles.profileImage} />
                         ) : (
-                            <Text style={{ fontSize: moderateScale(25), color: COLORS.white}}>BB</Text>
+                            <Text style={{ fontSize: moderateScale(20), color: COLORS.white}}>BB</Text>
                         )}
                     </View>
                     <View style={styles.cameraIcon}>
@@ -83,14 +85,14 @@ export default function ProfileScreen() {
                 <Text style={styles.name}>Boubacar Bah</Text>
                 <Text style={styles.phone}>+224 626 05 80 33</Text>
                 <View style={styles.status}>
-                    <ShieldCheck size={scale(15)} color={COLORS.success} strokeWidth={2} />
+                    <ShieldCheck size={ Platform.OS === 'android' ? scale(15) : scale(20)} color={COLORS.success} strokeWidth={2} />
                     <Text style={styles.textStatus}>{t('profile.verified')}</Text>
                 </View>
             </View>
 
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                contentContainerStyle={{ paddingBottom: verticalScale(20)}}
+                contentContainerStyle={{ paddingBottom: verticalScale(40)}}
             >
                 <TouchableOpacity 
                     style={[styles.sectionParams, { backgroundColor: '#FFF8E7', borderWidth: scale(1), borderColor: '#FFE082' }]}
@@ -185,6 +187,26 @@ export default function ProfileScreen() {
                             <View>
                                 <Text style={styles.subtitle}>{t('profile.limits')}</Text>
                                 <Text style={styles.parametres}>{t('profile.limitsDesc')}</Text>
+                            </View>
+                        </View>
+                        <View style={{ alignItems: "center", justifyContent: "center" }}>
+                            <ChevronRight size={scale(20)} color={COLORS.textSecondary} strokeWidth={2} />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                     {/**Relevé de compte */}
+                <TouchableOpacity 
+                    style={styles.sectionParams}
+                    onPress={() => navigation.navigate("Releve")}
+                >
+                    <View style={styles.card}>
+                        <View style={{ flexDirection : "row", gap: scale(20), justifyContent: "center", alignItems: "center"}}>
+                            <View style={styles.icon}>
+                                <FileText size={scale(23)} color={COLORS.primary} strokeWidth={2} />
+                            </View>
+                            <View>
+                                <Text style={styles.subtitle}>{t('profile.statement') || 'Relevé de compte'}</Text>
+                                <Text style={styles.parametres}>{t('profile.statementDesc') || 'Téléchargez vos relevés'}</Text>
                             </View>
                         </View>
                         <View style={{ alignItems: "center", justifyContent: "center" }}>
@@ -325,7 +347,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: scale(20),
-        paddingVertical: verticalScale(10),
+        paddingVertical: verticalScale(5),
         backgroundColor: COLORS.background,
     },
     title: {
@@ -334,8 +356,7 @@ const styles = StyleSheet.create({
     },
     info: {
         backgroundColor: COLORS.white,
-        height: verticalScale(220),
-        marginTop: verticalScale(5),
+        height:  Platform.OS === 'android' ? verticalScale(200) : verticalScale(180),
         borderRadius: moderateScale(15),
         justifyContent: "center",
         alignItems: "center",
@@ -343,9 +364,9 @@ const styles = StyleSheet.create({
     },
     photoProfil: {
         backgroundColor: COLORS.primaryMedium,
-        width: scale(80),
-        height: verticalScale(80),
-        borderRadius: moderateScale(80),
+        width: Platform.OS === 'android' ? scale(80) : scale(70),
+        height:  Platform.OS === 'android' ? verticalScale(80) : scale(70),
+        borderRadius:  Platform.OS === 'android' ? moderateScale(80) : scale(70),
         justifyContent: "center",
         alignItems: "center",
         borderWidth: scale(1),
@@ -375,7 +396,7 @@ const styles = StyleSheet.create({
     name: {
         fontSize: moderateScale(20),
         fontWeight: "bold",
-        paddingVertical: verticalScale(15)
+        paddingVertical: verticalScale(10)
     },
     phone: {
         color: COLORS.textSecondary
@@ -383,11 +404,11 @@ const styles = StyleSheet.create({
     status: {
         flexDirection: "row",
         backgroundColor: COLORS.successLight,
-        width: scale(130),
+        width: Platform.OS === 'android' ? scale(130) : scale(150),
         padding: scale(10),
         justifyContent: "center",
         alignItems: "center",
-        gap: scale(10),
+        gap: scale(8),
         borderRadius: moderateScale(20),
         marginTop: verticalScale(10),
         borderColor: COLORS.success,

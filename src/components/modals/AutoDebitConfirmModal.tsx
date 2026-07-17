@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import CodeModal from "./CodeModal";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export interface AutoDebitData {
   frequency: string;
@@ -22,6 +23,7 @@ interface AutoDebitConfirmModalProps {
 
 export function AutoDebitConfirmModal({ visible, onClose, data, onSuccess }: AutoDebitConfirmModalProps) {
   const [showCodeModal, setShowCodeModal] = useState(false);
+  const insets = useSafeAreaInsets();
 
   const getFrequencyLabel = (freq: string) => {
     switch (freq) {
@@ -52,7 +54,7 @@ export function AutoDebitConfirmModal({ visible, onClose, data, onSuccess }: Aut
     <>
       <Modal visible={visible} transparent animationType="slide">
         <View style={styles.modalView}>
-          <View style={styles.modalContent}>
+          <View style={[styles.modalContent, { paddingBottom: Math.max(verticalScale(30), insets.bottom + verticalScale(10)) }]}>
             {/* Handle bar */}
             <View style={styles.handleBar} />
             

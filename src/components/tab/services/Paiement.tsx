@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
-    paddingHorizontal: scale(20),
+    paddingHorizontal: scale(5),
     paddingTop: verticalScale(10),
   },
  
@@ -85,10 +85,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   serviceCard: {
-    width: '32%',
+    width: '30%',
     backgroundColor: COLORS.white,
     borderRadius: moderateScale(14),
-    padding: scale(8),
+    paddingVertical: verticalScale(12),
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: verticalScale(2) },

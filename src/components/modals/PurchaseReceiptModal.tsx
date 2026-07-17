@@ -3,6 +3,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import * as Sharing from "expo-sharing";
 import React, { useRef } from 'react';
 import { Image, Linking, Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
 import { captureRef } from "react-native-view-shot";
 
@@ -43,6 +44,7 @@ export default function PurchaseReceiptModal({
   beneficiary,
   purchase,
 }: PurchaseReceiptModalProps) {
+  const insets = useSafeAreaInsets();
   const productLabel = productType === 'esim' ? 'eSim' : 'Gift Card';
   const date = new Date().toLocaleDateString('fr-FR', {
     day: '2-digit',
@@ -84,7 +86,7 @@ export default function PurchaseReceiptModal({
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View style={styles.overlay}>
-        <View style={styles.container}>
+        <View style={[styles.container, { paddingBottom: Math.max(verticalScale(30), insets.bottom + verticalScale(20)) }]}>
           {/* Handle bar */}
           <View style={styles.handleBar} />
 

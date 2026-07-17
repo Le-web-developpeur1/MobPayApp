@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   title: {
-    fontSize: moderateScale(28),
-    fontWeight: '700',
+    fontSize: Platform.OS === "android" ? moderateScale(28) : moderateScale(20),
+    fontWeight: 'bold',
     color: COLORS.primary,
     textAlign: 'center',
     marginBottom: verticalScale(15),
